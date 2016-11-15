@@ -5,11 +5,17 @@ from diet_optimizer import *
 from flask.ext.cors import CORS, cross_origin
 from flask_bootstrap import Bootstrap
 
+from auth import auth_blueprint
+from posts import post_blueprint
+
 app = Flask(__name__)
 Bootstrap(app)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+app.register_blueprint(auth_blueprint)
+app.register_blueprint(post_blueprint)
 
 
 @app.route('/', methods=['GET'])
