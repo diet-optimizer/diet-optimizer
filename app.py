@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 @cross_origin()
 def user_form():
     return render_template('form.html')
