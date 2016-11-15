@@ -17,60 +17,6 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 def user_form():
     return render_template('form.html')
 
-    age = int(request.args.get('age'))
-    height = float(request.args.get('height'))
-    weight = float(request.args.get('weight'))
-    gender = request.args.get('gender')
-    exercise_level = request.args.get('exerciseLevel')
-    cuisine = request.args.getlist('cuisine')
-    diet = request.args.get('diet')
-    intolerances = request.args.getlist('intolerances')
-    recipe_types = request.args.getlist('recipeTypes')
-    # exclude_ingredients = request.args.getlist('excludeIngredients')
-    obj = request.args.get('obj')
-    obj_nut = request.args.get('objNut')
-
-
-    # if cuisine != None:
-    #     cuisine = cuisine.split(',')
-    # if recipe_types != None:
-    #     recipe_types = recipe_types.split(',')
-    # if intolerances != None:
-    #     intolerances = intolerances.split(',')
-    # if exclude_ingredients != None:
-    #     exclude_ingredients = exclude_ingredients.split(',')
-
-    user = User(age, weight, height, gender, exercise_level)
-
-    user_daily_nutrients = user.daily_nutrients
-    
-    print "*****USER DAILY NUTRIENTS"
-    # print user_daily_nutrients
-
-    # session['cuisine'] = cuisine
-    # session['diet'] = diet
-    # session['intolerances'] = intolerances
-    # session['recipe_types'] = recipe_types
-    # session['obj'] = obj
-    # session['obj_nut'] = obj_nut
-
-    req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
-
-    res = req.get_recipes()
-
-    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['recipe_types'], user.daily_nutrients)
-
-    lp_func = lp.func_lp()
-
-    suggested_recipes = lp_func['suggested_recipes']
-    total_nutrients_taken = lp_func['total_nutrients_taken']
-    diet_recipes = lp.get_lp_output(suggested_recipes)
-
-    return render_template('results.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
-    'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
-
-
 @app.route('/results', methods=['GET'])
 @cross_origin()
 def get_usr_input():
