@@ -2,7 +2,7 @@
 from flask import *
 from flask_restful import *
 from diet_optimizer import *
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from flask_bootstrap import Bootstrap
 import settings
 
