@@ -27,32 +27,11 @@
     </head>
    <body>
      <script type="text/javascript" src="script.js"></script>
-     <h2> Hi, insert your information here to get your diet plan.
+     <h2> Change your information here.
      </h>
          <div id="user_form" class="wrapper">
-           <h2>User information</h2>
-             <form action="/results" method="get">
-               <dl>
-                 <dt>How old are you?
-                 <dt><input type=number name=age id="age" min=3 required="true">
-                 <dt>How much (in kg) do you weight?
-                 <dt><input type=number name=weight id="weight" min=0 required="true">
-                 <dt>How tall (in cm) are you?
-                 <dt><input type=number name=height id="height" min=0 required="true">
-                 <dt>What is your gender?
-                 <dt>
-                <select name="gender" id="gender">
-                   <option value="Male">Male</option>
-                   <option value="Female">Female</option>
-                 </select>
-                 <dt>What is your activity level?
-                 <dt>
-                   <select name="exerciseLevel" id="exerciseLevel">
-                   <option value="Sedentary">Sedentary</option>
-                   <option value="Low Active">Low Active</option>
-                   <option value="Active">Active</option>
-                   <option value="Very Active">Very Active</option>
-                 </select>
+           <form action="http://localhost:5000/recresults" method="get">
+             <dl>
                  <dt>Which diet are you following?
                  <dt>
                        <select name="diet" id="diet">
@@ -134,7 +113,7 @@
                  <br>
                  <dt>Which kind of recipes do you want? (One or more)
                  <dt>
-                 <select multiple name="recipeTypes" id="recipeTypes" required="true">
+                 <select multiple name="recipeTypes" id="recipeTypes">
                    <option value="main+course">Main Course</option>
                    <option value="side+dish">Side Dish</option>
                    <option value="dessert">Dessert</option>
@@ -146,8 +125,24 @@
                    <option value="beverage">Beverage</option>
                    <option value="sauce">Sauce</option>
                    <option value="drink">Drink</option>
-
                  </select>
+
+                 <dt>Calories:</dt>
+                 Lower Bound: <input type=number name="calLow" id="calLow">
+                 Upper Bound: <input type=number name="calUp" id="calUp">
+
+                 <dt>Protein:</dt>
+                 Lower Bound: <input type=number name="protLow" id="protLow">
+                 Upper Bound: <input type=number name="protUp" id="protUp">
+
+                 <dt>Carb:</dt>
+                 Lower Bound: <input type=number name="carbLow" id="carbLow">
+                 Upper Bound: <input type=number name="carbUp" id="carbUp">
+
+                 <dt>Fat:</dt>
+                 Lower Bound: <input type=number name="fatLow" id="fatLow">
+                 Upper Bound: <input type=number name="fatUp" id="fatUp">
+
 
                  <dt><input type=submit id="search" value=Submit>
                </dl>

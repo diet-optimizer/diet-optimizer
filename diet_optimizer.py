@@ -1,6 +1,7 @@
 import unirest
 import re
 from pulp import *
+import settings
 
 class User(object):
 
@@ -205,7 +206,6 @@ class RecipeHandler(object):
         req_URL += "&fillIngredients=" + fill_ingredients
 
         if self.intolerances != None:
-            #print "intolerances is not null"
             intolerances_str = ",".join(self.intolerances)
             intolerances_str = intolerances_str.replace(" ", "+")
             intolerances_str = intolerances_str.replace(",", "%2C")
@@ -240,13 +240,12 @@ class RecipeHandler(object):
             for i in range(1):
                 offset = i*100
                 req_URL = self.get_URL(self.recipe_types[recipe_type_index], offset)
-
                 print req_URL
 
                 unirest.timeout(100) #100s timeout
                 response = unirest.get(req_URL,
                   headers={
-                    "X-Mashape-Key": "jL2Lmgl6j5mshmApbG0lUeG0Xvx3p1kyfNrjsnGwKQkAAEDcw7",
+                    "X-Mashape-Key": settings.SPOONACULAR_KEY,
                     "Accept": "application/json"
                   }
                 )
@@ -328,7 +327,6 @@ class LinearProgrammingSolver(object):
         x_drink = 0
 
     def func_lp(self):
-        # global variable, x_appetizer, x_breakfast, x_dessert, x_maincourse, x_sidedish, x_salad, x_bread, x_soup, x_beverage, x_sauce, x_drink
 
         if self.obj == "Max":
             objective = pulp.LpMaximize
@@ -453,36 +451,10 @@ class LinearProgrammingSolver(object):
        for recipe_ID in suggested_recipes:
            response = unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/" + str(recipe_ID) + "/information?includeNutrition=true",
              headers={
-               "X-Mashape-Key": "jL2Lmgl6j5mshmApbG0lUeG0Xvx3p1kyfNrjsnGwKQkAAEDcw7",
+               "X-Mashape-Key": settings.SPOONACULAR_KEY,
                "Accept": "application/json"
              }
            )
            diet_recipes.append(response.body)
            # print response.body
        return diet_recipes
-
-
-
-
-
-# john = User(23, 80, 160, "Male", "Active")
-# julia = User(50, 80, 180, "Female", "Active")
-# jcal = julia.get_calorie()
-#
-# print julia.weight
-# print julia.get_BMI()
-# print julia.get_PA()
-# print julia.get_calorie()
-# print julia.get_carb_lower(jcal)
-# print julia.get_carb_upper(jcal)
-# print julia.get_protein_lower(jcal)
-# print julia.get_protein_upper(jcal)
-# print julia.get_fat_lower(jcal)
-# print julia.get_fat_upper(jcal)
-# print julia.get_daily_nutrients()['bmi']
-# print julia.get_daily_nutrients()
-#
-# req = RecipeHandler(julia.get_daily_nutrients(), ["mexican", "french"], "", "", "", ["breakfast", "main course"])
-# res = req.get_recipes()
-# lp = LinearProgrammingSolver("Min", "Fat", res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['recipe_types'], julia.get_daily_nutrients())
-# lp.func_lp()
