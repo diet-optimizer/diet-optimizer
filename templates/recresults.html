@@ -1,0 +1,207 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Example of Bootstrap 3 Accordion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style type="text/css">
+      @import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css');
+      .panel-heading {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+<body>
+
+<div id="user_data">
+  <div id="user_info">
+    <h3>User information:</h3>
+    Age: {{response.user_info.age}}
+    <br>
+    Weight: {{response.user_info.weight}} Kg
+    <br>
+    Height: {{response.user_info.height}} cm
+    <br>
+    Gender: {{response.user_info.gender}}
+    <br>
+    Exercise Level : {{response.user_info.exercise_level}}
+    <br>
+    Cuisine:
+    {% for key in response.user_info.cuisine %}
+      {{key}}
+    {% endfor %}
+    <br>
+    Diet: {{response.user_info.diet}}
+    <br>
+    Intolerances:
+    {% for key in response.user_info.intolerances %}
+      {{key}}
+    {% endfor %}
+    <br>
+    Recipe Types:
+    {% for key in response.user_info.recipe_types %}
+      {{key}}
+    {% endfor %}
+  </div>
+  <br>
+  <a href="/newform">Change Something!</a>
+  <br>
+
+  <div id="user_nutrients">
+    <br>
+    <h3>User Nutrients:</h3>
+    BMI: {{response.user_daily_nutrients.bmi}}
+    <br>
+    Calorie Range: {{response.user_daily_nutrients.cal_low}} - {{response.user_daily_nutrients.cal_up}} kcal
+    <br>
+    Carb Range: {{response.user_daily_nutrients.carb_low}} - {{response.user_daily_nutrients.carb_up}} g
+    <br>
+    Fat Range: {{response.user_daily_nutrients.fat_low}} - {{response.user_daily_nutrients.fat_up}} g
+    <br>
+    Protein Range: {{response.user_daily_nutrients.prot_low}} - {{response.user_daily_nutrients.prot_up}} g
+    <br>
+    <br>
+  </div>
+  <div id=nutrients_sum>
+    <h3>Total nutrients taken:</h3>
+    Calories: {{response.total_nutrients_taken.calories}}
+    <br>
+    Carb: {{response.total_nutrients_taken.carb}}
+    <br>
+    Fat: {{response.total_nutrients_taken.fat}}
+    <br>
+    Protein: {{response.total_nutrients_taken.protein}}
+    <br>
+    <br>
+  </div>
+  <!-- <div id="recipes">
+    <br>
+    <br>
+    Daily Recipes:
+    <br>
+    <br>
+    <table border = 1>
+      <tr>
+        <td> ID </td>
+        <td> Title </td>
+        <td> Calories </td>
+        <td> Carbs </td>
+        <td> Fat </td>
+        <td> Potein </td>
+
+
+      </tr>
+       {% for key in response.recipes %}
+
+
+          <tr>
+             <td> {{ key["id"] }} </td>
+             <td> <a href="{{key["sourceUrl"]}}">{{key["title"]}}</a> </td>
+             {% for ob in key.nutrition.nutrients %}
+              {% if ob.title == 'Calories'%}
+                <td> {{ ob.amount }} </td>
+              {% endif %}
+              {% if ob.title == 'Carbohydrates'%}
+                <td> {{ ob.amount }} </td>
+              {% endif %}
+              {% if ob.title == 'Fat'%}
+                <td> {{ ob.amount }} </td>
+              {% endif %}
+              {% if ob.title == 'Protein'%}
+                <td> {{ ob.amount }} </td>
+              {% endif %}
+             {% endfor %}
+          </tr>
+
+       {% endfor %}
+    </table>
+  </div> -->
+</div>
+<div class="bs-example">
+    <div class="panel-group" id="accordion">
+      {% for key in response.recipes %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{key.id}}">{{key.title}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{key.id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <p>
+                    Preparation time: {{key.preparationMinutes}} minutes
+                    <br>
+                    Ready in {{key.readyInMinutes}} minutes
+                    <br>
+                    <br>
+                    <div id="nutrients">
+                      <h4>Nutrients:</h4>
+                      {% for ob in key.nutrition.nutrients %}
+                         {% if ob.title == 'Calories'%}
+                           Calories: {{ ob.amount }}
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Carbohydrates'%}
+                           Carbs: {{ ob.amount }}
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Fat'%}
+                           Fat: {{ ob.amount }}
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Protein'%}
+                           Protein {{ ob.amount }}
+                           <br>
+                         {% endif %}
+                      {% endfor %}
+                      <br>
+                    </div>
+                    <div id="properties">
+                      <h4>Properties:</h4>
+                        {% if key.vegetarian != false %}
+                          Vegetarian
+                          <br>
+                        {% endif %}
+                        {% if key.vegan != false %}
+                          Vegan
+                          <br>
+                        {% endif %}
+                        {% if key.glutenFree != false %}
+                          Gluten Free
+                          <br>
+                        {% endif %}
+                        {% if key.veryHealthy != false %}
+                          Healthy
+                          <br>
+                        {% endif %}
+                        {% if key.ketogenic != false %}
+                          Ketogenic
+                          <br>
+                        {% endif %}
+                        {% if key.dairyFree != false %}
+                          Dairy Free
+                          <br>
+                        {% endif %}
+                    <br>
+                    </div>
+                    <div id="sources">
+                      <h4>Source:</h4>
+                      Spoonacular: <a href="{{key.spoonacularSourceUrl}}">{{key.spoonacularSourceUrl}}</a>
+                    </div>
+                  </p>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+	<p><strong>Note:</strong> Click on the linked heading text to expand or collapse accordion panels.</p>
+</div>
+
+
+</body>
+</html>

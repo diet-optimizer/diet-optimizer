@@ -1,0 +1,153 @@
+<html>
+    <head>
+      <!-- <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">@</span>
+      <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
+      <span class="input-group-addon" id="basic-addon2">@example.com</span>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+      <span class="input-group-addon">.00</span>
+    </div>
+
+    <label for="basic-url">Your vanity URL</label>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
+      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div> -->
+
+      <title>Diet Optimization</title>
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    </head>
+   <body>
+     <script type="text/javascript" src="script.js"></script>
+     <h2> Change your information here.
+     </h>
+         <div id="user_form" class="wrapper">
+           <form action="http://localhost:5000/recresults" method="get">
+             <dl>
+                 <dt>Which diet are you following?
+                 <dt>
+                       <select name="diet" id="diet">
+                         <option value=None>None</option>
+                         <option value="pescetarian">Pescetarian</option>
+                         <option value="lacto+vegetarian">Lacto Vegetarian</option>
+                         <option value="ovo+vegetarian">Ovo Vegetarian</option>
+                         <option value="vegan">Vegan</option>
+                         <option value="paleo">Paleo</option>
+                         <option value="primal">Primal</option>
+                         <option value="vegetarian">Vegetarian</option>
+                       </select>
+                 <dt>
+                 <dt>Which cuisine(s) would you like to include?
+                 <dt>
+                 <select multiple name="cuisine" id="cuisine">
+                 <option value=None>None</option>
+                 <option value="african">African</option>
+                 <option value="chinese">Chinese</option>
+                 <option value="japanese">Japanese</option>
+                 <option value="korean">Korean</option>
+                 <option value="vietnamese">Vietnamese</option>
+                 <option value="thai">Thai</option>
+                 <option value="indian">iIndian</option>
+                 <option value="british">British</option>
+                 <option value="irish">Irish</option>
+                 <option value="french">French</option>
+                 <option value="italian">Italian</option>
+                 <option value="mexican">Mexican</option>
+                 <option value="spanish">Spanish</option>
+                 <option value="middle+eastern">Middle Eastern</option>
+                 <option value="jewish">Jewish</option>
+                 <option value="american">American</option>
+                 <option value="cajun">Cajun</option>
+                 <option value="southern">Southern</option>
+                 <option value="greek">Greek</option>
+                 <option value="german">German</option>
+                 <option value="nordic">Nordic</option>
+                 <option value="eastern+european">Eastern European</option>
+                 <option value="caribbean">Caribbean</option>
+                 <option value="latin+american">Latin American</option>
+                </select>
+
+            <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font>
+
+                  <dt>Do you have any intolerances?
+                  <dt>
+                  <select multiple name="intolerances" id="intolerances">
+                  <option value=None>No</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="egg">Egg</option>
+                  <option value="gluten">Gluten</option>
+                  <option value="peanut">Peanut</option>
+                  <option value="sesame">Sesame</option>
+                  <option value="seafood">Seafood</option>
+                  <option value="shellfish">Shellfish</option>
+                  <option value="soy">Soy</option>
+                  <option value="sulfite">Sulfite</option>
+                  <option value="tree+nut">Tree Nut</option>
+                  <option value="wheat">Wheat</option>
+                 </select>
+
+                 <dt>Which nutient do you want to focus on?
+                 <dt>
+                 <select name="objNut" id="objNut">
+                   <option value="Calories">Calories</option>
+                   <option value="Protein">Protein</option>
+                   <option value="Carbs">Carbs</option>
+                   <option value="Fat">Fat</option>
+
+                 </select>
+
+                 <dt>Do you want to maximize or minimize that?
+                 <dt>
+                 <select name="obj" id="obj">
+                   <option value="Max">Max</option>
+                   <option value="Min">Min</option>
+                 </select>
+                 <br>
+                 <dt>Which kind of recipes do you want? (One or more)
+                 <dt>
+                 <select multiple name="recipeTypes" id="recipeTypes">
+                   <option value="main+course">Main Course</option>
+                   <option value="side+dish">Side Dish</option>
+                   <option value="dessert">Dessert</option>
+                   <option value="appetizer">Appetizer</option>
+                   <option value="salad">Salad</option>
+                   <option value="bread">Bread</option>
+                   <option value="breakfast">Breakfast</option>
+                   <option value="soup">Soup</option>
+                   <option value="beverage">Beverage</option>
+                   <option value="sauce">Sauce</option>
+                   <option value="drink">Drink</option>
+                 </select>
+
+                 <dt>Calories:</dt>
+                 Lower Bound: <input type=number name="calLow" id="calLow">
+                 Upper Bound: <input type=number name="calUp" id="calUp">
+
+                 <dt>Protein:</dt>
+                 Lower Bound: <input type=number name="protLow" id="protLow">
+                 Upper Bound: <input type=number name="protUp" id="protUp">
+
+                 <dt>Carb:</dt>
+                 Lower Bound: <input type=number name="carbLow" id="carbLow">
+                 Upper Bound: <input type=number name="carbUp" id="carbUp">
+
+                 <dt>Fat:</dt>
+                 Lower Bound: <input type=number name="fatLow" id="fatLow">
+                 Upper Bound: <input type=number name="fatUp" id="fatUp">
+
+
+                 <dt><input type=submit id="search" value=Submit>
+               </dl>
+               <dt>
+             </form>
+           </div>
+   </body>
+</html>
