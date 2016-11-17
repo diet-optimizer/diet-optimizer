@@ -296,8 +296,8 @@ def new_form():
     'breakfast' : 'Breakfast',
     'soup' : 'Soup',
     'beverage' : 'Beverage',
-    'sauce' : 'Sauce',
-    'drink' : 'Drink'
+    # 'sauce' : 'Sauce',
+    # 'drink' : 'Drink'
     }
 
     return render_template('newform.html', response={
