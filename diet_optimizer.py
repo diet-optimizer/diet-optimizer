@@ -2,6 +2,7 @@ import unirest
 import re
 from pulp import *
 import settings
+import random
 
 class User(object):
 
@@ -235,50 +236,63 @@ class RecipeHandler(object):
 
         for recipe_type_index in range(len(self.recipe_types)):
 
-            offset = 0
+            offset = random.randrange(0, 500) 
+            #offset was 0 - to regenarete random results
+            print offset
+            reached_length = False
+            counter = 0
+            while not reached_length and counter < 2:
 
-            for i in range(1):
-                offset = i*100
-                req_URL = self.get_URL(self.recipe_types[recipe_type_index], offset)
-                print req_URL
+                for i in range(1,2):
+                    offset = i*offset #if range is bigger than one, you can get more results (one api call returns 100 recipes)
+                    req_URL = self.get_URL(self.recipe_types[recipe_type_index], offset)
+                    print req_URL
 
-                unirest.timeout(100) #100s timeout
-                response = unirest.get(req_URL,
-                  headers={
-                    "X-Mashape-Key": settings.SPOONACULAR_KEY,
-                    "Accept": "application/json"
-                  }
-                )
+                    unirest.timeout(100) #100s timeout
+                    response = unirest.get(req_URL,
+                      headers={
+                        "X-Mashape-Key": settings.SPOONACULAR_KEY,
+                        "Accept": "application/json"
+                      }
+                    )
+                    json_data = response.body["results"]
+                    print len(json_data)
+                    print offset
+                    if len(json_data) < 30:
+                        offset = random.randrange(0, 500)
+                        counter += 1
 
-                json_data = response.body["results"]
+                    else:
+                        reached_length = True
+                        counter = 4
 
-                val_title = []
-                val_prot = []
-                val_carb = []
-                val_cal = []
-                val_fat = []
+                    val_title = []
+                    val_prot = []
+                    val_carb = []
+                    val_cal = []
+                    val_fat = []
 
-                for d in json_data:
-                    if d["id"] not in unique_IDs:
-                        k = d['id']
-                        unique_IDs.append(k)
-                        dict_keys.append(k)
-                        for key, value in d.iteritems():
-                                if key == "title":
-                                    v = d[key].encode('ascii','ignore')
-                                    val_title.append(v)
-                                if key == "calories":
-                                    v = d[key]
-                                    val_cal.append(v)
-                                if key == "protein":
-                                    v = int(re.findall(r'\d+', d[key])[0])
-                                    val_prot.append(v)
-                                if key == "carbs":
-                                    v = int(re.findall(r'\d+', d[key])[0])
-                                    val_carb.append(v)
-                                if key == "fat":
-                                    v = int(re.findall(r'\d+', d[key])[0])
-                                    val_fat.append(v)
+                    for d in json_data:
+                        if d["id"] not in unique_IDs:
+                            k = d['id']
+                            unique_IDs.append(k)
+                            dict_keys.append(k)
+                            for key, value in d.iteritems():
+                                    if key == "title":
+                                        v = d[key].encode('ascii','ignore')
+                                        val_title.append(v)
+                                    if key == "calories":
+                                        v = d[key]
+                                        val_cal.append(v)
+                                    if key == "protein":
+                                        v = int(re.findall(r'\d+', d[key])[0])
+                                        val_prot.append(v)
+                                    if key == "carbs":
+                                        v = int(re.findall(r'\d+', d[key])[0])
+                                        val_carb.append(v)
+                                    if key == "fat":
+                                        v = int(re.findall(r'\d+', d[key])[0])
+                                        val_fat.append(v)
 
             dict_cal_temp = dict(zip(dict_keys, val_cal))
             dict_prot_temp = dict(zip(dict_keys, val_prot))
