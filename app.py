@@ -5,6 +5,7 @@ from diet_optimizer import *
 from flask_cors import CORS, cross_origin
 from flask_bootstrap import Bootstrap
 import settings
+import pdb
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -129,7 +130,11 @@ def recompute_usr_input():
     obj = session.get('obj')
     obj_nut = session.get('obj_nut')
 
+    pdb.set_trace()
+
     user = User(age, weight, height, gender, exercise_level)
+
+
 
     cuisine_q = request.args.getlist('cuisine')
     diet_q = request.args.get('diet')
@@ -177,6 +182,8 @@ def recompute_usr_input():
     if cal_up != '':
         user.daily_nutrients['cal_up'] = float(cal_up)
 
+    # pdb.set_trace()
+
     req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
 
     ress = req.get_recipes()
@@ -196,7 +203,136 @@ def recompute_usr_input():
 @app.route('/newform', methods=['GET'])
 @cross_origin()
 def new_form():
-    return render_template('newform.html')
+    age = session.get('age')
+    height = session.get('height')
+    weight = session.get('weight')
+    gender = session.get('gender')
+    exercise_level = session.get('exercise_level')
+    cuisine = session.get('cuisine')
+    diet = session.get('diet')
+    intolerances = session.get('intolerances')
+    recipe_types = session.get('recipe_types')
+    obj = session.get('obj')
+    obj_nut = session.get('obj_nut')
+
+    pdb.set_trace()
+
+    user = User(age, weight, height, gender, exercise_level)
+
+    user_daily_nutrients = user.daily_nutrients
+
+    carb_low = user_daily_nutrients['carb_low']
+    carb_up = user_daily_nutrients['carb_up']
+    prot_low = user_daily_nutrients['prot_low']
+    prot_up = user_daily_nutrients['prot_up']
+    fat_low = user_daily_nutrients['fat_low']
+    fat_up = user_daily_nutrients['fat_up']
+    cal_low = user_daily_nutrients['cal_low']
+    cal_up = user_daily_nutrients['cal_up']
+
+    cuisine_dictionary = {
+    'none' : 'All',
+    'african' : 'African',
+    'chinese' : 'Chinese',
+    'japanese' : 'Japanese',
+    'korean' : 'Korean',
+    'vietnamese' : 'Vietnamese',
+    'thai' : 'Thai',
+    'indian' : 'Indian',
+    'british' : 'British',
+    'irish' : 'Irish',
+    'french' : 'French',
+    'italian' : 'Italian',
+    'mexican' : 'Mexican',
+    'spanish' : 'Spanish',
+    'middle+eastern' : 'Middle Eastern',
+    'jewish' : 'Jewish',
+    'american' : 'American',
+    'cajun' : 'Cajun',
+    'southern' : 'Southern',
+    'greek' : 'Greek',
+    'german' : 'German',
+    'nordic' : 'Nordic',
+    'eastern+european' : 'Eastern european',
+    'caribbean' : 'Caribbean',
+    'latin+american' : 'Latin American'
+    }
+
+    diet_dictionary = {
+    'none' : 'None',
+    'pescetarian' : 'Pescetarian',
+    'lacto+vegetarian' : 'Lacto vegetarian',
+    'ovo+vegetarian' : 'Ovo vegetarian',
+    'vegan' : 'Vegan',
+    'paleo' : 'Paleo',
+    'primal' : 'Primal',
+    'vegetarian' : 'Vegetarian'
+    }
+
+    intolerances_dictionary = {
+    'dairy' : 'Dairy',
+    'egg' : 'Egg',
+    'gluten' : 'Gluten',
+    'peanut' : 'Peanut',
+    'sesame' : 'Sesame',
+    'seafood' : 'Seafood',
+    'shellfish' : 'Shellfish',
+    'soy' : 'Soy',
+    'sulfite' : 'Sulfite',
+    'tree+nut' : 'Tree Nut',
+    'wheat' : 'Wheat'
+    }
+
+    obj_nut_list = [
+    'Calories',
+    'Protein',
+    'Carbs',
+    'Fat'
+    ]
+
+    obj_list = [
+    'Max',
+    'Min'
+    ]
+
+    recipe_types_dictionary={
+    'main+course' : 'Main Course',
+    'side+dish' : 'Side Dish',
+    'dessert' : 'Dessert',
+    'appetizer' : 'Appetizer',
+    'salad' : 'Salad',
+    'bread' : 'Bread',
+    'breakfast' : 'Breakfast',
+    'soup' : 'Soup',
+    'beverage' : 'Beverage',
+    'sauce' : 'Sauce',
+    'drink' : 'Drink'
+    }
+
+    # pdb.set_trace()
+
+    return render_template('newform.html', response={
+    'carb_low' : carb_low,
+    'carb_up' : carb_up,
+    'prot_low' : prot_low,
+    'prot_up' : prot_up,
+    'fat_low' : fat_low,
+    'fat_up' : fat_up,
+    'cal_low' : cal_low,
+    'cal_up' : cal_up,
+    'cuisine_dictionary' : cuisine_dictionary,
+    'diet_dictionary' : diet_dictionary,
+    'intolerances_dictionary' : intolerances_dictionary,
+    'recipe_types_dictionary' : recipe_types_dictionary,
+    'obj_nut_list' : obj_nut_list,
+    'obj_list' : obj_list,
+    'cuisine' : cuisine,
+    'diet' : diet,
+    'intolerances' : intolerances,
+    'recipe_types' : recipe_types,
+    'obj' : obj,
+    'obj_nut' : obj_nut
+    })
 
 if __name__ == '__main__':
     # app.run(threaded=True, debug=True)
