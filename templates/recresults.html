@@ -48,6 +48,7 @@
       {{key}}
     {% endfor %}
   </div>
+
   <br>
   <a href="/newform">Change Something!</a>
   <br>
@@ -67,6 +68,7 @@
     <br>
     <br>
   </div>
+
   <div id=nutrients_sum>
     <h3>Total nutrients taken:</h3>
     Calories: {{response.total_nutrients_taken.calories}}
@@ -79,6 +81,7 @@
     <br>
     <br>
   </div>
+
   <!-- <div id="recipes">
     <br>
     <br>
@@ -121,7 +124,14 @@
        {% endfor %}
     </table>
   </div> -->
+
+  <br>
+  <button onclick='location.reload()'>Regenerate Recipes</button>
+  <br>
+  <br>
+
 </div>
+
 <div class="bs-example">
     <div class="panel-group" id="accordion">
       {% for key in response.recipes %}

@@ -256,8 +256,10 @@ class RecipeHandler(object):
                       }
                     )
                     json_data = response.body["results"]
+                    
                     print len(json_data)
                     print offset
+
                     if len(json_data) < 30:
                         offset = random.randrange(0, 500)
                         counter += 1

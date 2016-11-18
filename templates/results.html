@@ -51,6 +51,7 @@
   <br>
   <a href="newform">Change Something!</a>
   <br>
+
   <div id="user_nutrients">
     <br>
     <h3>User Nutrients:</h3>
@@ -120,7 +121,14 @@
        {% endfor %}
     </table>
   </div> -->
+
+  <br>
+  <button onclick='location.reload()'>Regenerate Recipes</button>
+  <br>
+  <br>
+
 </div>
+
 <div class="bs-example">
     <div class="panel-group" id="accordion">
       {% for key in response.recipes %}
