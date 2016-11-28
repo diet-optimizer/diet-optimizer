@@ -1,17 +1,4 @@
-#!flask/bin/python
-from flask import *
-from flask_restful import *
 from diet_optimizer import *
-from flask_cors import CORS, cross_origin
-from flask_bootstrap import Bootstrap
-import settings
-
-app = Flask(__name__)
-Bootstrap(app)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.secret_key = settings.APP_KEY
-
 
 @app.route('/', methods=['GET'])
 @cross_origin()
@@ -322,8 +309,3 @@ def new_form():
     'obj' : obj,
     'obj_nut' : obj_nut
     })
-
-if __name__ == '__main__':
-    # app.run(threaded=True, debug=True)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(threaded=True, debug=True, host='0.0.0.0', port=port)
