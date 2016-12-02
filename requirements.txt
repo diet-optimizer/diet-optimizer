@@ -7,3 +7,4 @@ Unirest==1.1.7
 PuLP==1.6.1
 python-dotenv==0.6.1
 Flask-SQLAlchemy==2.1
+Flask-WTF==0.13.1
