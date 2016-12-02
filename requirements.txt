@@ -8,3 +8,5 @@ PuLP==1.6.1
 python-dotenv==0.6.1
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.13.1
+mysql-connector-python==2.0.4
+MySQL-python==1.2.5
