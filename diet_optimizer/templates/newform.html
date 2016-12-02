@@ -1,13 +1,19 @@
-<html>
+<!-- <html>
     <head>
 
       <title>Diet Optimization</title>
       <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     </head>
-   <body>
+   <body> -->
+    {% extends "layout.html" %}
+
+    {% block content %}
+
+    <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+    
      <script type="text/javascript" src="script.js"></script>
      <h2> Change your information here.
-     </h>
+     </h2>
          <div id="user_form" class="wrapper">
            <form action="/recresults" method="get">
              <dl>
@@ -107,5 +113,6 @@
                <dt>
              </form>
            </div>
-   </body>
-</html>
+<!--    </body>
+</html> -->
+{% endblock %}

@@ -1,6 +1,79 @@
 from diet_optimizer import *
+from forms import SignupForm, LoginForm
+
 
 @app.route('/', methods=['GET'])
+@cross_origin()
+def index():
+    return render_template('index.html')
+
+@app.route('/about', methods=['GET'])
+@cross_origin()
+def about():
+    return render_template('about.html')
+
+@app.route('/signup', methods=['GET','POST'])
+@cross_origin()
+def signup():
+    if 'email' in session:
+        return redirect(url_for('home'))
+
+    form = SignupForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('signup.html', form=form)
+        else:
+            newuser = UserDB(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
+            db.session.add(newuser)
+            db.session.commit()
+
+            session['email'] = newuser.email
+            return redirect(url_for('home')) 
+            #url_for needs the function inside the route
+
+    elif request.method == 'GET':
+        return render_template('signup.html', form=form)
+
+@app.route('/login', methods=['GET','POST'])
+@cross_origin()
+def login():
+    if 'email' in session:
+        return redirect(url_for('home'))
+
+    form = LoginForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('login.html', form=form)
+        else:
+            email = form.email.data
+            password = form.password.data
+
+            user = UserDB.query.filter_by(email=email).first()
+            if user is not None and user.check_password(password):
+                session['email'] = form.email.data
+                return redirect(url_for('home')) 
+            else:
+                return redirect(url_for('login')) 
+
+    elif request.method == 'GET':
+        return render_template('login.html', form=form)
+
+@app.route('/logout', methods=['GET','POST'])
+@cross_origin()
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('index'))
+
+@app.route("/home", methods=["GET", "POST"])
+def home():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    return render_template("home.html")
+
+@app.route('/form', methods=['GET'])
 @cross_origin()
 def user_form():
     return render_template('form.html')

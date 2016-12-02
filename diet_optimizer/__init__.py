@@ -8,6 +8,10 @@ import diet_optimizer.settings
 from models import *
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/diet_optimizer_db'
+db.init_app(app)
+
 Bootstrap(app)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'

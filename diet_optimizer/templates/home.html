@@ -1,14 +1,15 @@
-<!-- <html>
-    <head>
+{% extends "layout.html" %}
 
-      <title>Diet Optimization</title>
-      <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    </head>
-   <body> -->
-    {% extends "layout.html" %}
+{% block content %}
+  <main class="hero-section">
+    <div class="container">
+      
+    <!-- <h1>Home</h1> -->
+    <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
 
-    {% block content %}
-     <script type="text/javascript" src="script.js"></script>
+
+
+ <script type="text/javascript" src="script.js"></script>
      <h2> Hi, insert your information here to get your diet plan.
      </h2> 
          <div id="user_form" class="wrapper">
@@ -137,7 +138,10 @@
              </form>
 
            </div>
-<!--    </body>
-</html> -->
 
+
+
+
+    </div>
+  </main>
 {% endblock %}
