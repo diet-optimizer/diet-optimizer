@@ -1,6 +1,7 @@
 from diet_optimizer import *
 from forms import SignupForm, LoginForm
 
+db.create_all()
 
 @app.route('/', methods=['GET'])
 @cross_origin()
