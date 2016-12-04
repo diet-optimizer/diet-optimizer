@@ -73,10 +73,10 @@ def home():
 
     return render_template("home.html")
 
-@app.route('/form', methods=['GET'])
-@cross_origin()
-def user_form():
-    return render_template('form.html')
+# @app.route('/form', methods=['GET'])
+# @cross_origin()
+# def user_form():
+#     return render_template('form.html')
 
 @app.route('/results', methods=['GET'])
 @cross_origin()
@@ -321,6 +321,7 @@ def new_form():
     }
 
     intolerances_dictionary = {
+    'none' : 'None'
     'dairy' : 'Dairy',
     'egg' : 'Egg',
     'gluten' : 'Gluten',

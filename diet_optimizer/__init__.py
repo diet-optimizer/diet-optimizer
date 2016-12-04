@@ -9,12 +9,7 @@ from models import *
 
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
-# app.config['MYSQL_USER'] = 'bae74984c70df0'
-# app.config['MYSQL_PASSWORD'] = '6280cc0c'
-# app.config['MYSQL_DB'] = 'heroku_194b00fe5baed38'
-# app.config['MYSQL_HOST'] = 'us-cdbr-iron-east-04.cleardb.net'
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/diet_optimizer_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
 db.init_app(app)
 
