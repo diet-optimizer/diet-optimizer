@@ -321,7 +321,7 @@ def new_form():
     }
 
     intolerances_dictionary = {
-    'none' : 'None'
+    'none' : 'None',
     'dairy' : 'Dairy',
     'egg' : 'Egg',
     'gluten' : 'Gluten',
