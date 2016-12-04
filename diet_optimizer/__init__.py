@@ -9,7 +9,7 @@ from models import *
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/diet_optimizer_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
 db.init_app(app)
 
 Bootstrap(app)
