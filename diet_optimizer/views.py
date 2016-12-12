@@ -73,6 +73,53 @@ def home():
 
     return render_template("home.html")
 
+@app.route('/basicresults', methods=['GET'])
+@cross_origin()
+def get_usr_input_basic():
+
+    age = int(request.args.get('age'))
+    height = float(request.args.get('height'))
+    weight = float(request.args.get('weight'))
+    gender = request.args.get('gender')
+    exercise_level = request.args.get('exerciseLevel')
+    cuisine = request.args.getlist('cuisine')
+    diet = request.args.get('diet')
+    intolerances = request.args.getlist('intolerances')
+    recipe_types = request.args.getlist('recipeTypes')
+    # exclude_ingredients = request.args.getlist('excludeIngredients')
+    obj = request.args.get('obj')
+    obj_nut = request.args.get('objNut')
+
+    user = User(age, weight, height, gender, exercise_level)
+
+    session['age'] = age
+    session['height'] = height
+    session['weight'] = weight
+    session['gender'] = gender
+    session['exercise_level'] = exercise_level
+    session['cuisine'] = cuisine
+    session['diet'] = diet
+    session['intolerances'] = intolerances
+    session['recipe_types'] = recipe_types
+    session['obj'] = obj
+    session['obj_nut'] = obj_nut
+
+    user_daily_nutrients = user.daily_nutrients
+
+    session['carb_low'] = user_daily_nutrients['carb_low']
+    session['carb_up'] = user_daily_nutrients['carb_up']
+    session['prot_low'] = user_daily_nutrients['prot_low']
+    session['prot_up'] = user_daily_nutrients['prot_up']
+    session['fat_low'] = user_daily_nutrients['fat_low']
+    session['fat_up'] = user_daily_nutrients['fat_up']
+    session['cal_low'] = user_daily_nutrients['cal_low']
+    session['cal_up'] = user_daily_nutrients['cal_up']
+
+    return render_template('basicresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
+    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
+    'user_daily_nutrients' : user_daily_nutrients})
+
+
 @app.route('/results', methods=['GET'])
 @cross_origin()
 def get_usr_input():

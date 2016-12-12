@@ -12,86 +12,89 @@
     <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
     
      <script type="text/javascript" src="script.js"></script>
-     <h2> Change your information here.
+     <h2 id="newformh2"> Change your information here.
      </h2>
          <div id="user_form" class="wrapper">
            <form action="/recresults" method="get">
              <dl>
+
                  <dt>Which diet are you following?
                  <dt>
-                   <select name="diet" id="diet">
+                   <form3 name="diet" id="diet">
                    {% for key, value in response.diet_dictionary.iteritems() %}
                       {% if key == response.diet %}
-                        <option selected="selected" value="{{key}}">{{value}}</option>
+                        <input type="radio" value="{{key}}" checked>{{value}}</input>
                       {% else %}
-                        <option value="{{key}}">{{value}}</option>
+                        <input type="radio" value="{{key}}">{{value}}</input>
+                        <!-- <input type="radio" value="{{key}}">{{value}}</input> -->
                       {% endif %}
                    {% endfor %}
-                   </select>
+                   </form3>
+
                  <dt>
-                 <dt>Which cuisine(s) would you like to include?
+                 <dt><br>Which cuisine(s) would you like to include?
                  <dt>
-                   <select multiple name="cuisine" id="cuisine">
+                   <form4 name="cuisine" id="cuisine">
                      {% for key, value in response.cuisine_dictionary.iteritems() %}
                         {% if key in response.cuisine %}
-                          <option selected="selected" value="{{key}}">{{value}}</option>
+                          <input type="checkbox" value="{{key}}" checked>{{value}}</input>
                         {% else %}
-                          <option value="{{key}}">{{value}}</option>
+                          <input type="checkbox" value="{{key}}">{{value}}</input>
                         {% endif %}
                      {% endfor %}
-                   </select>
+                   </form4>
 
-            <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font>
+            <!-- <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font> -->
 
-                  <dt>Do you have any intolerances?
+                  <dt><br> Do you have any intolerances?
                   <dt>
-                    <select multiple name="intolerances" id="intolerances">
+                    <form5 name="intolerances" id="intolerances">
                       {% for key, value in response.intolerances_dictionary.iteritems() %}
                          {% if key in response.intolerances %}
-                           <option selected="selected" value="{{key}}">{{value}}</option>
+                           <input type="checkbox" value="{{key}}" checked>{{value}}</input>
                          {% else %}
-                           <option value="{{key}}">{{value}}</option>
+                           <input type="checkbox" value="{{key}}">{{value}}</input>
                          {% endif %}
                       {% endfor %}
-                   </select>
+                   </form5>
 
-                 <dt>Which nutient do you want to focus on?
+                 <dt><br> Which nutient do you want to focus on?
                  <dt>
-                   <select name="objNut" id="objNut">
+                   <form6 name="objNut" id="objNut">
                      {% for key in response.obj_nut_list %}
                         {% if key in response.obj_nut %}
-                          <option selected="selected" value="{{key}}">{{key}}</option>
+                          <input type="radio" value="{{key}}" checked>{{key}}</input>
                         {% else %}
-                          <option value="{{key}}">{{key}}</option>
+                          <input type="radio" value="{{key}}">{{key}}</input>
                         {% endif %}
                      {% endfor %}
-                   </select>
+                   </form6>
 
-                 <dt>Do you want to maximize or minimize that?
+                 <dt><br> Do you want to maximize or minimize that?
                  <dt>
-                 <select name="obj" id="obj">
+                 <form7 name="obj" id="obj">
                    {% for key in response.obj_list %}
                       {% if key in response.obj %}
-                        <option selected="selected" value="{{key}}">{{key}}</option>
+                        <input type="radio" value="{{key}}" checked>{{key}}</input>
                       {% else %}
-                        <option value="{{key}}">{{key}}</option>
+                        <input type="radio" value="{{key}}">{{key}}</input>
                       {% endif %}
                    {% endfor %}
-                 </select>
+                 </form7>
                  <br>
-                 <dt>Which kind of recipes do you want? (One or more)
+                 <dt><br> Which kind of recipes do you want? (One or more)
                  <dt>
-                 <select multiple name="recipeTypes" id="recipeTypes">
+                 <form8 name="recipeTypes" id="recipeTypes">
                    {% for key, value in response.recipe_types_dictionary.iteritems() %}
                       {% if key in response.recipe_types %}
-                        <option selected="selected" value="{{key}}">{{value}}</option>
+                        <input type="checkbox" value="{{key}}" checked>{{value}}</input>
                       {% else %}
-                        <option value="{{key}}">{{value}}</option>
+                        <input type="checkbox" value="{{key}}">{{value}}</input>
                       {% endif %}
                    {% endfor %}
-                 </select>
+                 </form8>
 
-                 <dt>Calories:</dt>
+                 <dt><br>Calories:</dt>
                  Lower Bound: <input type=number value="{{response.cal_low}}" name="calLow" id="calLow">
                  Upper Bound: <input type=number value="{{response.cal_up}}" name="calUp" id="calUp">
 
@@ -108,7 +111,7 @@
                  Upper Bound: <input type=number value="{{response.fat_up}}" name="fatUp" id="fatUp">
 
 
-                 <dt><input type=submit id="search" value=Submit>
+                 <dt><br><input type=submit id="search" value=Submit>
                </dl>
                <dt>
              </form>

@@ -15,6 +15,10 @@ h2 {
   letter-spacing: -1.2px;
 }
 
+h2#newformh2{
+  margin: 75px; #addedfornewform
+}
+
 a {
   text-decoration: none;
   display: inline-block;
@@ -315,4 +319,12 @@ header {
 
 .leaflet-popup-content p {
   margin: 10px 0 ;
+}
+
+
+/*added for newform*/
+div {
+}
+.wrapper {
+  margin: 50px;
 }
