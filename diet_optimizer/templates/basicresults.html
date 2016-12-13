@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<main class="container signup-section">
+		<a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+
+		<body>
+
+		<form action="/results" method="get">
+
+		<div id="user_data">
+
+		  <div id="user_info">
+		    <h3>User information:</h3>
+		    Age: {{response.user_info.age}}
+		    <input type=number name=age id="age" value="{{response.user_info.age}}" style="display:none">
+		    <br>
+		    Weight: {{response.user_info.weight}} kg
+		    <input type=number name=weight id="weight" value="{{response.user_info.weight}}" style="display:none">
+		    <br>
+		    Height: {{response.user_info.height}} cm
+		    <input type=number name=height id="height" value="{{response.user_info.height}}" style="display:none">
+		    <br>
+		    Gender: {{response.user_info.gender}}
+		    <input type=text name="gender" value="{{response.user_info.gender}}" style="display:none">
+		    <br>
+		    Exercise Level : {{response.user_info.exercise_level}}
+		    <input type=text name="exerciseLevel" value="{{response.user_info.exercise_level}}" style="display:none">
+		    
+		    <br>
+		    Cuisine:
+		    {% for key in response.user_info.cuisine %}
+		      <input type=text name="cuisine" class="groupCuisine" value="{{key}}" style="display:none">
+		      {{key}} 
+		    {% endfor %}
+
+		    <br>
+		    Diet: {{response.user_info.diet}}
+		    <input type=text name="diet" value="{{response.user_info.diet}}" style="display:none">
+		    
+		    <br>
+		    Intolerances:
+		    {% for key in response.user_info.intolerances %}
+		      <input type=text name="intolerances" class="groupIntol" value="{{key}}" style="display:none">
+		      {{key}}
+		    {% endfor %}
+		   
+		    <br>
+		    Recipe Types:
+		    {% for key in response.user_info.recipe_types %}
+		      <input type=text name="recipeTypes" value="{{key}}" style="display:none">
+		      {{key}}
+		    {% endfor %}
+
+		    <!-- following 2 lines of input are for obj and obj_nut for url -->
+		    <input type=text name="objNut" value="{{response.user_info.obj_nut}}" style="display:none">
+		    <input type=text name="obj" value="{{response.user_info.obj}}" style="display:none">
+
+		  </div>
+
+		  <br>
+		  <a href="newform">Change Something!</a>
+		  <br>
+
+		  <div id="user_nutrients">
+		    <br>
+		    <h3>User Nutrients:</h3>
+		    BMI: {{response.user_daily_nutrients.bmi}}
+		    <br>
+		    Calorie Range: {{response.user_daily_nutrients.cal_low}} - {{response.user_daily_nutrients.cal_up}} kcal
+		    <br>
+		    Carb Range: {{response.user_daily_nutrients.carb_low}} - {{response.user_daily_nutrients.carb_up}} g
+		    <br>
+		    Fat Range: {{response.user_daily_nutrients.fat_low}} - {{response.user_daily_nutrients.fat_up}} g
+		    <br>
+		    Protein Range: {{response.user_daily_nutrients.prot_low}} - {{response.user_daily_nutrients.prot_up}} g
+		    <br>
+		    <br>
+		  </div>
+
+		  <input type=submit id="search" value=Submit>
+
+		</form>
+		</div>
+	</main>
+{% endblock %}

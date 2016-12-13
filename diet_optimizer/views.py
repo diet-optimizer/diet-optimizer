@@ -116,7 +116,7 @@ def get_usr_input_basic():
     session['cal_up'] = user_daily_nutrients['cal_up']
 
     return render_template('basicresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
+    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
     'user_daily_nutrients' : user_daily_nutrients})
 
 
@@ -175,7 +175,7 @@ def get_usr_input():
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
     return render_template('results.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
+    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
     'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
 
 @app.route('/apiresults', methods=['GET'])
@@ -212,7 +212,7 @@ def get_usr_input_api():
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
     return jsonify({'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
+    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
     'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
 
 @app.route('/recresults', methods=['GET'])
@@ -292,7 +292,7 @@ def recompute_usr_input():
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
     return render_template('recresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'recipe_types' : recipe_types},
+    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
     'user_daily_nutrients' : user.daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
 
 @app.route('/newform', methods=['GET'])

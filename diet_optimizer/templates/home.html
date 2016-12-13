@@ -8,14 +8,15 @@
     <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
 
 
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
  <script type="text/javascript" src="script.js"></script>
      <h2> Hi, insert your information here to get your diet plan.
      </h2> 
          <div id="user_form" class="wrapper">
            <h2>User information</h2>
-             <!-- <form action="/basicresults" method="get"> -->
-             <form action="/results" method="get">
+             <form action="/basicresults" method="get">
+             <!-- <form action="/results" method="get"> -->
                <dl>
                  <dt>How old are you?
                  <dt><input type=number name=age id="age" min=3 required="true">
@@ -52,40 +53,52 @@
                  <dt>
                  <dt> <br> Which cuisine(s) would you like to include?
                  <dt>
-                  <script type="text/javascript"> 
-                    function enable_cb() {
+                  <!-- // <script type="text/javascript" src="{{ url_for('static', filename='js/disable.js') }}"></script> -->
+                 <script type="text/javascript">
+                  $(document).ready(function(){
+                    disableCuisines();
+                  });
+                    function disableCuisines() {
                     if ( document.getElementById('checkAll').checked ) 
-                      { document.getElementById("groupCuisine").disabled = true; } 
+                      { 
+                        $('.groupCuisine').each(function(){
+                          $(this).attr("disabled",true);
+                        }); 
+                      } 
                     else 
-                      { document.getElementById("groupCuisine").disabled = false; }
+                      {
+                        $('.groupCuisine').each(function(){
+                          $(this).attr("disabled",false);
+                        }); 
+                      }
                   };
-                    </script>
+                 </script>
                  <form4 name="cuisine" id="cuisine">
-                 <input type="checkbox" name="cuisine" id="checkAll" value=None checked onclick="enable_cb()" >All</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="african">African</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="chinese">Chinese</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="japanese">Japanese</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="korean">Korean</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="vietnamese">Vietnamese</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="thai">Thai</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="indian">iIndian</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="british">British</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="irish">Irish</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="french">French</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="italian">Italian</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="mexican">Mexican</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="spanish">Spanish</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="middle+eastern">Middle Eastern</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="jewish">Jewish</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="american">American</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="cajun">Cajun</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="southern">Southern</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="greek">Greek</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="german">German</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="nordic">Nordic</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="eastern+european">Eastern European</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="caribbean">Caribbean</input>
-                 <input type="checkbox" name="cuisine" id="groupCuisine" value="latin+american">Latin American</input>
+                 <input type="checkbox" name="cuisine" id="checkAll" value=None checked onclick="disableCuisines()" >All</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="african">African</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="chinese">Chinese</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="japanese">Japanese</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="korean">Korean</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="vietnamese">Vietnamese</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="thai">Thai</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="indian">iIndian</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="british">British</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="irish">Irish</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="french">French</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="italian">Italian</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="mexican">Mexican</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="spanish">Spanish</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="middle+eastern">Middle Eastern</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="jewish">Jewish</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="american">American</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="cajun">Cajun</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="southern">Southern</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="greek">Greek</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="german">German</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="nordic">Nordic</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="eastern+european">Eastern European</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="caribbean">Caribbean</input>
+                 <input type="checkbox" name="cuisine" class="groupCuisine" value="latin+american">Latin American</input>
                 </form4>
 
             <!-- <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font> -->
@@ -93,26 +106,37 @@
                   <dt> <br> Do you have any intolerances?
                   <dt>
                   <script type="text/javascript"> 
+                  $(document).ready(function(){
+                    disableIntolerances();
+                  });
                     function disableIntolerances() {
                     if ( document.getElementById('noIntol').checked ) 
-                      { document.getElementById("groupIntol").disabled = true; } 
+                      { 
+                        $('.groupIntol').each(function(){
+                          $(this).attr("disabled",true);
+                        }); 
+                      } 
                     else 
-                      { document.getElementById("groupIntol").disabled = false; }
+                      {
+                        $('.groupIntol').each(function(){
+                          $(this).attr("disabled",false);
+                        }); 
+                      }
                   };
                   </script>
                   <form5 name="intolerances" id="intolerances">
                   <input type="checkbox" name="intolerances" id="noIntol" value=None checked onclick="disableIntolerances()">No</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="dairy">Dairy</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="egg">Egg</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="gluten">Gluten</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="peanut">Peanut</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="sesame">Sesame</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="seafood">Seafood</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="shellfish">Shellfish</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="soy">Soy</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="sulfite">Sulfite</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="tree+nut">Tree Nut</input>
-                  <input type="checkbox" name="intolerances" id="groupIntol" value="wheat">Wheat</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="dairy">Dairy</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="egg">Egg</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="gluten">Gluten</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="peanut">Peanut</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="sesame">Sesame</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="seafood">Seafood</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="shellfish">Shellfish</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="soy">Soy</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="sulfite">Sulfite</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="tree+nut">Tree Nut</input>
+                  <input type="checkbox" name="intolerances" class="groupIntol" value="wheat">Wheat</input>
                  </form5>
 
                  <dt> <br> Which nutient do you want to focus on?
