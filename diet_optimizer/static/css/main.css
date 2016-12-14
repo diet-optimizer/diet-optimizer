@@ -371,9 +371,9 @@ div#user_nutrients_br{
 
 /*added for change sth button*/
 a#change-btn {
-  background: #ffffff;
+  background: gray;
   border: 1px solid #e6e6e6;
-  color: #3372df;
+  color: #ffffff;
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
