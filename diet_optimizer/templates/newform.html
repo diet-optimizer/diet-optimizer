@@ -23,9 +23,9 @@
                    <form3 name="diet" id="diet">
                    {% for key, value in response.diet_dictionary.iteritems() %}
                       {% if key == response.diet %}
-                        <input type="radio" value="{{key}}" checked>{{value}}</input>
+                        <input type="radio" name="diet" value="{{key}}" checked>{{value}}</input>
                       {% else %}
-                        <input type="radio" value="{{key}}">{{value}}</input>
+                        <input type="radio" name="diet" value="{{key}}">{{value}}</input>
                         <!-- <input type="radio" value="{{key}}">{{value}}</input> -->
                       {% endif %}
                    {% endfor %}
@@ -37,9 +37,9 @@
                    <form4 name="cuisine" id="cuisine">
                      {% for key, value in response.cuisine_dictionary.iteritems() %}
                         {% if key in response.cuisine %}
-                          <input type="checkbox" value="{{key}}" checked>{{value}}</input>
+                          <input type="checkbox" name="cuisine" value="{{key}}" checked>{{value}}</input>
                         {% else %}
-                          <input type="checkbox" value="{{key}}">{{value}}</input>
+                          <input type="checkbox" name="cuisine" value="{{key}}">{{value}}</input>
                         {% endif %}
                      {% endfor %}
                    </form4>
@@ -51,9 +51,9 @@
                     <form5 name="intolerances" id="intolerances">
                       {% for key, value in response.intolerances_dictionary.iteritems() %}
                          {% if key in response.intolerances %}
-                           <input type="checkbox" value="{{key}}" checked>{{value}}</input>
+                           <input type="checkbox" name="intolerances" value="{{key}}" checked>{{value}}</input>
                          {% else %}
-                           <input type="checkbox" value="{{key}}">{{value}}</input>
+                           <input type="checkbox" name="intolerances" value="{{key}}">{{value}}</input>
                          {% endif %}
                       {% endfor %}
                    </form5>
@@ -63,9 +63,9 @@
                    <form6 name="objNut" id="objNut">
                      {% for key in response.obj_nut_list %}
                         {% if key in response.obj_nut %}
-                          <input type="radio" value="{{key}}" checked>{{key}}</input>
+                          <input type="radio" name="objNut" value="{{key}}" checked>{{key}}</input>
                         {% else %}
-                          <input type="radio" value="{{key}}">{{key}}</input>
+                          <input type="radio" name="objNut" value="{{key}}">{{key}}</input>
                         {% endif %}
                      {% endfor %}
                    </form6>
@@ -75,9 +75,9 @@
                  <form7 name="obj" id="obj">
                    {% for key in response.obj_list %}
                       {% if key in response.obj %}
-                        <input type="radio" value="{{key}}" checked>{{key}}</input>
+                        <input type="radio" name="obj" value="{{key}}" checked>{{key}}</input>
                       {% else %}
-                        <input type="radio" value="{{key}}">{{key}}</input>
+                        <input type="radio" name="obj" value="{{key}}">{{key}}</input>
                       {% endif %}
                    {% endfor %}
                  </form7>
@@ -87,9 +87,9 @@
                  <form8 name="recipeTypes" id="recipeTypes">
                    {% for key, value in response.recipe_types_dictionary.iteritems() %}
                       {% if key in response.recipe_types %}
-                        <input type="checkbox" value="{{key}}" checked>{{value}}</input>
+                        <input type="checkbox" name="recipeTypes" value="{{key}}" checked>{{value}}</input>
                       {% else %}
-                        <input type="checkbox" value="{{key}}">{{value}}</input>
+                        <input type="checkbox" name="recipeTypes" value="{{key}}">{{value}}</input>
                       {% endif %}
                    {% endfor %}
                  </form8>
