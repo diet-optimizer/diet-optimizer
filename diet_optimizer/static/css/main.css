@@ -15,10 +15,6 @@ h2 {
   letter-spacing: -1.2px;
 }
 
-h2#newformh2{
-  margin: 75px; #addedfornewform
-}
-
 a {
   text-decoration: none;
   display: inline-block;
@@ -117,7 +113,6 @@ a {
   position: relative;
   left: 950px;
 }
-
 /* 
  * Header
  */
@@ -327,4 +322,87 @@ div {
 }
 .wrapper {
   margin: 50px;
+}
+
+/*added for regenerate recipes button*/
+button#regeneraterecipes{
+  background: gray;
+  border: 1px solid #e6e6e6;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.23px;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  position: relative;
+  left: 430px;
+  bottom: 100px;
+}
+
+h2#newformh2{
+  margin: 75px; #addedfornewform
+}
+
+div#user_data{
+  margin: 75px; #addedforresults
+}
+
+/*added for user nutrients in results page*/
+div#user_nutrients{
+  float: right;
+  position: relative;
+  bottom: 320px;
+  right: 455px;
+}
+div#user_data{
+  position: relative;
+}
+
+/*added for user nutrients in basic results page*/
+div#user_nutrients_br{
+  float: right;
+  position: relative;
+  bottom: 350px;
+  right: 160px;
+}
+
+/*added for change sth button*/
+a#change-btn {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  color: #3372df;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.23px;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  position: relative;
+  left: 430px;
+  bottom: 57px;
+}
+
+div#bs-ex{
+  margin: 75px;
+  margin-right: 320px;
+}
+
+/*added for submit button in home page*/
+input#search{
+  background: #4285f4;
+  border: 1px solid #1266f1;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.23px;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
 }
