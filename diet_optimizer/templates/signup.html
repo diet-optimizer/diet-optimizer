@@ -33,6 +33,18 @@
 				</div>
 
 				<div class='form-group'>
+					{{ form.nick_name.label }}
+
+					{% if form.nick_name.errors %}
+						{% for error in form.nick_name.errors %}
+							<p class='error-message'>{{ error }}</p>
+						{% endfor %}
+					{% endif %}
+
+					{{ form.nick_name }}
+				</div>
+
+				<div class='form-group'>
 					{{ form.email.label }}
 
 					{% if form.email.errors %}

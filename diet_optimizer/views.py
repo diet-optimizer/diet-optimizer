@@ -24,11 +24,12 @@ def signup():
         if form.validate() == False:
             return render_template('signup.html', form=form)
         else:
-            newuser = UserDB(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
+            newuser = UserDB(form.first_name.data, form.last_name.data, form.nick_name.data, form.email.data, form.password.data)
             db.session.add(newuser)
             db.session.commit()
 
-            session['email'] = newuser.email
+            # session['email'] = newuser.email
+            session['user_name'] = newuser.nickname
             return redirect(url_for('home')) 
             #url_for needs the function inside the route
 
@@ -38,7 +39,8 @@ def signup():
 @app.route('/login', methods=['GET','POST'])
 @cross_origin()
 def login():
-    if 'email' in session:
+    # if 'email' in session:
+    if 'user_name' in session:
         return redirect(url_for('home'))
 
     form = LoginForm()
@@ -47,12 +49,16 @@ def login():
         if form.validate() == False:
             return render_template('login.html', form=form)
         else:
-            email = form.email.data
+            # email = form.email.data
+            user_name = form.nick_name.data
             password = form.password.data
 
-            user = UserDB.query.filter_by(email=email).first()
+            # user = UserDB.query.filter_by(email=email).first()
+            user = UserDB.query.filter_by(nickname=user_name).first()
+            print user
             if user is not None and user.check_password(password):
-                session['email'] = form.email.data
+                # session['email'] = form.email.data
+                session['user_name'] = form.nick_name.data
                 return redirect(url_for('home')) 
             else:
                 return redirect(url_for('login')) 
@@ -63,12 +69,12 @@ def login():
 @app.route('/logout', methods=['GET','POST'])
 @cross_origin()
 def logout():
-    session.pop('email', None)
+    session.pop('user_name', None)
     return redirect(url_for('index'))
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
-    if 'email' not in session:
+    if 'user_name' not in session:
         return redirect(url_for('login'))
 
     return render_template("home.html")

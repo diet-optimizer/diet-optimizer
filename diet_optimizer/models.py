@@ -14,12 +14,14 @@ class UserDB(db.Model):
     uid = db.Column(db.Integer, primary_key = True)
     firstname = db.Column(db.String(100))
     lastname = db.Column(db.String(100))
+    nickname = db.Column(db.String(100), unique = True)
     email = db.Column(db.String(120), unique = True)
     pwdhash = db.Column(db.String(54))
 
-    def __init__(self, firstname, lastname, email, password):
+    def __init__(self, firstname, lastname, nickname, email, password):
         self.firstname = firstname.title()
         self.lastname = lastname.title()
+        self.nickname = nickname.title()
         self.email = email.lower()
         self.set_password(password)
 
