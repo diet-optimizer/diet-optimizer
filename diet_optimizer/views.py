@@ -172,7 +172,7 @@ def get_usr_input():
 
     res = req.get_recipes()
 
-    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['recipe_types'], user.daily_nutrients)
+    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['dict_price'], res['recipe_types'], user.daily_nutrients)
 
     lp_func = lp.func_lp()
 
