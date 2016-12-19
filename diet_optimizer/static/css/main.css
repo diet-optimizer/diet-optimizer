@@ -353,10 +353,11 @@ div#user_data{
 /*added for user nutrients in results page*/
 div#user_nutrients{
   float: right;
-  position: relative;
-  bottom: 320px;
-  right: 455px;
+  position: absolute;
+  bottom: 120px;
+  right: 160px;
 }
+
 div#user_data{
   position: relative;
 }
@@ -364,8 +365,8 @@ div#user_data{
 /*added for user nutrients in basic results page*/
 div#user_nutrients_br{
   float: right;
-  position: relative;
-  bottom: 350px;
+  position: absolute;
+  bottom: 175px;
   right: 160px;
 }
 
