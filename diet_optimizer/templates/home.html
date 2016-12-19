@@ -19,11 +19,11 @@
              <!-- <form action="/results" method="get"> -->
                <dl>
                  <dt>How old are you?
-                 <dt><input type=number name=age id="age" min=3 required="true">
+                 <dt><input type=number name=age id="age" min=3 value=27 required="true">
                  <dt> <br> How much (in kg) do you weight?
-                 <dt><input type=number name=weight id="weight" min=0 required="true">
+                 <dt><input type=number name=weight id="weight" min=0 value=55 required="true">
                  <dt> <br> How tall (in cm) are you?
-                 <dt><input type=number name=height id="height" min=0 required="true">
+                 <dt><input type=number name=height id="height" min=0 value=168 required="true">
                  <dt> <br> What is your gender?
                  <dt>
                 <form1 name="gender" id="gender">
@@ -41,7 +41,7 @@
                  <dt> <br> Which diet are you following?
                  <dt>
                        <form3 name="diet" id="diet">
-                         <input type="radio" name="diet" value=None checked>None</input>
+                         <input type="radio" name="diet" value='' checked>None</input>
                          <input type="radio" name="diet" value="pescetarian">Pescetarian</input>
                          <input type="radio" name="diet" value="lacto+vegetarian">Lacto Vegetarian</input>
                          <input type="radio" name="diet" value="ovo+vegetarian">Ovo Vegetarian</input>
@@ -74,7 +74,7 @@
                   };
                  </script>
                  <form4 name="cuisine" id="cuisine">
-                 <input type="checkbox" name="cuisine" id="checkAll" value=None checked onclick="disableCuisines()" >All</input>
+                 <input type="checkbox" name="cuisine" id="checkAll" value='' checked onclick="disableCuisines()" >All</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="african">African</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="chinese">Chinese</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="japanese">Japanese</input>
@@ -125,7 +125,7 @@
                   };
                   </script>
                   <form5 name="intolerances" id="intolerances">
-                  <input type="checkbox" name="intolerances" id="noIntol" value=None checked onclick="disableIntolerances()">No</input>
+                  <input type="checkbox" name="intolerances" id="noIntol" value='' checked onclick="disableIntolerances()">No</input>
                   <input type="checkbox" name="intolerances" class="groupIntol" value="dairy">Dairy</input>
                   <input type="checkbox" name="intolerances" class="groupIntol" value="egg">Egg</input>
                   <input type="checkbox" name="intolerances" class="groupIntol" value="gluten">Gluten</input>

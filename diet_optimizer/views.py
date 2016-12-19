@@ -330,7 +330,7 @@ def new_form():
     cal_up = user_daily_nutrients['cal_up']
 
     cuisine_dictionary = {
-    'none' : 'All',
+    '' : 'All',
     'african' : 'African',
     'chinese' : 'Chinese',
     'japanese' : 'Japanese',
@@ -358,7 +358,7 @@ def new_form():
     }
 
     diet_dictionary = {
-    'none' : 'None',
+    '' : 'None',
     'pescetarian' : 'Pescetarian',
     'lacto+vegetarian' : 'Lacto vegetarian',
     'ovo+vegetarian' : 'Ovo vegetarian',
@@ -369,7 +369,7 @@ def new_form():
     }
 
     intolerances_dictionary = {
-    'none' : 'None',
+    '' : 'None',
     'dairy' : 'Dairy',
     'egg' : 'Egg',
     'gluten' : 'Gluten',
