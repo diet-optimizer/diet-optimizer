@@ -201,7 +201,7 @@
       {% endfor %}
 
         <div id='nutrients_sum'>
-        <h3>Total nutrients taken & Price:</h3>
+        <h3>Total nutrients taken, Price & Time:</h3>
         Calories: {{response.total_nutrients_taken.calories}} kcal
         <br>
         Carb: {{response.total_nutrients_taken.carb}} gr
@@ -211,6 +211,8 @@
         Protein: {{response.total_nutrients_taken.protein}} gr
         <br>
         Price: $ {{response.total_nutrients_taken.price}}
+        <br>
+        Time: {{response.total_nutrients_taken.time}} minutes
         <br>
         <br>
       </div>

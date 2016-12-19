@@ -172,7 +172,7 @@ def get_usr_input():
 
     res = req.get_recipes()
 
-    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['dict_price'], res['recipe_types'], user.daily_nutrients)
+    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['dict_price'], res['dict_time'], res['recipe_types'], user.daily_nutrients)
 
     lp_func = lp.func_lp()
 
@@ -209,7 +209,7 @@ def get_usr_input_api():
 
     res = req.get_recipes()
 
-    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['dict_price'], res['recipe_types'], user.daily_nutrients)
+    lp = LinearProgrammingSolver(obj, obj_nut, res['dict_prot'], res['dict_fat'], res['dict_cal'], res['dict_carb'], res['dict_title'], res['dict_price'], res['dict_time'], res['recipe_types'], user.daily_nutrients)
 
     lp_func = lp.func_lp()
 
@@ -289,7 +289,7 @@ def recompute_usr_input():
 
     ress = req.get_recipes()
 
-    lp = LinearProgrammingSolver(obj, obj_nut, ress['dict_prot'], ress['dict_fat'], ress['dict_cal'], ress['dict_carb'], ress['dict_title'], ress['dict_price'], ress['recipe_types'], user.daily_nutrients)
+    lp = LinearProgrammingSolver(obj, obj_nut, ress['dict_prot'], ress['dict_fat'], ress['dict_cal'], ress['dict_carb'], ress['dict_title'], ress['dict_price'], ress['dict_time'], ress['recipe_types'], user.daily_nutrients)
 
     lp_func = lp.func_lp()
 
@@ -388,7 +388,8 @@ def new_form():
     'Protein',
     'Carbs',
     'Fat',
-    'Price'
+    'Price',
+    'Time'
     ]
 
     obj_list = [

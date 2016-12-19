@@ -262,6 +262,7 @@ class RecipeHandler(object):
         dict_carb = {}
         dict_fat = {}
         dict_price = {}
+        dict_time = {}
 
         for recipe_type_index in range(len(self.recipe_types)):
 
@@ -304,6 +305,7 @@ class RecipeHandler(object):
                     val_cal = []
                     val_fat = []
                     val_price = []
+                    val_time = []
 
                     for d in json_data:
                         if d["id"] not in unique_IDs:
@@ -326,10 +328,12 @@ class RecipeHandler(object):
                                     if key == "fat":
                                         v = int(re.findall(r'\d+', d[key])[0])
                                         val_fat.append(v)
-
                                     if key == "pricePerServing":
                                         v = round(float(d[key])/100,2)
                                         val_price.append(v)
+                                    if key == "readyInMinutes":
+                                        v = int(d[key])
+                                        val_time.append(v)
 
             dict_cal_temp = dict(zip(dict_keys, val_cal))
             dict_prot_temp = dict(zip(dict_keys, val_prot))
@@ -337,6 +341,7 @@ class RecipeHandler(object):
             dict_fat_temp = dict(zip(dict_keys, val_fat))
             dict_title_temp = dict(zip(dict_keys, val_title))
             dict_price_temp = dict(zip(dict_keys, val_price))
+            dict_time_temp = dict(zip(dict_keys, val_time))
 
             dict_cal[self.recipe_types[recipe_type_index].strip()] = dict_cal_temp
             dict_prot[self.recipe_types[recipe_type_index].strip()] = dict_prot_temp
@@ -344,6 +349,7 @@ class RecipeHandler(object):
             dict_fat[self.recipe_types[recipe_type_index].strip()] = dict_fat_temp
             dict_title[self.recipe_types[recipe_type_index].strip()] = dict_title_temp
             dict_price[self.recipe_types[recipe_type_index].strip()] = dict_price_temp
+            dict_time[self.recipe_types[recipe_type_index].strip()] = dict_time_temp
 
             dict_keys = []
             val_cal = []
@@ -352,13 +358,14 @@ class RecipeHandler(object):
             val_fat = []
             val_title = []
             val_price = []
+            val_time = []
 
-        return {"json" : response.body, "unique_IDs" : unique_IDs, "url" : req_URL, "dict_cal" : dict_cal, "dict_prot" : dict_prot, "dict_carb" : dict_carb, "dict_fat" : dict_fat, "dict_price" : dict_price, "dict_title" : dict_title, "recipe_types" : self.recipe_types}
+        return {"json" : response.body, "unique_IDs" : unique_IDs, "url" : req_URL, "dict_cal" : dict_cal, "dict_prot" : dict_prot, "dict_carb" : dict_carb, "dict_fat" : dict_fat, "dict_price" : dict_price, "dict_time" : dict_time, "dict_title" : dict_title, "recipe_types" : self.recipe_types}
 
 
 class LinearProgrammingSolver(object):
 
-    def __init__(self, obj, obj_nut, dict_prot, dict_fat, dict_cal, dict_carb, dict_title, dict_price, recipe_types, daily_nutrients):
+    def __init__(self, obj, obj_nut, dict_prot, dict_fat, dict_cal, dict_carb, dict_title, dict_price, dict_time, recipe_types, daily_nutrients):
         self.obj = obj
         self.obj_nut = obj_nut
         self.dict_prot = dict_prot
@@ -366,6 +373,7 @@ class LinearProgrammingSolver(object):
         self.dict_cal = dict_cal
         self.dict_carb = dict_carb
         self.dict_price = dict_price
+        self.dict_time = dict_time
         self.dict_title = dict_title
         self.recipe_types = recipe_types
         self.daily_nutrients = daily_nutrients
@@ -397,6 +405,7 @@ class LinearProgrammingSolver(object):
         fat_lp = 0
         carb_lp = 0
         price_lp = 0
+        time_lp = 0
 
             # create the objective
         if self.obj_nut == "Protein":
@@ -409,6 +418,8 @@ class LinearProgrammingSolver(object):
             dict_nut = self.dict_cal
         if self.obj_nut == "Price":
             dict_nut = self.dict_price
+        if self.obj_nut == "Time":
+            dict_nut = self.dict_time
 
 
         for recipe_type_name in self.recipe_types:
@@ -431,6 +442,7 @@ class LinearProgrammingSolver(object):
             fat_lp += sum(self.dict_fat[recipe_type_name][key]*variable[key] for key in self.dict_fat[recipe_type_name].keys())
             carb_lp += sum(self.dict_carb[recipe_type_name][key]*variable[key] for key in self.dict_carb[recipe_type_name].keys())
             price_lp += sum(self.dict_price[recipe_type_name][key]*variable[key] for key in self.dict_price[recipe_type_name].keys())
+            time_lp += sum(self.dict_time[recipe_type_name][key]*variable[key] for key in self.dict_time[recipe_type_name].keys())
 
             #constraints
             lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 5
@@ -464,6 +476,7 @@ class LinearProgrammingSolver(object):
         f = 0
         cl = 0
         pr = 0
+        t = 0
         suggested_recipes = []
 
         for recipe_type_name in self.recipe_types:
@@ -479,12 +492,14 @@ class LinearProgrammingSolver(object):
                     print 'Fat ' + str(float(self.dict_fat[recipe_type_name][recipe_ID]))
                     print 'Cal ' + str(float(self.dict_cal[recipe_type_name][recipe_ID]))
                     print 'Price ' + str(self.dict_price[recipe_type_name][recipe_ID])
+                    print 'Time ' + str(self.dict_time[recipe_type_name][recipe_ID])
                     print " "
                     p += self.dict_prot[recipe_type_name][recipe_ID]
                     c += self.dict_carb[recipe_type_name][recipe_ID]
                     f += self.dict_fat[recipe_type_name][recipe_ID]
                     cl += self.dict_cal[recipe_type_name][recipe_ID]
                     pr += self.dict_price[recipe_type_name][recipe_ID] 
+                    t += self.dict_time[recipe_type_name][recipe_ID] 
 
         print " "
         print " With eating a portion of suggested recipes you will take: "
@@ -507,8 +522,11 @@ class LinearProgrammingSolver(object):
         print " "
         print 'Total Price (cents): '
         print pr
+        print " "
+        print 'Total Time (in minutes): '
+        print t
 
-        return {'suggested_recipes' : suggested_recipes, 'total_nutrients_taken' : {'calories' : cl, 'protein' : p, 'carb' : c, 'fat' : f, 'price' : pr }}
+        return {'suggested_recipes' : suggested_recipes, 'total_nutrients_taken' : {'calories' : cl, 'protein' : p, 'carb' : c, 'fat' : f, 'price' : pr, 'time' : t }}
 
     def get_lp_output(self, suggested_recipes):
        diet_recipes = []
