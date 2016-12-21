@@ -4,8 +4,6 @@
 	<main class="container signup-section">
 		<a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
 
-		<body>
-
 		<form action="/results" method="get">
 
 		<div id="user_data">
@@ -78,7 +76,36 @@
 		    <br>
 		  </div>
 
-		  <input type=submit id="search" value="Show me recipes">
+			<div id="formsubmitbutton">
+		  <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
+		  	</div>
+		  	<div id="buttonreplacement" style="margin-left:30px; display:none;">
+			<img src="static/img/loader.gif" alt="loading...">
+			</div>
+			<!-- below js code is for loading gif on submit button -->
+			<script type="text/javascript">
+
+			function ButtonClicked()
+			{
+			   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+			   document.getElementById("buttonreplacement").style.display = ""; // to display
+			   return true;
+			}
+			var FirstLoading = true;
+			function RestoreSubmitButton()
+			{
+			   if( FirstLoading )
+			   {
+			      FirstLoading = false;
+			      return;
+			   }
+			   document.getElementById("formsubmitbutton").style.display = ""; // to display
+			   document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+			}
+			// To disable restoring submit button, disable or delete next line.
+			document.onfocus = RestoreSubmitButton;
+			</script>
+
 
 		</form>
 		</div>

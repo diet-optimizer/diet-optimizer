@@ -217,7 +217,35 @@
         <br>
       </div>
 
-      <button id='regeneraterecipes' onclick='location.reload()'>Regenerate Recipes</button>
+    <div id="formsubmitbutton"> 
+      <button id='regeneraterecipes' onclick='location.reload(), ButtonClicked()'>Regenerate Recipes</button>
+    </div>
+    <div id="buttonreplacement" style="margin-left:430px; margin-bottom:50px; display:none;">
+        <img src="static/img/loader.gif" alt="loading...">
+      </div>
+      <!-- below js code is for loading gif on submit button -->
+      <script type="text/javascript">
+        function ButtonClicked()
+        {
+           document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+           document.getElementById("buttonreplacement").style.display = ""; // to display
+           return true;
+        }
+        var FirstLoading = true;
+        function RestoreSubmitButton()
+        {
+           if( FirstLoading )
+           {
+              FirstLoading = false;
+              return;
+           }
+           document.getElementById("formsubmitbutton").style.display = ""; // to display
+           document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+        }
+        // To disable restoring submit button, disable or delete next line.
+        document.onfocus = RestoreSubmitButton;
+      </script>
+
 
     </div>
 </div>

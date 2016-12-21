@@ -110,8 +110,37 @@
                  Lower Bound: <input type=number value="{{response.fat_low}}" name="fatLow" id="fatLow">
                  Upper Bound: <input type=number value="{{response.fat_up}}" name="fatUp" id="fatUp">
 
+                <div id="formsubmitbutton">
+                 <dt><br><input type=submit id="search" value=Submit onClick="ButtonClicked()">
+                </div>
 
-                 <dt><br><input type=submit id="search" value=Submit>
+                <div id="buttonreplacement" style="margin-left:30px; margin-top:30px; display:none;">
+                  <img src="static/img/loader.gif" alt="loading...">
+                </div>
+                  <!-- below js code is for loading gif on submit button -->
+                  <script type="text/javascript">
+
+                  function ButtonClicked()
+                  {
+                     document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+                     document.getElementById("buttonreplacement").style.display = ""; // to display
+                     return true;
+                  }
+                  var FirstLoading = true;
+                  function RestoreSubmitButton()
+                  {
+                     if( FirstLoading )
+                     {
+                        FirstLoading = false;
+                        return;
+                     }
+                     document.getElementById("formsubmitbutton").style.display = ""; // to display
+                     document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+                  }
+                  // To disable restoring submit button, disable or delete next line.
+                  document.onfocus = RestoreSubmitButton;
+                  </script>
+
                </dl>
                <dt>
              </form>
