@@ -94,21 +94,97 @@
                    {% endfor %}
                  </form8>
 
-                 <dt><br>Calories:</dt>
-                 Lower Bound: <input type=number value="{{response.cal_low}}" name="calLow" id="calLow">
-                 Upper Bound: <input type=number value="{{response.cal_up}}" name="calUp" id="calUp">
+                 <dt><br>Calories (kcal):</dt>
+                 <!-- Lower Bound: <input type=number value="{{response.cal_low}}" name="calLow" id="calLow">
+                 Upper Bound: <input type=number value="{{response.cal_up}}" min="{{response.cal_low}}" name="calUp" id="calUp"> -->
 
-                 <dt>Protein:</dt>
-                 Lower Bound: <input type=number value="{{response.prot_low}}" name="protLow" id="protLow">
-                 Upper Bound: <input type=number value="{{response.prot_up}}" name="protUp" id="protUp">
+                 <script type="text/javascript">
+                 function updateTextInput1a(val) {
+                document.getElementById('calLow').value=val; }
+                function updateTextInput1b(val) {
+                document.getElementById('calUp').value=val; }
+                 </script>
 
-                 <dt>Carb:</dt>
-                 Lower Bound: <input type=number value="{{response.carb_low}}" name="carbLow" id="carbLow">
-                 Upper Bound: <input type=number value="{{response.carb_up}}" name="carbUp" id="carbUp">
+                 <div data-role="rangeslider">
+                  <label for="range-1a">Lower Bound:</label>
+                  <input name="range-1a" id="range-1a" min="1000" max="4000" onchange="updateTextInput1a(this.value);" type="range" value="{{response.cal_low}}"/>
+                  <input type="text" name="calLow" id="calLow" value="{{response.cal_low}}">
+                  <br>
+                  <label for="range-1b">Upper Bound:</label>
+                  <input name="range-1b" id="range-1b" min="1000" max="4000" value="{{response.cal_up}}" onchange="updateTextInput1b(this.value);" type="range"/>
+                  <input type="text" name="calUp" id="calUp" value="{{response.cal_up}}">
+                </div>
 
-                 <dt>Fat:</dt>
-                 Lower Bound: <input type=number value="{{response.fat_low}}" name="fatLow" id="fatLow">
-                 Upper Bound: <input type=number value="{{response.fat_up}}" name="fatUp" id="fatUp">
+                <br>
+
+                 <dt>Protein (g):</dt>
+                 <!-- Lower Bound: <input type=number value="{{response.prot_low}}" name="protLow" id="protLow">
+                 Upper Bound: <input type=number value="{{response.prot_up}}" name="protUp" id="protUp"> -->
+
+                 <script type="text/javascript">
+                 function updateTextInput2a(val) {
+                document.getElementById('protLow').value=val; }
+                function updateTextInput2b(val) {
+                document.getElementById('protUp').value=val; }
+                 </script>
+
+                 <div data-role="rangeslider">
+                  <label for="range-2a">Lower Bound:</label>
+                  <input name="range-2a" id="range-2a" min="0" max="800" onchange="updateTextInput2a(this.value);" type="range" value="{{response.prot_low}}"/>
+                  <input type="text" name="protLow" id="protLow" value="{{response.prot_low}}">
+                  <br>
+                  <label for="range-2b">Upper Bound:</label>
+                  <input name="range-2b" id="range-2b" min="0" max="800" value="{{response.prot_up}}" onchange="updateTextInput2b(this.value);" type="range"/>
+                  <input type="text" name="protUp" id="protUp" value="{{response.prot_up}}">
+                </div>
+
+                 <br>
+
+                 <dt>Carb (g):</dt>
+                <!--  Lower Bound: <input type=number value="{{response.carb_low}}" name="carbLow" id="carbLow">
+                 Upper Bound: <input type=number value="{{response.carb_up}}" name="carbUp" id="carbUp"> -->
+
+                 <script type="text/javascript">
+                 function updateTextInput3a(val) {
+                document.getElementById('carbLow').value=val; }
+                function updateTextInput3b(val) {
+                document.getElementById('carbUp').value=val; }
+                 </script>
+
+                 <div data-role="rangeslider">
+                  <label for="range-3a">Lower Bound:</label>
+                  <input name="range-3a" id="range-3a" min="0" max="800" onchange="updateTextInput3a(this.value);" type="range" value="{{response.carb_low}}"/>
+                  <input type="text" name="carbLow" id="carbLow" value="{{response.carb_low}}">
+                  <br>
+                  <label for="range-3b">Upper Bound:</label>
+                  <input name="range-3b" id="range-3b" min="0" max="800" value="{{response.carb_up}}" onchange="updateTextInput3b(this.value);" type="range"/>
+                  <input type="text" name="carbUp" id="carbUp" value="{{response.carb_up}}">
+                </div>
+
+                 <br>
+
+                 <dt>Fat (g):</dt>
+                 <!-- Lower Bound: <input type=number value="{{response.fat_low}}" name="fatLow" id="fatLow">
+                 Upper Bound: <input type=number value="{{response.fat_up}}" name="fatUp" id="fatUp"> -->
+
+                 <script type="text/javascript">
+                 function updateTextInput4a(val) {
+                document.getElementById('fatLow').value=val; }
+                function updateTextInput4b(val) {
+                document.getElementById('fatUp').value=val; }
+                 </script>
+
+                 <div data-role="rangeslider">
+                  <label for="range-4a">Lower Bound:</label>
+                  <input name="range-4a" id="range-3a" min="0" max="500" onchange="updateTextInput4a(this.value);" type="range" value="{{response.fat_low}}"/>
+                  <input type="text" name="fatLow" id="fatLow" value="{{response.fat_low}}">
+                  <br>
+                  <label for="range-4b">Upper Bound:</label>
+                  <input name="range-4b" id="range-4b" min="0" max="500" value="{{response.fat_up}}" onchange="updateTextInput4b(this.value);" type="range"/>
+                  <input type="text" name="fatUp" id="fatUp" value="{{response.fat_up}}">
+                </div>
+
+                <br>
 
                 <div id="formsubmitbutton">
                  <dt><br><input type=submit id="search" value=Submit onClick="ButtonClicked()">
