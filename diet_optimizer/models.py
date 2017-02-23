@@ -406,6 +406,7 @@ class LinearProgrammingSolver(object):
         carb_lp = 0
         price_lp = 0
         time_lp = 0
+        title_lp = []
 
             # create the objective
         if self.obj_nut == "Protein":
@@ -443,12 +444,14 @@ class LinearProgrammingSolver(object):
             carb_lp += sum(self.dict_carb[recipe_type_name][key]*variable[key] for key in self.dict_carb[recipe_type_name].keys())
             price_lp += sum(self.dict_price[recipe_type_name][key]*variable[key] for key in self.dict_price[recipe_type_name].keys())
             time_lp += sum(self.dict_time[recipe_type_name][key]*variable[key] for key in self.dict_time[recipe_type_name].keys())
-
+            title_lp += (self.dict_title[recipe_type_name][key] for key in self.dict_title[recipe_type_name].keys())
+            
             #constraints
-            lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 5
+            lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 1
             lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) >= 1
 
             print " "
+        print title_lp
 
         #constraints
         lp_model += cal_lp <= self.daily_nutrients['cal_up']
