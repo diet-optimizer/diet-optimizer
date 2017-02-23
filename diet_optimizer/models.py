@@ -469,67 +469,73 @@ class LinearProgrammingSolver(object):
         print " "
         print("Status:",  pulp.LpStatus[lp_model.status])
 
-        #print the result
-        print " "
-        print 'In order to satisfy your daily nutrition needs, you can eat a portion of: '
-        print " "
+        if pulp.LpStatus[lp_model.status] == "Optimal":
 
-        c = 0
-        p = 0
-        f = 0
-        cl = 0
-        pr = 0
-        t = 0
-        suggested_recipes = []
+            #print the result
+            print " "
+            print 'In order to satisfy your daily nutrition needs, you can eat a portion of: '
+            print " "
 
-        for recipe_type_name in self.recipe_types:
-            recipe_type_name = recipe_type_name.strip()
-            print recipe_type_name + ':'
-            for recipe_ID in self.dict_title[recipe_type_name].keys():
-                if vars()['x_' + recipe_type_name][recipe_ID].value() == 1.0:
-                    suggested_recipes.append(recipe_ID)
-                    print 'recipeID ' + str(recipe_ID)
-                    print 'Title ' + str(self.dict_title[recipe_type_name][recipe_ID])
-                    print 'Prot ' + str(float(self.dict_prot[recipe_type_name][recipe_ID]))
-                    print 'Carb ' + str(float(self.dict_carb[recipe_type_name][recipe_ID]))
-                    print 'Fat ' + str(float(self.dict_fat[recipe_type_name][recipe_ID]))
-                    print 'Cal ' + str(float(self.dict_cal[recipe_type_name][recipe_ID]))
-                    print 'Price ' + str(self.dict_price[recipe_type_name][recipe_ID])
-                    print 'Time ' + str(self.dict_time[recipe_type_name][recipe_ID])
-                    print " "
-                    p += self.dict_prot[recipe_type_name][recipe_ID]
-                    c += self.dict_carb[recipe_type_name][recipe_ID]
-                    f += self.dict_fat[recipe_type_name][recipe_ID]
-                    cl += self.dict_cal[recipe_type_name][recipe_ID]
-                    pr += self.dict_price[recipe_type_name][recipe_ID] 
-                    t += self.dict_time[recipe_type_name][recipe_ID] 
+            c = 0
+            p = 0
+            f = 0
+            cl = 0
+            pr = 0
+            t = 0
+            suggested_recipes = []
 
-        print " "
-        print " With eating a portion of suggested recipes you will take: "
-        print " "
-        print 'Total Protein (grams): '
-        print p
-        print '(Protein intake range is ' + str(self.daily_nutrients['prot_low']) + ' grams - ' + str(self.daily_nutrients['prot_up']) + ' grams)'
-        print " "
-        print 'Total Fat (grams): '
-        print f
-        print '(Fat intake range is ' + str(self.daily_nutrients['fat_low']) + ' grams - ' + str(self.daily_nutrients['fat_up']) + ' grams)'
-        print " "
-        print 'Total Carb (grams): '
-        print c
-        print '(Carbs intake range is ' + str(self.daily_nutrients['carb_low']) + ' grams - ' + str(self.daily_nutrients['carb_up']) + ' grams)'
-        print " "
-        print 'Total Calories (kcal): '
-        print cl
-        print '(Calorie intake range is ' + str(self.daily_nutrients['cal_low']) + ' kcal - ' + str(self.daily_nutrients['cal_up']) + ' kcal)'
-        print " "
-        print 'Total Price (cents): '
-        print pr
-        print " "
-        print 'Total Time (in minutes): '
-        print t
+            for recipe_type_name in self.recipe_types:
+                recipe_type_name = recipe_type_name.strip()
+                print recipe_type_name + ':'
+                for recipe_ID in self.dict_title[recipe_type_name].keys():
+                    if vars()['x_' + recipe_type_name][recipe_ID].value() == 1.0:
+                        suggested_recipes.append(recipe_ID)
+                        print 'recipeID ' + str(recipe_ID)
+                        print 'Title ' + str(self.dict_title[recipe_type_name][recipe_ID])
+                        print 'Prot ' + str(float(self.dict_prot[recipe_type_name][recipe_ID]))
+                        print 'Carb ' + str(float(self.dict_carb[recipe_type_name][recipe_ID]))
+                        print 'Fat ' + str(float(self.dict_fat[recipe_type_name][recipe_ID]))
+                        print 'Cal ' + str(float(self.dict_cal[recipe_type_name][recipe_ID]))
+                        print 'Price ' + str(self.dict_price[recipe_type_name][recipe_ID])
+                        print 'Time ' + str(self.dict_time[recipe_type_name][recipe_ID])
+                        print " "
+                        p += self.dict_prot[recipe_type_name][recipe_ID]
+                        c += self.dict_carb[recipe_type_name][recipe_ID]
+                        f += self.dict_fat[recipe_type_name][recipe_ID]
+                        cl += self.dict_cal[recipe_type_name][recipe_ID]
+                        pr += self.dict_price[recipe_type_name][recipe_ID] 
+                        t += self.dict_time[recipe_type_name][recipe_ID] 
 
-        return {'suggested_recipes' : suggested_recipes, 'total_nutrients_taken' : {'calories' : cl, 'protein' : p, 'carb' : c, 'fat' : f, 'price' : pr, 'time' : t }}
+            print " "
+            print " With eating a portion of suggested recipes you will take: "
+            print " "
+            print 'Total Protein (grams): '
+            print p
+            print '(Protein intake range is ' + str(self.daily_nutrients['prot_low']) + ' grams - ' + str(self.daily_nutrients['prot_up']) + ' grams)'
+            print " "
+            print 'Total Fat (grams): '
+            print f
+            print '(Fat intake range is ' + str(self.daily_nutrients['fat_low']) + ' grams - ' + str(self.daily_nutrients['fat_up']) + ' grams)'
+            print " "
+            print 'Total Carb (grams): '
+            print c
+            print '(Carbs intake range is ' + str(self.daily_nutrients['carb_low']) + ' grams - ' + str(self.daily_nutrients['carb_up']) + ' grams)'
+            print " "
+            print 'Total Calories (kcal): '
+            print cl
+            print '(Calorie intake range is ' + str(self.daily_nutrients['cal_low']) + ' kcal - ' + str(self.daily_nutrients['cal_up']) + ' kcal)'
+            print " "
+            print 'Total Price (cents): '
+            print pr
+            print " "
+            print 'Total Time (in minutes): '
+            print t
+
+            return {'suggested_recipes' : suggested_recipes, 'total_nutrients_taken' : {'calories' : cl, 'protein' : p, 'carb' : c, 'fat' : f, 'price' : pr, 'time' : t }}
+        else:
+            print "****Solution is NOT Optimal****"
+            return {'suggested_recipes' : [], 'total_nutrients_taken' : {'calories' : 0, 'protein' : 0, 'carb' : 0, 'fat' : 0, 'price' : 0, 'time' : 0 }}
+
 
     def get_lp_output(self, suggested_recipes):
        diet_recipes = []
