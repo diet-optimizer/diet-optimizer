@@ -31,6 +31,28 @@ class UserDB(db.Model):
     def check_password(self, password):
         return check_password_hash(self.pwdhash, password)
 
+#ryan added code
+class USDAfoods(db.Model):
+    __tablename__ = 'usda'
+    f_id = db.Column(db.Integer, primary_key = True)
+    f_desc = db.Column(db.String(100))
+    calories = db.Column(db.Integer)
+    protein = db.Column(db.Integer)
+    fat = db.Column(db.Integer)
+    carbs = db.Column(db.Integer)
+    fg_id = db.Column(db.Integer)
+    fg_desc = db.Column(db.String(100))
+
+    def __init__(self,food_id,food_description,calories,protein,fat,carbs,food_group_id,group_description):
+        self.f_desc = food_description
+        self.f_id = food_id
+        self.fg_desc = group_description
+        self.fg_id = food_group_id
+        self.calories = calories
+        self.protein = protein
+        self.fat = fat
+        self.carbs = carbs
+####
 
 class User(object):
 
