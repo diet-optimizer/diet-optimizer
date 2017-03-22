@@ -5,6 +5,7 @@ from forms import SignupForm, LoginForm
 @app.route('/', methods=['GET'])
 @cross_origin()
 def index():
+    print random.choice(USDAfoods.query.all())
     return render_template('index.html')
 
 @app.route('/about', methods=['GET'])
@@ -129,6 +130,15 @@ def get_usr_input_basic():
 @app.route('/results', methods=['GET'])
 @cross_origin()
 def get_usr_input():
+    raw1 = random.choice(USDAfoods.query.all())
+    raw2 = random.choice(USDAfoods.query.all())
+
+    total_raw_calories = raw1.Cal + raw2.Cal
+    total_raw_carbs = raw1.Carb + raw2.Carb
+    total_raw_protein = raw1.Prot + raw2.Prot
+    total_raw_fat = raw1.Fat + raw2.Fat
+
+    raw_foods = [raw1,raw2]
 
     age = int(request.args.get('age'))
     height = float(request.args.get('height'))
@@ -159,14 +169,14 @@ def get_usr_input():
 
     user_daily_nutrients = user.daily_nutrients
 
-    session['carb_low'] = user_daily_nutrients['carb_low']
-    session['carb_up'] = user_daily_nutrients['carb_up']
-    session['prot_low'] = user_daily_nutrients['prot_low']
-    session['prot_up'] = user_daily_nutrients['prot_up']
-    session['fat_low'] = user_daily_nutrients['fat_low']
-    session['fat_up'] = user_daily_nutrients['fat_up']
-    session['cal_low'] = user_daily_nutrients['cal_low']
-    session['cal_up'] = user_daily_nutrients['cal_up']
+    session['carb_low'] = user_daily_nutrients['carb_low'] - total_raw_carbs
+    session['carb_up'] = user_daily_nutrients['carb_up'] - total_raw_carbs
+    session['prot_low'] = user_daily_nutrients['prot_low'] - total_raw_protein
+    session['prot_up'] = user_daily_nutrients['prot_up'] - total_raw_protein
+    session['fat_low'] = user_daily_nutrients['fat_low'] - total_raw_fat
+    session['fat_up'] = user_daily_nutrients['fat_up'] - total_raw_fat
+    session['cal_low'] = user_daily_nutrients['cal_low'] - total_raw_calories
+    session['cal_up'] = user_daily_nutrients['cal_up'] - total_raw_calories
 
     req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
 
@@ -180,9 +190,13 @@ def get_usr_input():
     total_nutrients_taken = lp_func['total_nutrients_taken']
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
+    print (total_raw_calories,total_raw_carbs,total_raw_protein,total_raw_fat)
+    print raw1.Desc
+    print raw2.Desc
+
     return render_template('results.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
-    'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
+    'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
 
 @app.route('/apiresults', methods=['GET'])
 @cross_origin()
