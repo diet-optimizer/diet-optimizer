@@ -34,24 +34,24 @@ class UserDB(db.Model):
 #ryan added code
 class USDAfoods(db.Model):
     __tablename__ = 'usda'
-    f_id = db.Column(db.Integer, primary_key = True)
-    f_desc = db.Column(db.String(100))
-    calories = db.Column(db.Integer)
-    protein = db.Column(db.Integer)
-    fat = db.Column(db.Integer)
-    carbs = db.Column(db.Integer)
-    fg_id = db.Column(db.Integer)
-    fg_desc = db.Column(db.String(100))
+    NDB_No = db.Column(db.Integer, primary_key = True)
+    Desc = db.Column(db.String(100))
+    Cal = db.Column(db.Integer)
+    Prot = db.Column(db.Integer)
+    Fat = db.Column(db.Integer)
+    Carb = db.Column(db.Integer)
+    Group_Code = db.Column(db.Integer)
+    Group_Name = db.Column(db.String(100))
 
-    def __init__(self,food_id,food_description,calories,protein,fat,carbs,food_group_id,group_description):
-        self.f_desc = food_description
-        self.f_id = food_id
-        self.fg_desc = group_description
-        self.fg_id = food_group_id
-        self.calories = calories
-        self.protein = protein
-        self.fat = fat
-        self.carbs = carbs
+    def __init__(self,food_id,food_description,Cal,Prot,Fat,Carb,food_group_id,group_description):
+        self.Desc = food_description
+        self.NDB_No = food_id
+        self.Group_Name = group_description
+        self.Group_Code = food_group_id
+        self.Cal = Cal
+        self.Prot = Prot
+        self.Fat = Fat
+        self.Carb = Carb
 ####
 
 class User(object):
