@@ -130,15 +130,47 @@ def get_usr_input_basic():
 @app.route('/results', methods=['GET'])
 @cross_origin()
 def get_usr_input():
-    raw1 = random.choice(USDAfoods.query.all())
-    raw2 = random.choice(USDAfoods.query.all())
+    data = []
+    for i in range(2):
+        data.append(random.choice(USDAfoods.query.all()))
+    print "********"
+    print type(data)
+    print "********"
+    raw_foods_temp = {'raw': [d.__dict__ for d in data]}
+    # print [type(d) for d in data]
+    
+    raw_foods = []
+    for d in data:
+        dct = {
+            "NDB_No": d.NDB_No, 
+            "Desc": d.Desc, 
+            "Cal": d.Cal, 
+            "Prot": d.Prot, 
+            "Fat": d.Fat, 
+            "Carb": d.Carb, 
+            "Group_Code": d.Group_Code, 
+            "Group_Name": d.Group_Name
+        }
+        raw_foods.append(dct)
 
-    total_raw_calories = raw1.Cal + raw2.Cal
-    total_raw_carbs = raw1.Carb + raw2.Carb
-    total_raw_protein = raw1.Prot + raw2.Prot
-    total_raw_fat = raw1.Fat + raw2.Fat
+    total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
+    total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
+    total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
+    total_raw_fat = sum(item['Fat'] for item in raw_foods_temp['raw'])
+    # print total_raw_fat
+    # print total_raw_protein
+    # print total_raw_carbs
+    print raw_foods
 
-    raw_foods = [raw1,raw2]
+    # raw1 = random.choice(USDAfoods.query.all())
+    # raw2 = random.choice(USDAfoods.query.all())
+
+    # total_raw_calories = raw1.Cal + raw2.Cal
+    # total_raw_carbs = raw1.Carb + raw2.Carb
+    # total_raw_protein = raw1.Prot + raw2.Prot
+    # total_raw_fat = raw1.Fat + raw2.Fat
+
+    # raw_foods = [raw1,raw2]
 
     age = int(request.args.get('age'))
     height = float(request.args.get('height'))
@@ -191,8 +223,8 @@ def get_usr_input():
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
     print (total_raw_calories,total_raw_carbs,total_raw_protein,total_raw_fat)
-    print raw1.Desc
-    print raw2.Desc
+    # print raw1.Desc
+    # print raw2.Desc
 
     return render_template('results.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
@@ -201,6 +233,37 @@ def get_usr_input():
 @app.route('/apiresults', methods=['GET'])
 @cross_origin()
 def get_usr_input_api():
+
+    data = []
+    for i in range(2):
+        data.append(random.choice(USDAfoods.query.all()))
+    print "********"
+    print type(data)
+    print "********"
+    raw_foods_temp = {'raw': [d.__dict__ for d in data]}
+    # print [type(d) for d in data]
+    
+    raw_foods = []
+    for d in data:
+        dct = {
+            "NDB_No": d.NDB_No, 
+            "Desc": d.Desc, 
+            "Cal": d.Cal, 
+            "Prot": d.Prot, 
+            "Fat": d.Fat, 
+            "Carb": d.Carb, 
+            "Group_Code": d.Group_Code, 
+            "Group_Name": d.Group_Name
+        }
+        raw_foods.append(dct)
+
+    total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
+    total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
+    total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
+    total_raw_fat = sum(item['Fat'] for item in raw_foods_temp['raw'])
+    print total_raw_fat
+    print total_raw_protein
+    print total_raw_carbs
 
     age = int(request.args.get('age'))
     height = float(request.args.get('height'))
@@ -219,6 +282,9 @@ def get_usr_input_api():
 
     user_daily_nutrients = user.daily_nutrients
 
+    print "USER DAILY NUT ***********"
+    print user_daily_nutrients
+
     req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
 
     res = req.get_recipes()
@@ -231,9 +297,11 @@ def get_usr_input_api():
     total_nutrients_taken = lp_func['total_nutrients_taken']
     diet_recipes = lp.get_lp_output(suggested_recipes)
 
+    print (total_raw_calories,total_raw_carbs,total_raw_protein,total_raw_fat)
+
     return jsonify({'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
-    'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
+    'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
 
 @app.route('/recresults', methods=['GET'])
 @cross_origin()

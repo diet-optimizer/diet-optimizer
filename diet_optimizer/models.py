@@ -469,8 +469,8 @@ class LinearProgrammingSolver(object):
             # title_lp += (self.dict_title[recipe_type_name][key] for key in self.dict_title[recipe_type_name].keys())
             
             #constraints
-            lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 1
-            lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) >= 1
+            lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 3
+            # lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) >= 1
 
             print " "
         # print title_lp

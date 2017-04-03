@@ -120,6 +120,35 @@
 </div>
 
 <div id='bs-ex' class="bs-example">
+  <h3>Food Items:</h3>
+  <div class="panel-group" id="accordion">
+  {% for key in response.raw_foods %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{key.id}}">{{key.Desc}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{key.id}}" class="panel-collapse">
+                <div class="panel-body">
+                
+                <h4>Nutrients:</h4>  
+                  <p>
+                    Calories: {{ key.Cal }} kcal
+                      <br>
+                    Carbs: {{ key.Carb }} gr
+                      <br>
+                    Fat: {{ key.Fat }} gr
+                      <br>
+                    Protein: {{ key.Prot }} gr
+                      <br>
+                  </p>
+                </div>
+              </div>
+          </div>
+  {% endfor %}
+  </div>
+
   <h3>Recipes:</h3>
     <div class="panel-group" id="accordion">
       <!-- <p><strong>Note:</strong> Click on the linked heading text to expand or collapse accordion panels.</p> -->
@@ -201,6 +230,7 @@
             </div>
         </div>
       {% endfor %}
+  </div>
 
         <div id='nutrients_sum'>
         <h3>Total nutrients taken, Price & Time:</h3>
@@ -217,7 +247,7 @@
         Time: {{response.total_nutrients_taken.time}} minutes
         <br>
         <br>
-      </div>
+        </div>
 
       <div id="formsubmitbutton">
         <button id='regeneraterecipes' onclick='location.reload(), ButtonClicked()'>Regenerate Recipes</button>
@@ -248,9 +278,7 @@
         document.onfocus = RestoreSubmitButton;
       </script>
 
-    </div>
 </div>
-
 </body>
 <!-- </html> -->
 </main>
