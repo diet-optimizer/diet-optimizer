@@ -306,6 +306,37 @@ def get_usr_input_api():
 @app.route('/recresults', methods=['GET'])
 @cross_origin()
 def recompute_usr_input():
+    data = []
+    for i in range(2):
+        data.append(random.choice(USDAfoods.query.all()))
+    print "********"
+    print type(data)
+    print "********"
+    raw_foods_temp = {'raw': [d.__dict__ for d in data]}
+    # print [type(d) for d in data]
+    
+    raw_foods = []
+    for d in data:
+        dct = {
+            "NDB_No": d.NDB_No, 
+            "Desc": d.Desc, 
+            "Cal": d.Cal, 
+            "Prot": d.Prot, 
+            "Fat": d.Fat, 
+            "Carb": d.Carb, 
+            "Group_Code": d.Group_Code, 
+            "Group_Name": d.Group_Name
+        }
+        raw_foods.append(dct)
+
+    total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
+    total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
+    total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
+    total_raw_fat = sum(item['Fat'] for item in raw_foods_temp['raw'])
+    # print total_raw_fat
+    # print total_raw_protein
+    # print total_raw_carbs
+    print raw_foods
 
     age = session.get('age')
     height = session.get('height')
@@ -381,7 +412,7 @@ def recompute_usr_input():
 
     return render_template('recresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
-    'user_daily_nutrients' : user.daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken})
+    'user_daily_nutrients' : user.daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
 
 @app.route('/newform', methods=['GET'])
 @cross_origin()
