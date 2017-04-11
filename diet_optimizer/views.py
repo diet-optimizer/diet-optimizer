@@ -132,7 +132,7 @@ def get_usr_input_basic():
 def get_usr_input():
     data = []
     for i in range(2):
-        data.append(random.choice(USDAfoods.query.all()))
+        data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
     print "********"
@@ -199,16 +199,26 @@ def get_usr_input():
     session['obj'] = obj
     session['obj_nut'] = obj_nut
 
-    user_daily_nutrients = user.daily_nutrients
+    user_daily_nutrients = user.daily_nutrients #without the subtraction of raw foods info
+    print "user daily nutrients"
+    print user_daily_nutrients
 
-    session['carb_low'] = user_daily_nutrients['carb_low'] - total_raw_carbs
-    session['carb_up'] = user_daily_nutrients['carb_up'] - total_raw_carbs
-    session['prot_low'] = user_daily_nutrients['prot_low'] - total_raw_protein
-    session['prot_up'] = user_daily_nutrients['prot_up'] - total_raw_protein
-    session['fat_low'] = user_daily_nutrients['fat_low'] - total_raw_fat
-    session['fat_up'] = user_daily_nutrients['fat_up'] - total_raw_fat
-    session['cal_low'] = user_daily_nutrients['cal_low'] - total_raw_calories
-    session['cal_up'] = user_daily_nutrients['cal_up'] - total_raw_calories
+    user_daily_nutrients['cal_up'] = user_daily_nutrients['cal_up']-total_raw_calories
+    user_daily_nutrients['carb_up'] = user_daily_nutrients['carb_up']-total_raw_carbs
+    user_daily_nutrients['fat_up'] = user_daily_nutrients['fat_up']-total_raw_fat
+    user_daily_nutrients['prot_up'] = user_daily_nutrients['prot_up']-total_raw_protein
+
+    print "user daily nutrients after raw foods"
+    print user_daily_nutrients
+
+    # session['carb_low'] = user_daily_nutrients['carb_low'] - total_raw_carbs
+    # session['carb_up'] = user_daily_nutrients['carb_up'] - total_raw_carbs
+    # session['prot_low'] = user_daily_nutrients['prot_low'] - total_raw_protein
+    # session['prot_up'] = user_daily_nutrients['prot_up'] - total_raw_protein
+    # session['fat_low'] = user_daily_nutrients['fat_low'] - total_raw_fat
+    # session['fat_up'] = user_daily_nutrients['fat_up'] - total_raw_fat
+    # session['cal_low'] = user_daily_nutrients['cal_low'] - total_raw_calories
+    # session['cal_up'] = user_daily_nutrients['cal_up'] - total_raw_calories
 
     req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
 
@@ -236,7 +246,7 @@ def get_usr_input_api():
 
     data = []
     for i in range(2):
-        data.append(random.choice(USDAfoods.query.all()))
+        data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
     print "********"
@@ -308,7 +318,7 @@ def get_usr_input_api():
 def recompute_usr_input():
     data = []
     for i in range(2):
-        data.append(random.choice(USDAfoods.query.all()))
+        data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
     print "********"
