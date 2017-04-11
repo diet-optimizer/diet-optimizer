@@ -59,8 +59,8 @@ class User(object):
     def __init__(self, age, weight, height, gender, exercise_level):
         self.age = age
         self.gender = gender
-        self.weight = weight
-        self.height = height
+        self.weight = weight/2.20462 ##to convert to kg
+        self.height = height/0.393701 ##to convert to cm
         self.exercise_level = exercise_level
         self.daily_nutrients = self.get_daily_nutrients()
 
