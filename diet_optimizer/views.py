@@ -132,6 +132,7 @@ def get_usr_input_basic():
 def get_usr_input():
     data = []
     for i in range(2):
+        # data.append(random.choice(USDAfoods.query.all()))
         data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
@@ -246,6 +247,7 @@ def get_usr_input_api():
 
     data = []
     for i in range(2):
+        # data.append(random.choice(USDAfoods.query.all()))
         data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
@@ -318,6 +320,7 @@ def get_usr_input_api():
 def recompute_usr_input():
     data = []
     for i in range(2):
+        # data.append(random.choice(USDAfoods.query.all()))
         data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
     print "********"
     print type(data)
