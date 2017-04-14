@@ -315,117 +315,117 @@ def get_usr_input_api():
     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
     'user_daily_nutrients' : user_daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
 
-@app.route('/recresults', methods=['GET'])
-@cross_origin()
-def recompute_usr_input():
-    data = []
-    for i in range(2):
-        # data.append(random.choice(USDAfoods.query.all()))
-        data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
-    print "********"
-    print type(data)
-    print "********"
-    raw_foods_temp = {'raw': [d.__dict__ for d in data]}
-    # print [type(d) for d in data]
+# @app.route('/recresults', methods=['GET'])
+# @cross_origin()
+# def recompute_usr_input():
+#     data = []
+#     for i in range(2):
+#         # data.append(random.choice(USDAfoods.query.all()))
+#         data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.like('Vegetables and Vegetable Products')).all()))
+#     print "********"
+#     print type(data)
+#     print "********"
+#     raw_foods_temp = {'raw': [d.__dict__ for d in data]}
+#     # print [type(d) for d in data]
     
-    raw_foods = []
-    for d in data:
-        dct = {
-            "NDB_No": d.NDB_No, 
-            "Desc": d.Desc, 
-            "Cal": d.Cal, 
-            "Prot": d.Prot, 
-            "Fat": d.Fat, 
-            "Carb": d.Carb, 
-            "Group_Code": d.Group_Code, 
-            "Group_Name": d.Group_Name
-        }
-        raw_foods.append(dct)
+#     raw_foods = []
+#     for d in data:
+#         dct = {
+#             "NDB_No": d.NDB_No, 
+#             "Desc": d.Desc, 
+#             "Cal": d.Cal, 
+#             "Prot": d.Prot, 
+#             "Fat": d.Fat, 
+#             "Carb": d.Carb, 
+#             "Group_Code": d.Group_Code, 
+#             "Group_Name": d.Group_Name
+#         }
+#         raw_foods.append(dct)
 
-    total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
-    total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
-    total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
-    total_raw_fat = sum(item['Fat'] for item in raw_foods_temp['raw'])
-    # print total_raw_fat
-    # print total_raw_protein
-    # print total_raw_carbs
-    print raw_foods
+#     total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
+#     total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
+#     total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
+#     total_raw_fat = sum(item['Fat'] for item in raw_foods_temp['raw'])
+#     # print total_raw_fat
+#     # print total_raw_protein
+#     # print total_raw_carbs
+#     print raw_foods
 
-    age = session.get('age')
-    height = session.get('height')
-    weight = session.get('weight')
-    gender = session.get('gender')
-    exercise_level = session.get('exercise_level')
-    cuisine = session.get('cuisine')
-    diet = session.get('diet')
-    intolerances = session.get('intolerances')
-    recipe_types = session.get('recipe_types')
-    obj = session.get('obj')
-    obj_nut = session.get('obj_nut')
+#     age = session.get('age')
+#     height = session.get('height')
+#     weight = session.get('weight')
+#     gender = session.get('gender')
+#     exercise_level = session.get('exercise_level')
+#     cuisine = session.get('cuisine')
+#     diet = session.get('diet')
+#     intolerances = session.get('intolerances')
+#     recipe_types = session.get('recipe_types')
+#     obj = session.get('obj')
+#     obj_nut = session.get('obj_nut')
 
-    user = User(age, weight, height, gender, exercise_level)
+#     user = User(age, weight, height, gender, exercise_level)
 
-    cuisine_q = request.args.getlist('cuisine')
-    diet_q = request.args.get('diet')
-    intolerances_q = request.args.getlist('intolerances')
-    recipe_types_q = request.args.getlist('recipeTypes')
-    obj_q = request.args.get('obj')
-    obj_nut_q = request.args.get('objNut')
-    carb_low = request.args.get('carbLow')
-    carb_up = request.args.get('carbUp')
-    prot_low = request.args.get('protLow')
-    prot_up = request.args.get('protUp')
-    fat_low = request.args.get('fatLow')
-    fat_up = request.args.get('fatUp')
-    cal_low = request.args.get('calLow')
-    cal_up = request.args.get('calUp')
+#     cuisine_q = request.args.getlist('cuisine')
+#     diet_q = request.args.get('diet')
+#     intolerances_q = request.args.getlist('intolerances')
+#     recipe_types_q = request.args.getlist('recipeTypes')
+#     obj_q = request.args.get('obj')
+#     obj_nut_q = request.args.get('objNut')
+#     carb_low = request.args.get('carbLow')
+#     carb_up = request.args.get('carbUp')
+#     prot_low = request.args.get('protLow')
+#     prot_up = request.args.get('protUp')
+#     fat_low = request.args.get('fatLow')
+#     fat_up = request.args.get('fatUp')
+#     cal_low = request.args.get('calLow')
+#     cal_up = request.args.get('calUp')
 
-    if len(cuisine_q) > 0:
-        cuisine = cuisine_q
-    if diet_q != '':
-        diet = diet_q
-    if len(intolerances_q) > 0:
-        intolerances = intolerances_q
-    if len(recipe_types_q)  > 0:
-        print '****RECIPETYPES'
-        recipe_types = recipe_types_q
-    if obj_q != '':
-        obj = obj_q
-    if obj_nut_q != '':
-        obj_nut = obj_nut_q
+#     if len(cuisine_q) > 0:
+#         cuisine = cuisine_q
+#     if diet_q != '':
+#         diet = diet_q
+#     if len(intolerances_q) > 0:
+#         intolerances = intolerances_q
+#     if len(recipe_types_q)  > 0:
+#         print '****RECIPETYPES'
+#         recipe_types = recipe_types_q
+#     if obj_q != '':
+#         obj = obj_q
+#     if obj_nut_q != '':
+#         obj_nut = obj_nut_q
 
-    if carb_low != '':
-        user.daily_nutrients['carb_low'] = float(carb_low)
-    if carb_up != '':
-        user.daily_nutrients['carb_up'] = float(carb_up)
-    if prot_low != '':
-        user.daily_nutrients['prot_low'] = float(prot_low)
-    if prot_up != '':
-        user.daily_nutrients['prot_up'] = float(prot_up)
-    if fat_low != '':
-        user.daily_nutrients['fat_low'] = float(fat_low)
-    if fat_up != '':
-        user.daily_nutrients['fat_up'] = float(fat_up)
-    if cal_low != '':
-        user.daily_nutrients['cal_low'] = float(cal_low)
-    if cal_up != '':
-        user.daily_nutrients['cal_up'] = float(cal_up)
+#     if carb_low != '':
+#         user.daily_nutrients['carb_low'] = float(carb_low)
+#     if carb_up != '':
+#         user.daily_nutrients['carb_up'] = float(carb_up)
+#     if prot_low != '':
+#         user.daily_nutrients['prot_low'] = float(prot_low)
+#     if prot_up != '':
+#         user.daily_nutrients['prot_up'] = float(prot_up)
+#     if fat_low != '':
+#         user.daily_nutrients['fat_low'] = float(fat_low)
+#     if fat_up != '':
+#         user.daily_nutrients['fat_up'] = float(fat_up)
+#     if cal_low != '':
+#         user.daily_nutrients['cal_low'] = float(cal_low)
+#     if cal_up != '':
+#         user.daily_nutrients['cal_up'] = float(cal_up)
 
-    req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
+#     req = RecipeHandler(user.daily_nutrients, cuisine, diet, intolerances, "", recipe_types)
 
-    ress = req.get_recipes()
+#     ress = req.get_recipes()
 
-    lp = LinearProgrammingSolver(obj, obj_nut, ress['dict_prot'], ress['dict_fat'], ress['dict_cal'], ress['dict_carb'], ress['dict_title'], ress['dict_price'], ress['dict_time'], ress['recipe_types'], user.daily_nutrients)
+#     lp = LinearProgrammingSolver(obj, obj_nut, ress['dict_prot'], ress['dict_fat'], ress['dict_cal'], ress['dict_carb'], ress['dict_title'], ress['dict_price'], ress['dict_time'], ress['recipe_types'], user.daily_nutrients)
 
-    lp_func = lp.func_lp()
+#     lp_func = lp.func_lp()
 
-    suggested_recipes = lp_func['suggested_recipes']
-    total_nutrients_taken = lp_func['total_nutrients_taken']
-    diet_recipes = lp.get_lp_output(suggested_recipes)
+#     suggested_recipes = lp_func['suggested_recipes']
+#     total_nutrients_taken = lp_func['total_nutrients_taken']
+#     diet_recipes = lp.get_lp_output(suggested_recipes)
 
-    return render_template('recresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
-    'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
-    'user_daily_nutrients' : user.daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
+#     return render_template('recresults.html', response={'user_info' : {'age':age, 'weight' : weight, 'height' : height, 'gender' : gender, 'exercise_level' : exercise_level,
+#     'cuisine' : cuisine, 'diet' : diet, 'intolerances' : intolerances, 'obj' : obj, 'obj_nut' : obj_nut, 'recipe_types' : recipe_types},
+#     'user_daily_nutrients' : user.daily_nutrients, 'recipes' : diet_recipes, 'total_nutrients_taken' : total_nutrients_taken, 'raw_foods' : raw_foods})
 
 @app.route('/newform', methods=['GET'])
 @cross_origin()
