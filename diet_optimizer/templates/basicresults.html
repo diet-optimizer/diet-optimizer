@@ -50,6 +50,13 @@
 		      {{key}}
 		    {% endfor %}
 
+		    <br>
+		    Raw Types:
+		    {% for key in response.user_info.raw_groups %}
+		      <input type=text name="rawGroups" value="{{key}}" style="display:none">
+		      {{key}}
+		    {% endfor %}
+
 		    <!-- following 2 lines of input are for obj and obj_nut for url -->
 		    <input type=text name="objNut" value="{{response.user_info.obj_nut}}" style="display:none">
 		    <input type=text name="obj" value="{{response.user_info.obj}}" style="display:none">

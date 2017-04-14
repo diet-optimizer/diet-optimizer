@@ -53,6 +53,11 @@
     {% for key in response.user_info.recipe_types %}
       {{key}}
     {% endfor %}
+    <br>
+    Raw Types:
+    {% for key in response.user_info.raw_groups %}
+      {{key}}
+    {% endfor %}
   </div>
   <br>
   <a id='change-btn' href="newform">Change Something</a>
