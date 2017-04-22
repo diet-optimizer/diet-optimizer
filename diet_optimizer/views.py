@@ -25,14 +25,19 @@ def signup():
 		if form.validate() == False:
 			return render_template('signup.html', form=form)
 		else:
-			newuser = UserDB(form.first_name.data, form.last_name.data, form.nick_name.data, form.email.data, form.password.data)
-			db.session.add(newuser)
-			db.session.commit()
+			try:
+				newuser = UserDB(form.first_name.data, form.last_name.data, form.nick_name.data, form.email.data, form.password.data)
+				db.session.add(newuser)
+				db.session.commit()
 
-			# session['email'] = newuser.email
-			session['user_name'] = newuser.nickname
-			return redirect(url_for('home')) 
-			#url_for needs the function inside the route
+				# session['email'] = newuser.email
+				session['user_name'] = newuser.nickname
+				return redirect(url_for('home')) 
+				#url_for needs the function inside the route
+			except:
+				db.session.rollback()
+				print("Unexpected error:", sys.exc_info()[0])
+				raise 
 
 	elif request.method == 'GET':
 		return render_template('signup.html', form=form)
