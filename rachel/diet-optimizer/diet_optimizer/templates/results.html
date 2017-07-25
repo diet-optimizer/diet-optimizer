@@ -1,0 +1,201 @@
+<!-- <html lang="en"> -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style type="text/css">
+      @import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css');
+      .panel-heading {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  {% extends "layout2.html" %}
+
+{% block content %}
+
+<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+</aside>
+
+<body>
+
+
+<div id='bs-ex' class="bs-example">
+  <h3>Food Items:</h3>
+  <div class="panel-group" id="accordion">
+  {% for key in response.raw_foods %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{key.id}}">{{key.Desc}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{key.id}}" class="panel-collapse">
+                <div class="panel-body">
+                
+                <h4>Nutrients:</h4>  
+                  <p>
+                    Calories: {{ key.Cal }} kcal
+                      <br>
+                    Carbs: {{ key.Carb }} gr
+                      <br>
+                    Fat: {{ key.Fat }} gr
+                      <br>
+                    Protein: {{ key.Prot }} gr
+                      <br>
+                  </p>
+                </div>
+              </div>
+          </div>
+  {% endfor %}
+  </div>
+
+  <h3>Recipes:</h3>
+    <div class="panel-group" id="accordion">
+      <!-- <p><strong>Note:</strong> Click on the linked heading text to expand or collapse accordion panels.</p> -->
+      {% for key in response.recipes %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{key.id}}">{{key.title}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{key.id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <p>
+                    <!-- Preparation time: {{key.preparationMinutes}} minutes
+                    <br> -->
+                    Ready in {{key.readyInMinutes}} minutes
+                    <br>
+                    Price per serving: ${{key.pricePerServing/100}} 
+                    <br>
+                    <!-- Servings: {{key.servings}}  -->
+                    <br>
+                    <br>
+                    <div id="nutrients">
+                      <h4>Nutrients:</h4>
+                      {% for ob in key.nutrition.nutrients %}
+                         {% if ob.title == 'Calories'%}
+                           Calories: {{ ob.amount }} kcal
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Carbohydrates'%}
+                           Carbs: {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Fat'%}
+                           Fat: {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Protein'%}
+                           Protein {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                      {% endfor %}
+                      <br>
+                    </div>
+                    <div id="properties">
+                      <h4>Properties:</h4>
+                        {% if key.vegetarian != false %}
+                          Vegetarian
+                          <br>
+                        {% endif %}
+                        {% if key.vegan != false %}
+                          Vegan
+                          <br>
+                        {% endif %}
+                        {% if key.glutenFree != false %}
+                          Gluten Free
+                          <br>
+                        {% endif %}
+                        {% if key.veryHealthy != false %}
+                          Healthy
+                          <br>
+                        {% endif %}
+                        {% if key.ketogenic != false %}
+                          Ketogenic
+                          <br>
+                        {% endif %}
+                        {% if key.dairyFree != false %}
+                          Dairy Free
+                          <br>
+                        {% endif %}
+                    <br>
+                    </div>
+                    <div id="sources">
+                      <h4>Source:</h4>
+                      Spoonacular: <a href="{{key.spoonacularSourceUrl}}">{{key.spoonacularSourceUrl}}</a>
+                    </div>
+                  </p>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+  </div>
+
+        <div id='nutrients_sum'>
+        <h3>Total nutrients taken, Price & Time:</h3>
+        Calories: {{response.total_nutrients_taken.calories}} kcal
+        <br>
+        Carb: {{response.total_nutrients_taken.carb}} gr
+        <br>
+        Fat: {{response.total_nutrients_taken.fat}} gr
+        <br>
+        Protein: {{response.total_nutrients_taken.protein}} gr
+        <br>
+        Price: $ {{response.total_nutrients_taken.price}}
+        <br>
+        Time: {{response.total_nutrients_taken.time}} minutes
+        <br>
+        <br>
+        </div>
+
+      <div id="formsubmitbutton">
+        <button id='regeneraterecipes' onclick='location.reload(), ButtonClicked()'>Regenerate Recipes</button>
+      </div>
+      <div id="buttonreplacement" style="margin-left:430px; display:none;">
+        <img src="static/img/loader.gif" alt="loading...">
+      </div>
+      <!-- below js code is for loading gif on submit button -->
+      <script type="text/javascript">
+        function ButtonClicked()
+        {
+           document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+           document.getElementById("buttonreplacement").style.display = ""; // to display
+           return true;
+        }
+        var FirstLoading = true;
+        function RestoreSubmitButton()
+        {
+           if( FirstLoading )
+           {
+              FirstLoading = false;
+              return;
+           }
+           document.getElementById("formsubmitbutton").style.display = ""; // to display
+           document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+        }
+        // To disable restoring submit button, disable or delete next line.
+        document.onfocus = RestoreSubmitButton;
+      </script>
+
+</div>
+</body>
+
+<!-- </html> -->
+</main>
+{% endblock %}

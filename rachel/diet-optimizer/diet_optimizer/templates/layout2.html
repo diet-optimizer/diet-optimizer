@@ -1,0 +1,42 @@
+<!--DOCTYPE html-->
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet'>
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="title">
+			<a href="{{ url_for('index') }}" >Diet Optimizer</a>
+		</h1>
+		
+		<h1>
+			<a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+		</h1>
+
+		<h1 class="username">Hi {{ session['user_name'] }} | </h1>
+
+		</div>
+      </div>
+		
+    </header>
+    <!--aside>
+	<div class="sidebar2" >
+		<ul>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('profile') }}"><label id="test1">GENERAL INFORMATION</label></a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="#">GET A RECIPE</a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('settings') }}">SETTINGS</a></li-->
+			<!--li ><a href="{{ url_for('profile') }}"><label id="test1">GENERAL INFORMATION</label></a></li>
+			<li ><a href="#">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+	</aside-->
+	{% block content %}
+    {% endblock %}
+    
+  </body>
+</html>

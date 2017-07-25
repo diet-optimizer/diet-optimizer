@@ -1,0 +1,126 @@
+{% extends "layout2.html" %}
+
+{% block content %}
+<main class="hero-section">
+    <div class="container-settings">
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+ <script type="text/javascript" src="script.js"></script>
+	<form method="POST" action='/settings'>
+    <form method="GET" action='/settings'>
+    <div id="user_info">
+	{{ form.hidden_tag() }}
+        <br>
+    <h1 class="title">Do you want to change something on your profile?</h1>
+    <br>
+    <br>
+    <div class='form-group'>
+        {{ form.gender.label }}
+
+        {% if form.gender.errors %}
+        {% for error in form.gender.errors %}
+            <p class='error-message'>{{ error }}</p>
+        {% endfor %}
+        {% endif %}
+        {% do form.gender.process_data(response.user_info.gender) %}
+        {{ form.gender }}
+
+    </div>
+    <div class='form-group'>
+        {{ form.birth_date.label }}
+
+        {% if form.birth_date.errors %}
+        {% for error in form.birth_date.errors %}
+            <p class='error-message'>{{ error }}</p>
+        {% endfor %}
+        {% endif %}
+
+        {{ form.birth_date(value=response.user_info.birthdate) }}
+    </div>
+    <br><div class='form-group'>
+        {{ form.height.label }}
+
+        {% if form.height.errors %}
+        {% for error in form.height.errors %}
+            <p class='error-message'>{{ error }}</p>
+        {% endfor %}
+        {% endif %}
+        {{ form.height(value=response.user_info.height) }}
+		
+    </div>
+         <input type="radio" name="heightunit" value="cm" checked="true"> cm</input>
+        <input type="radio" name="heightunit" value="in"> in</input><br>
+    <br>
+        <div class='form-group'>
+            {{ form.weight.label }}
+
+            {% if form.weight.errors %}
+            {% for error in form.weight.errors %}
+            <p class='error-message'>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {{ form.weight(value=response.user_info.weight) }}
+        </div>
+        <input type="radio" name="weightunit" value="kg" checked="true"> kg</input>
+        <input type="radio" name="weightunit" value="lbs"> lbs</input><br>
+    <br>
+        <div class='form-group'>
+            {{ form.activity_level.label }}
+
+            {% if form.activity_level.errors %}
+            {% for error in form.activity_level.errors %}
+            <p class='error-message'>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {% do form.activity_level.process_data(response.user_info.activitylevel) %}
+            {{ form.activity_level }}
+        </div>
+    <br>
+        <div class='form-group'>
+            {{ form.diet.label }}
+
+            {% if form.diet.errors %}
+            {% for error in form.diet.errors %}
+            <p class='error-message'>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {% do form.diet.process_data(response.user_info.diet) %}
+
+            {{ form.diet }}
+        </div>
+    <br>
+        <div class='form-group'>
+            {{ form.intolerences.label }}
+
+            {% if form.intolerences.errors %}
+            {% for error in form.intolerences.errors %}
+            <p class='error-message'>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {% for key in response.user_info.intolerences %}
+                {% do form.intolerances.process_data(response.user_info.intolerences) %}
+            {% endfor %}
+            {{ form.intolerences }}
+        </div>
+    <!--input type="button" name="next" class="next action-button"><a href="{{ url_for('profile') }}">Next</a-->
+	{{ form.submit(class='btn-primary') }}
+    </div>
+    </form>
+    </form>
+    </div>
+
+    <br>
+	<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			<li ><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li class="selected"><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+	</aside>
+  </main>
+
+
+{% endblock %}
