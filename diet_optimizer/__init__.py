@@ -8,14 +8,14 @@ import diet_optimizer.settings
 from models import *
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:dietoptimizer@104.131.95.4:3306/dietoptimizer'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/diet_optimizer_db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
+app.secret_key = settings.APP_KEY
 db.init_app(app)
 
 Bootstrap(app)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.secret_key = settings.APP_KEY
 
 import diet_optimizer.views

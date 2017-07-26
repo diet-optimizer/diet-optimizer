@@ -1,7 +1,6 @@
 from diet_optimizer import *
 from forms import SignupForm, LoginForm
 
-
 @app.route('/', methods=['GET'])
 @cross_origin()
 def index():
