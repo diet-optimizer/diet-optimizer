@@ -1,0 +1,132 @@
+{% extends "layout2.html" %}
+
+{% block content %}
+	<main class="container signup-section">
+		<aside>
+			<div class="sidebar2" >
+				<ul>
+					<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+					<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+					<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+					<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+				</ul>
+			</div>
+		</aside>
+
+		<form action="/results" method="get">
+	<div class=container-results">
+		<div id="user_data">
+
+		  <div id="user_info">
+		    <h3>User Information:</h3>
+		    Age: {{response.user_info.age}}
+		    <input type=number name=age id="age" value="{{response.user_info.age}}" style="display:none">
+		    <br>
+		    Weight: {{response.user_info.weight}} lbs
+		    <input type=number name=weight id="weight" value="{{response.user_info.weight}}" style="display:none">
+		    <br>
+		    Height: {{response.user_info.height}} inches
+		    <input type=number name=height id="height" value="{{response.user_info.height}}" style="display:none">
+		    <br>
+		    Gender: {{response.user_info.gender}}
+		    <input type=text name="gender" value="{{response.user_info.gender}}" style="display:none">
+		    <br>
+		    Exercise Level : {{response.user_info.exercise_level}}
+		    <input type=text name="exerciseLevel" value="{{response.user_info.exercise_level}}" style="display:none">
+		    
+		    <br>
+		    Cuisine:
+		    {% for key in response.user_info.cuisine %}
+		      <input type=text name="cuisine" class="groupCuisine" value="{{key}}" style="display:none">
+		      {{key}} 
+		    {% endfor %}
+
+		    <br>
+		    Diet: {{response.user_info.diet}}
+		    <input type=text name="diet" value="{{response.user_info.diet}}" style="display:none">
+		    
+{#		    <br>#}
+{#		    Intolerances:#}
+{#		    {% for key in response.user_info.intolerances %}#}
+{#		      <input type=text name="intolerances" class="groupIntol" value="{{key}}" style="display:none">#}
+{#		      {{key}}#}
+{#		    {% endfor %}#}
+		   
+		    <br>
+		    Recipe Types:
+		    {% for key in response.user_info.recipe_types %}
+		      <input type=text name="recipeTypes" value="{{key}}" style="display:none">
+		      {{key}}
+		    {% endfor %}
+
+		    <br>
+		    Raw Types:
+		    {% for key in response.user_info.raw_groups %}
+		      <input type=text name="rawGroups" value="{{key}}" style="display:none">
+		      {{key}}
+		    {% endfor %}
+
+		    <!-- following 2 lines of input are for obj and obj_nut for url -->
+		    <<input type=text name="objNut" value="{{response.user_info.obj_nut}}" style="display:none">
+		    <input type=text name="obj" value="{{response.user_info.obj}}" style="display:none">>
+
+		  </div>
+
+		  <br>
+		  <a id='change-btn' href="newform">Change Something!</a>
+		  <br>
+
+		  <div id="user_nutrients_br">
+		    <br>
+		    <h3>User Nutrients:</h3>
+		    BMI: {{response.user_daily_nutrients.bmi}}
+		    <br>
+		    Calorie Range: {{response.user_daily_nutrients.cal_low}} - {{response.user_daily_nutrients.cal_up}} kcal
+		    <br>
+		    Carb Range: {{response.user_daily_nutrients.carb_low}} - {{response.user_daily_nutrients.carb_up}} g
+		    <br>
+		    Fat Range: {{response.user_daily_nutrients.fat_low}} - {{response.user_daily_nutrients.fat_up}} g
+		    <br>
+		    Protein Range: {{response.user_daily_nutrients.prot_low}} - {{response.user_daily_nutrients.prot_up}} g
+		    <br>
+		    <br>
+		  </div>
+
+			<div id="formsubmitbutton">
+		  <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
+		  	</div>
+		  	<div id="buttonreplacement" style="margin-left:30px; display:none;">
+			<img src="static/img/loader.gif" alt="loading...">
+			</div>
+			<!-- below js code is for loading gif on submit button -->
+			<script type="text/javascript">
+
+			function ButtonClicked()
+			{
+			   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+			   document.getElementById("buttonreplacement").style.display = ""; // to display
+			   return true;
+			}
+			var FirstLoading = true;
+			function RestoreSubmitButton()
+			{
+			   if( FirstLoading )
+			   {
+			      FirstLoading = false;
+			      return;
+			   }
+			   document.getElementById("formsubmitbutton").style.display = ""; // to display
+			   document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+			}
+			// To disable restoring submit button, disable or delete next line.
+			document.onfocus = RestoreSubmitButton;
+			</script>
+
+
+
+		</div>
+		</div>
+		</form>
+
+	</main>
+{% endblock %}
