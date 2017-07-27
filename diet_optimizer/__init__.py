@@ -13,8 +13,8 @@ app = Flask(__name__)
 
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/foods'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:diet@localhost/foods'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:diet@localhost/foods'
 db.init_app(app)
 
 Bootstrap(app)
