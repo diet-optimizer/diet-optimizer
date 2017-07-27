@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--DOCTYPE html-->
 <html>
   <head>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet'>
@@ -7,11 +7,22 @@
   <body>
     <header>
       <div class="container">
-        <h1 class="title">Diet Optimizer</h1>
+        <h1 class="title">
+			<a href="{{ url_for('index') }}" >Diet Optimizer</a>
+		</h1>
+
+		<h1 class="signup" >
+			<a href="{{ url_for('signup1') }}" >| Sign up</a>
+		</h1>
+		<h1 class="login" >
+			<a href="{{ url_for('login') }}" >Log In </a>
+		</h1>
+
       </div>
+		
     </header>
     
-    {% block content %}
+	{% block content %}
     {% endblock %}
     
   </body>

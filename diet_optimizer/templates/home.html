@@ -1,12 +1,20 @@
-{% extends "layout.html" %}
+{% extends "layout2.html" %}
 
 {% block content %}
-  <main class="hero-section">
-    <div class="container">
-      
-    <!-- <h1>Home</h1> -->
-    <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
 
+<main class="hero-section">
+	<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+	</aside>
+	
+<div class="container-home">
 
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
@@ -15,42 +23,9 @@
      </h2> 
          <div id="user_form" class="wrapper">
            <h2>User information</h2>
-             <form action="/basicresults" method="get">
+             <form action="/results" method="get">
              <!-- <form action="/results" method="get"> -->
                <dl>
-                 <dt>How old are you?
-                 <dt><input type=number name=age id="age" min=3 value=27 required="true">
-                 <dt> <br> How much (in pounds) do you weight?
-                 <dt><input type=number name=weight id="weight" min=0 value=115 required="true">
-                 <dt> <br> How tall (in inches) are you?
-                 <dt><input type=number name=height id="height" min=0 value=65 required="true">
-                 <dt> <br> What is your gender?
-                 <dt>
-                <form1 name="gender" id="gender">
-                   <input type="radio" name="gender" value="Female" checked>Female</input>
-                   <input type="radio" name="gender" value="Male">Male</input>
-                 </form1>
-                 <dt> <br> What is your activity level?
-                 <dt>
-                   <form2 name="exerciseLevel" id="exerciseLevel">
-                   <input type="radio" name="exerciseLevel" value="Sedentary">Sedentary</input>
-                   <input type="radio" name="exerciseLevel" value="Low Active">Low Active</input>
-                   <input type="radio" name="exerciseLevel" value="Active" checked>Active</input>
-                   <input type="radio" name="exerciseLevel" value="Very Active">Very Active</input>
-                 </form2>
-                 <dt> <br> Which diet are you following?
-                 <dt>
-                       <form3 name="diet" id="diet">
-                         <input type="radio" name="diet" value='' checked>None</input>
-                         <input type="radio" name="diet" value="pescetarian">Pescetarian</input>
-                         <input type="radio" name="diet" value="lacto+vegetarian">Lacto Vegetarian</input>
-                         <input type="radio" name="diet" value="ovo+vegetarian">Ovo Vegetarian</input>
-                         <input type="radio" name="diet" value="vegan">Vegan</input>
-                         <input type="radio" name="diet" value="paleo">Paleo</input>
-                         <input type="radio" name="diet" value="primal">Primal</input>
-                         <input type="radio" name="diet" value="vegetarian">Vegetarian</input>
-                       </form3>
-                 <dt>
                  <dt> <br> Which cuisine(s) would you like to include?
                  <dt>
                   <!-- // <script type="text/javascript" src="{{ url_for('static', filename='js/disable.js') }}"></script> -->
@@ -62,12 +37,14 @@
                     if ( document.getElementById('checkAll').checked ) 
                       { 
                         $('.groupCuisine').each(function(){
+						  $(this).attr("checked",true);
                           $(this).attr("disabled",true);
                         }); 
                       } 
                     else 
                       {
                         $('.groupCuisine').each(function(){
+						  $(this).attr("checked",false);
                           $(this).attr("disabled",false);
                         }); 
                       }
@@ -103,59 +80,6 @@
 
             <!-- <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font> -->
 
-                  <dt> <br> Do you have any intolerances?
-                  <dt>
-                  <script type="text/javascript"> 
-                  $(document).ready(function(){
-                    disableIntolerances();
-                  });
-                    function disableIntolerances() {
-                    if ( document.getElementById('noIntol').checked ) 
-                      { 
-                        $('.groupIntol').each(function(){
-                          $(this).attr("disabled",true);
-                        }); 
-                      } 
-                    else 
-                      {
-                        $('.groupIntol').each(function(){
-                          $(this).attr("disabled",false);
-                        }); 
-                      }
-                  };
-                  </script>
-                  <form5 name="intolerances" id="intolerances">
-                  <input type="checkbox" name="intolerances" id="noIntol" value='' checked onclick="disableIntolerances()">No</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="dairy">Dairy</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="egg">Egg</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="gluten">Gluten</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="peanut">Peanut</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="sesame">Sesame</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="seafood">Seafood</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="shellfish">Shellfish</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="soy">Soy</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="sulfite">Sulfite</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="tree+nut">Tree Nut</input>
-                  <input type="checkbox" name="intolerances" class="groupIntol" value="wheat">Wheat</input>
-                 </form5>
-
-                 <dt> <br> What would you like to focus on?
-                 <dt>
-                 <form6 name="objNut" id="objNut">
-                   <input type="radio" name="objNut" value="Calories" checked>Calories</input>
-                   <input type="radio" name="objNut" value="Protein">Protein</input>
-                   <input type="radio" name="objNut" value="Carbs">Carbs</input>
-                   <input type="radio" name="objNut" value="Fat">Fat</input>
-                   <input type="radio" name="objNut" value="Price">Price</input>
-                   <input type="radio" name="objNut" value="Time">Time</input>
-                 </form6>
-
-                 <dt> <br> Do you want to maximize or minimize that?
-                 <dt>
-                 <form7 name="obj" id="obj">
-                   <input type="radio" name="obj" value="Min" checked>Min</input>
-                   <input type="radio" name="obj" value="Max">Max</input>
-                 </form7>
                  <dt> <br> What kind of recipes do you want? (Up to 3)
                  <dt>
                  <form8 name="recipeTypes" id="recipeTypes" required="true">
@@ -200,17 +124,373 @@
 					<input type="checkbox" name="rawGroups" value="American+Indian%2FAlaskaNative+Foods">American Indian/AlaskaNative Foods</input>
 					<input type="checkbox" name="rawGroups" value="Restaurant+Foods">Restaurant Foods</input>
 				</form9>
+				<dt> <br> What would you like to focus on?
+				<dt><br>
+				<form5 name="objNut" id="objNut">
+					<input type="radio" name="objNut" value="Calories" checked>Calories</input>
+					<input type="radio" name="objNut" value="Protein">Protein</input>
+					<input type="radio" name="objNut" value="Carbs">Carbs</input>
+					<input type="radio" name="objNut" value="Fat">Fat</input>
+					<input type="radio" name="objNut" value="Price">Price</input>
+					<input type="radio" name="objNut" value="Time">Time</input>
+				</form5>
 
-                 <dt> <br> <input type=submit id="search" value=Submit>
+				<dt> <br> Do you want to maximize or minimize that?
+				<dt>
+				<form6 name="obj" id="obj">
+					<input type="radio" name="obj" value="Min" checked>Min</input>
+					<input type="radio" name="obj" value="Max">Max</input>
+				</form6>
+
+                   <dt><br>Do you want to change calories ranges (Kcal)?
+                   <dt>
+                        <div id="cal-slider" se-min="1000" se-step="1" se-max="4000" class="slider">
+                            <div class="slider-touch-left">
+                                <span></span>
+                            </div>
+                            <div class="slider-touch-right">
+                                <span></span>
+                            </div>
+                            <div class="slider-line">
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div id="cal-result">Min: 1000 Max: 4000</div>
+
+                   <dt><br>Do you want to change protein ranges (g) ?
+                   <dt>
+                        <div id="pro-slider" se-min="0" se-step="1" se-max="800" class="slider">
+                            <div class="slider-touch-left">
+                                <span></span>
+                            </div>
+                            <div class="slider-touch-right">
+                                <span></span>
+                            </div>
+                            <div class="slider-line">
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div id="pro-result">Min: 0 Max: 800</div>
+
+                   <dt><br>Do you want to change carb ranges (g) ?
+                   <dt>
+                        <div id="carb-slider" se-min="0" se-step="1" se-max="800" class="slider">
+                            <div class="slider-touch-left">
+                                <span></span>
+                            </div>
+                            <div class="slider-touch-right">
+                                <span></span>
+                            </div>
+                            <div class="slider-line">
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div id="carb-result">Min: 0 Max: 800</div>
+
+                   <dt><br>Do you want to change fat ranges (g)?
+                   <dt>
+                        <div id="fat-slider" se-min="0" se-step="1" se-max="500" class="slider">
+                            <div class="slider-touch-left">
+                                <span></span>
+                            </div>
+                            <div class="slider-touch-right">
+                                <span></span>
+                            </div>
+                            <div class="slider-line">
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div id="fat-result">Min: 0 Max: 500</div>
+
+                 <dt> <br> <!--input type=submit id="search" value=Submit-->
+                   <div id="formsubmitbutton">
+		  <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
+		  	</div>
+		  	<div id="buttonreplacement" style="margin-left:30px; display:none;">
+			<img src="static/img/loader.gif" alt="loading...">
+			</div>
+			<!-- below js code is for loading gif on submit button -->
+			<script type="text/javascript">
+
+			function ButtonClicked()
+			{
+			   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+			   document.getElementById("buttonreplacement").style.display = ""; // to display
+			   return true;
+			}
+			var FirstLoading = true;
+			function RestoreSubmitButton()
+			{
+			   if( FirstLoading )
+			   {
+			      FirstLoading = false;
+			      return;
+			   }
+			   document.getElementById("formsubmitbutton").style.display = ""; // to display
+			   document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+			}
+			// To disable restoring submit button, disable or delete next line.
+			document.onfocus = RestoreSubmitButton;
+			</script>
+
+
+
+
                </dl>
                <dt>
              </form>
 
            </div>
 
-
-
-
     </div>
-  </main>
+    <script>// script for  THE RANGE SLIDER
+        var ZBRangeSlider = function(id) {
+        var self = this;
+        var startX = 0, x = 0;
+
+        // retrieve touch button
+        var slider     = document.getElementById(id)
+        var touchLeft  = slider.querySelector('.slider-touch-left');
+        var touchRight = slider.querySelector('.slider-touch-right');
+        var lineSpan   = slider.querySelector('.slider-line span');
+
+        // get some properties
+        var min   = parseFloat(slider.getAttribute('se-min'));
+        var max   = parseFloat(slider.getAttribute('se-max'));
+
+        var step  = 0.0;
+
+        if (slider.getAttribute('se-step'))
+        {
+            step  = Math.abs(parseFloat(slider.getAttribute('se-step')));
+        }
+
+        self.slider = slider;
+        self.reset = function() {
+            touchLeft.style.left = '0px';
+            touchRight.style.left = (slider.offsetWidth - touchLeft.offsetWidth) + 'px';
+            lineSpan.style.marginLeft = '0px';
+            lineSpan.style.width = (slider.offsetWidth - touchLeft.offsetWidth) + 'px';
+            startX = 0;
+            x = 0;
+            slider.setAttribute('se-min-value', min);
+            slider.setAttribute('se-max-value', max);
+        };
+
+        // initial reset
+        self.reset();
+
+        // usefull values, min, max, normalize fact is the width of both touch buttons
+        var normalizeFact = 26;
+        var maxX = slider.offsetWidth - touchRight.offsetWidth;
+        var selectedTouch = null;
+        var initialValue = (lineSpan.offsetWidth - normalizeFact);
+
+        // setup touch/click events
+        function onStart(event) {
+
+        // Prevent default dragging of selected content
+            event.preventDefault();
+            var eventTouch = event;
+
+            if (event.touches)
+            {
+                eventTouch = event.touches[0];
+            }
+
+            if(this === touchLeft)
+            {
+                x = touchLeft.offsetLeft;
+            }
+            else
+            {
+                x = touchRight.offsetLeft;
+            }
+
+            startX = eventTouch.pageX - x;
+            selectedTouch = this;
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onStop);
+            document.addEventListener('touchmove', onMove);
+            document.addEventListener('touchend', onStop);
+
+
+            }
+
+            function onMove(event) {
+                var eventTouch = event;
+
+                if (event.touches)
+                {
+                    eventTouch = event.touches[0];
+                }
+
+                x = eventTouch.pageX - startX;
+
+    if (selectedTouch === touchLeft)
+    {
+      if(x > (touchRight.offsetLeft - selectedTouch.offsetWidth + 10))
+      {
+        x = (touchRight.offsetLeft - selectedTouch.offsetWidth + 10)
+      }
+      else if(x < 0)
+      {
+        x = 0;
+      }
+
+      selectedTouch.style.left = x + 'px';
+    }
+    else if (selectedTouch === touchRight)
+    {
+      if(x < (touchLeft.offsetLeft + touchLeft.offsetWidth - 10))
+      {
+        x = (touchLeft.offsetLeft + touchLeft.offsetWidth - 10)
+      }
+      else if(x > maxX)
+      {
+        x = maxX;
+      }
+      selectedTouch.style.left = x + 'px';
+    }
+
+    // update line span
+    lineSpan.style.marginLeft = touchLeft.offsetLeft + 'px';
+    lineSpan.style.width = (touchRight.offsetLeft - touchLeft.offsetLeft) + 'px';
+
+    // write new value
+    calculateValue();
+
+    // call on change
+    if(slider.getAttribute('on-change'))
+    {
+      var fn = new Function('min, max', slider.getAttribute('on-change'));
+      fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
+    }
+
+    if(self.onChange)
+    {
+      self.onChange(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
+    }
+
+  }
+
+  function onStop(event) {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onStop);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onStop);
+
+    selectedTouch = null;
+
+    // write new value
+    calculateValue();
+
+    // call did changed
+    if(slider.getAttribute('did-changed'))
+    {
+      var fn = new Function('min, max', slider.getAttribute('did-changed'));
+      fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
+    }
+
+    if(self.didChanged)
+    {
+      self.didChanged(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
+    }
+  }
+
+        function calculateValue() {
+            var newValue = (lineSpan.offsetWidth - normalizeFact) / initialValue;
+            var minValue = lineSpan.offsetLeft / initialValue;
+            var maxValue = minValue + newValue;
+
+            var minValue = minValue * (max - min) + min;
+            var maxValue = maxValue * (max - min) + min;
+
+            console.log(step);
+            if (step !== 0.0)
+            {
+                var multi = Math.floor((minValue / step));
+                minValue = step * multi;
+
+                multi = Math.floor((maxValue / step));
+                maxValue = step * multi;
+            }
+
+            slider.setAttribute('se-min-value', minValue);
+            slider.setAttribute('se-max-value', maxValue);
+        }
+
+  // link events
+            touchLeft.addEventListener('mousedown', onStart);
+            touchRight.addEventListener('mousedown', onStart);
+            touchLeft.addEventListener('touchstart', onStart);
+            touchRight.addEventListener('touchstart', onStart);
+
+   };
+
+// -------------------
+// How to use?
+        var newRangeSlider = new ZBRangeSlider('cal-slider');
+
+        newRangeSlider.onChange = function(min, max)
+        {
+            console.log(min, max, this);
+            document.getElementById('cal-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+        newRangeSlider.didChanged = function(min, max)
+        {
+            console.log(min,max, this);
+            document.getElementById('cal-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+//---------------------------
+var newRangeSlider = new ZBRangeSlider('pro-slider');
+
+        newRangeSlider.onChange = function(min, max)
+        {
+            console.log(min, max, this);
+            document.getElementById('pro-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+        newRangeSlider.didChanged = function(min, max)
+        {
+            console.log(min,max, this);
+            document.getElementById('pro-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+//---------------------------
+var newRangeSlider = new ZBRangeSlider('carb-slider');
+
+        newRangeSlider.onChange = function(min, max)
+        {
+            console.log(min, max, this);
+            document.getElementById('carb-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+        newRangeSlider.didChanged = function(min, max)
+        {
+            console.log(min,max, this);
+            document.getElementById('carb-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+//---------------------------
+var newRangeSlider = new ZBRangeSlider('fat-slider');
+
+        newRangeSlider.onChange = function(min, max)
+        {
+            console.log(min, max, this);
+            document.getElementById('fat-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+        newRangeSlider.didChanged = function(min, max)
+        {
+            console.log(min,max, this);
+            document.getElementById('fat-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
+        }
+
+    </script>
+</main>
 {% endblock %}

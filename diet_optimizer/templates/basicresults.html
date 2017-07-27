@@ -1,11 +1,20 @@
-{% extends "layout.html" %}
+{% extends "layout2.html" %}
 
 {% block content %}
 	<main class="container signup-section">
-		<a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+		<aside>
+			<div class="sidebar2" >
+				<ul>
+					<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+					<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+					<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+					<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+				</ul>
+			</div>
+		</aside>
 
 		<form action="/results" method="get">
-
+	<div class=container-results">
 		<div id="user_data">
 
 		  <div id="user_info">
@@ -36,12 +45,12 @@
 		    Diet: {{response.user_info.diet}}
 		    <input type=text name="diet" value="{{response.user_info.diet}}" style="display:none">
 		    
-		    <br>
-		    Intolerances:
-		    {% for key in response.user_info.intolerances %}
-		      <input type=text name="intolerances" class="groupIntol" value="{{key}}" style="display:none">
-		      {{key}}
-		    {% endfor %}
+{#		    <br>#}
+{#		    Intolerances:#}
+{#		    {% for key in response.user_info.intolerances %}#}
+{#		      <input type=text name="intolerances" class="groupIntol" value="{{key}}" style="display:none">#}
+{#		      {{key}}#}
+{#		    {% endfor %}#}
 		   
 		    <br>
 		    Recipe Types:
@@ -58,8 +67,8 @@
 		    {% endfor %}
 
 		    <!-- following 2 lines of input are for obj and obj_nut for url -->
-		    <input type=text name="objNut" value="{{response.user_info.obj_nut}}" style="display:none">
-		    <input type=text name="obj" value="{{response.user_info.obj}}" style="display:none">
+		    <<input type=text name="objNut" value="{{response.user_info.obj_nut}}" style="display:none">
+		    <input type=text name="obj" value="{{response.user_info.obj}}" style="display:none">>
 
 		  </div>
 
@@ -114,7 +123,10 @@
 			</script>
 
 
-		</form>
+
 		</div>
+		</div>
+		</form>
+
 	</main>
 {% endblock %}

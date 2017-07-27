@@ -16,113 +16,23 @@
     </style>
   </head>
 
-  {% extends "layout.html" %}
+  {% extends "layout2.html" %}
 
 {% block content %}
-<main class="container signup-section">
-<a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+
+<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+</aside>
 
 <body>
 
-<div id="user_data">
-  <div id="user_info">
-    <h3>User Information:</h3>
-    Age: {{response.user_info.age}}
-    <br>
-    Weight: {{response.user_info.weight}} pounds
-    <br>
-    Height: {{response.user_info.height}} inches
-    <br>
-    Gender: {{response.user_info.gender}}
-    <br>
-    Exercise Level : {{response.user_info.exercise_level}}
-    <br>
-    Cuisine:
-    {% for key in response.user_info.cuisine %}
-      {{key}}
-    {% endfor %}
-    <br>
-    Diet: {{response.user_info.diet}}
-    <br>
-    Intolerances:
-    {% for key in response.user_info.intolerances %}
-      {{key}}
-    {% endfor %}
-    <br>
-    Recipe Types:
-    {% for key in response.user_info.recipe_types %}
-      {{key}}
-    {% endfor %}
-    <br>
-    Raw Types:
-    {% for key in response.user_info.raw_groups %}
-      {{key}}
-    {% endfor %}
-  </div>
-  <br>
-  <a id='change-btn' href="newform">Change Something</a>
-  <br>
-
-  <div id="user_nutrients">
-    <br>
-    <h3>User Nutrients:</h3>
-    BMI: {{response.user_daily_nutrients.bmi}}
-    <br>
-    Calorie Range: {{response.user_daily_nutrients.cal_low}} - {{response.user_daily_nutrients.cal_up}} kcal
-    <br>
-    Carb Range: {{response.user_daily_nutrients.carb_low}} - {{response.user_daily_nutrients.carb_up}} g
-    <br>
-    Fat Range: {{response.user_daily_nutrients.fat_low}} - {{response.user_daily_nutrients.fat_up}} g
-    <br>
-    Protein Range: {{response.user_daily_nutrients.prot_low}} - {{response.user_daily_nutrients.prot_up}} g
-    <br>
-    <br>
-  </div>
-  
-  <!-- <div id="recipes">
-    <br>
-    <br>
-    Daily Recipes:
-    <br>
-    <br>
-    <table border = 1>
-      <tr>
-        <td> ID </td>
-        <td> Title </td>
-        <td> Calories </td>
-        <td> Carbs </td>
-        <td> Fat </td>
-        <td> Potein </td>
-
-
-      </tr>
-       {% for key in response.recipes %}
-
-
-          <tr>
-             <td> {{ key["id"] }} </td>
-             <td> <a href="{{key["sourceUrl"]}}">{{key["title"]}}</a> </td>
-             {% for ob in key.nutrition.nutrients %}
-              {% if ob.title == 'Calories'%}
-                <td> {{ ob.amount }} </td>
-              {% endif %}
-              {% if ob.title == 'Carbohydrates'%}
-                <td> {{ ob.amount }} </td>
-              {% endif %}
-              {% if ob.title == 'Fat'%}
-                <td> {{ ob.amount }} </td>
-              {% endif %}
-              {% if ob.title == 'Protein'%}
-                <td> {{ ob.amount }} </td>
-              {% endif %}
-             {% endfor %}
-          </tr>
-
-       {% endfor %}
-    </table>
-  </div> -->
-
-</div>
 
 <div id='bs-ex' class="bs-example">
   <h3>Food Items:</h3>
@@ -285,6 +195,7 @@
 
 </div>
 </body>
+
 <!-- </html> -->
 </main>
 {% endblock %}

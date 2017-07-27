@@ -3,8 +3,10 @@ import re
 from pulp import *
 import settings
 import random
+import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship, foreign
 from werkzeug import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -16,20 +18,80 @@ class UserDB(db.Model):
     lastname = db.Column(db.String(100))
     nickname = db.Column(db.String(100), unique = True)
     email = db.Column(db.String(120), unique = True)
-    pwdhash = db.Column(db.String(54))
+    pwdhash = db.Column(db.String(100))
+    height = db.Column(db.Integer)
+    weight = db.Column(db.Integer)
+    birthdate = db.Column(db.Date)
+    activitylevel = db.Column(db.String(100))
+    diet = db.Column(db.String(100))
+    gender = db.Column(db.String(100))
+    #intolerences = db.Column(db.String(15))
 
-    def __init__(self, firstname, lastname, nickname, email, password):
-        self.firstname = firstname.title()
-        self.lastname = lastname.title()
-        self.nickname = nickname.title()
-        self.email = email.lower()
+    def __init__(self, firstname, lastname, nickname, email, password, height, weight, birthdate, activitylevel, diet, gender):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.nickname = nickname
+        #self.gender = gender.lower()
+        self.email = email
         self.set_password(password)
+        self.height = height
+        self.weight = weight
+        self.birthdate = birthdate
+        self.activitylevel = activitylevel
+        self.diet = diet
+        self.gender = gender
+        #self.intolerences = intolerences.lower()
+
+    def __repr__(self):
+        return '<firstname : %s, lastname : %s, nickname : %s, gender : %s, email : %s, password : %s, height : %s, weight : %s, birthdate : %s, activity : %s, diet : %s>' %(self.firstname, self.lastname, self.nickname, self.gender, self.email, self.pwdhash, self.height, self.weight, self.birthdate, self.activitylevel, self.diet)
 
     def set_password(self, password):
-        self.pwdhash = generate_password_hash(password)
+         self.pwdhash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.pwdhash, password)
+
+class Recipe(db.Model):
+    __tablename__ = 'recipes'
+    rid = db.Column(db.Integer, primary_key = True)
+    ridapi = db.Column(db.Integer)
+    name = db.Column(db.String(100))
+    link = db.Column(db.String(1000))
+
+    def __init__(self,ridapi,name,link):
+        self.ridapi = ridapi
+        self.name = name
+        self.link = link
+
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    rid = db.Column(db.ForeignKey('recipes.rid'))
+    uid = db.Column(db.ForeignKey('users.uid'))
+    mark = db.Column(db.String(10))
+
+    recipe = relationship('Recipe')
+    user = relationship('UserDB')
+
+    __table_args__ = (
+        db.PrimaryKeyConstraint('rid','uid'),
+    )
+
+# if a primary key is composed of two elements or more self become an object here : self.rif & self.uid
+
+    def __init__(self,rid, uid, mark):
+        self.rid = rid
+        self.uid = uid
+        self.mark = mark
+
+class Intolerences(db.Model):
+    __tablename__ = 'intolerences'
+    iid = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.ForeignKey('users.uid'))
+    intolerencename = db.Column(db.String(100))
+
+    def __init__(self, uid, intolerencename):
+        self.uid = uid
+        self.intolerencename = intolerencename
 
 #ryan added code
 class USDAfoods(db.Model):
@@ -59,17 +121,31 @@ class User(object):
     def __init__(self, age, weight, height, gender, exercise_level):
         self.age = age
         self.gender = gender
-        self.weight = weight/2.20462 ##to convert to kg
-        self.height = height/0.393701 ##to convert to cm
+        #self.weight = weight/2.20462 ##to convert to kg
+        #self.height = height/0.393701 ##to convert to cm
+        self.weight = weight
+        self.height = height
         self.exercise_level = exercise_level
         self.daily_nutrients = self.get_daily_nutrients()
 
+		##calculating user's age
+	# def get_age(self):
+	# 	if self.birthdate > datetime.date.today().replace(year = self.birthdate.year):
+	# 		return datetime.date.today().year - self.birthdate.year - 1
+	# 	else:
+	# 		return datetime.date.today().year - self.birthdate.year
+
+	##
     ##BMI
     def get_BMI(self):
-        return round(self.weight/(self.height*self.height/10000),2)
+
+        return round(self.weight/(self.height*self.height*0.0001),2)
 
     ##Physical Activity
     def get_PA(self):
+        print self.age
+        print self.weight
+        print self.height
         if self.exercise_level == 'Sedentary':
             return 1.00
         if self.exercise_level == 'Low Active':
@@ -105,6 +181,7 @@ class User(object):
     def get_calorie(self):
         ##height was divided by 100 because of cm m conversion.
         pa = self.get_PA()
+        print pa
         if (self.gender == 'Male' and self.age < 9):
             eer = (88.5-(61.9*self.age)+pa*((26.7*self.weight)+(903*self.height/100)))+20
         if (self.gender == 'Male' and 9 <= self.age < 19):
@@ -288,9 +365,9 @@ class RecipeHandler(object):
 
         for recipe_type_index in range(len(self.recipe_types)):
 
-            offset = random.randrange(0, 500) 
+            offset = random.randrange(0, 500)
             #offset was 0 - to regenarete random results
-            print offset
+            print(offset)
             reached_length = False
             counter = 0
             while not reached_length and counter < 2:
@@ -298,20 +375,23 @@ class RecipeHandler(object):
                 for i in range(1,2):
                     offset = i*offset #if range is bigger than one, you can get more results (one api call returns 100 recipes)
                     req_URL = self.get_URL(self.recipe_types[recipe_type_index], offset)
-                    print req_URL
+                    print(req_URL)
 
                     unirest.timeout(100) #100s timeout
+                    print '************'
                     response = unirest.get(req_URL,
                       headers={
                         "X-Mashape-Key": settings.SPOONACULAR_KEY,
                         "Accept": "application/json"
                       }
                     )
+                    print response.body
+                    print settings.SPOONACULAR_KEY
                     json_data = response.body["results"]
-                    
-                    print len(json_data)
-                    print offset
-                    print json_data
+
+                    print(len(json_data))
+                    print(offset)
+                    print(json_data)
 
                     if len(json_data) < 30:
                         offset = random.randrange(0, 500)
@@ -447,7 +527,7 @@ class LinearProgrammingSolver(object):
 
         for recipe_type_name in self.recipe_types:
 
-            print recipe_type_name
+            print(recipe_type_name)
             recipe_type_name = recipe_type_name.strip()
 
             # variables
@@ -467,12 +547,12 @@ class LinearProgrammingSolver(object):
             price_lp += sum(self.dict_price[recipe_type_name][key]*variable[key] for key in self.dict_price[recipe_type_name].keys())
             time_lp += sum(self.dict_time[recipe_type_name][key]*variable[key] for key in self.dict_time[recipe_type_name].keys())
             # title_lp += (self.dict_title[recipe_type_name][key] for key in self.dict_title[recipe_type_name].keys())
-            
+
             #constraints
             lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) <= 3
             # lp_model += sum([variable[key] for key in self.dict_title[recipe_type_name].keys()]) >= 1
 
-            print " "
+            print(" ")
         # print title_lp
 
         #constraints
@@ -488,15 +568,15 @@ class LinearProgrammingSolver(object):
         lp_model.solve()
         # print lp_model
 
-        print " "
+        print(" ")
         print("Status:",  pulp.LpStatus[lp_model.status])
 
         if pulp.LpStatus[lp_model.status] == "Optimal":
 
             #print the result
-            print " "
-            print 'In order to satisfy your daily nutrition needs, you can eat a portion of: '
-            print " "
+            print(" ")
+            print('In order to satisfy your daily nutrition needs, you can eat a portion of: ')
+            print(" ")
 
             c = 0
             p = 0
@@ -508,54 +588,54 @@ class LinearProgrammingSolver(object):
 
             for recipe_type_name in self.recipe_types:
                 recipe_type_name = recipe_type_name.strip()
-                print recipe_type_name + ':'
+                print(recipe_type_name + ':')
                 for recipe_ID in self.dict_title[recipe_type_name].keys():
                     if vars()['x_' + recipe_type_name][recipe_ID].value() == 1.0:
                         suggested_recipes.append(recipe_ID)
-                        print 'recipeID ' + str(recipe_ID)
-                        print 'Title ' + str(self.dict_title[recipe_type_name][recipe_ID])
-                        print 'Prot ' + str(float(self.dict_prot[recipe_type_name][recipe_ID]))
-                        print 'Carb ' + str(float(self.dict_carb[recipe_type_name][recipe_ID]))
-                        print 'Fat ' + str(float(self.dict_fat[recipe_type_name][recipe_ID]))
-                        print 'Cal ' + str(float(self.dict_cal[recipe_type_name][recipe_ID]))
-                        print 'Price ' + str(self.dict_price[recipe_type_name][recipe_ID])
-                        print 'Time ' + str(self.dict_time[recipe_type_name][recipe_ID])
-                        print " "
+                        print('recipeID ' + str(recipe_ID))
+                        print('Title ' + str(self.dict_title[recipe_type_name][recipe_ID]))
+                        print('Prot ' + str(float(self.dict_prot[recipe_type_name][recipe_ID])))
+                        print('Carb ' + str(float(self.dict_carb[recipe_type_name][recipe_ID])))
+                        print('Fat ' + str(float(self.dict_fat[recipe_type_name][recipe_ID])))
+                        print('Cal ' + str(float(self.dict_cal[recipe_type_name][recipe_ID])))
+                        print('Price ' + str(self.dict_price[recipe_type_name][recipe_ID]))
+                        print('Time ' + str(self.dict_time[recipe_type_name][recipe_ID]))
+                        print(" ")
                         p += self.dict_prot[recipe_type_name][recipe_ID]
                         c += self.dict_carb[recipe_type_name][recipe_ID]
                         f += self.dict_fat[recipe_type_name][recipe_ID]
                         cl += self.dict_cal[recipe_type_name][recipe_ID]
-                        pr += self.dict_price[recipe_type_name][recipe_ID] 
-                        t += self.dict_time[recipe_type_name][recipe_ID] 
+                        pr += self.dict_price[recipe_type_name][recipe_ID]
+                        t += self.dict_time[recipe_type_name][recipe_ID]
 
-            print " "
-            print " With eating a portion of suggested recipes you will take: "
-            print " "
-            print 'Total Protein (grams): '
-            print p
-            print '(Protein intake range is ' + str(self.daily_nutrients['prot_low']) + ' grams - ' + str(self.daily_nutrients['prot_up']) + ' grams)'
-            print " "
-            print 'Total Fat (grams): '
-            print f
-            print '(Fat intake range is ' + str(self.daily_nutrients['fat_low']) + ' grams - ' + str(self.daily_nutrients['fat_up']) + ' grams)'
-            print " "
-            print 'Total Carb (grams): '
-            print c
-            print '(Carbs intake range is ' + str(self.daily_nutrients['carb_low']) + ' grams - ' + str(self.daily_nutrients['carb_up']) + ' grams)'
-            print " "
-            print 'Total Calories (kcal): '
-            print cl
-            print '(Calorie intake range is ' + str(self.daily_nutrients['cal_low']) + ' kcal - ' + str(self.daily_nutrients['cal_up']) + ' kcal)'
-            print " "
-            print 'Total Price (cents): '
-            print pr
-            print " "
-            print 'Total Time (in minutes): '
-            print t
+            print(" ")
+            print(" With eating a portion of suggested recipes you will take: ")
+            print(" ")
+            print('Total Protein (grams): ')
+            print(p)
+            print('Protein intake range is ' + str(self.daily_nutrients['prot_low']) + ' grams - ' + str(self.daily_nutrients['prot_up']) + ' grams')
+            print(" ")
+            print('Total Fat (grams): ')
+            print(f)
+            print('(Fat intake range is ' + str(self.daily_nutrients['fat_low']) + ' grams - ' + str(self.daily_nutrients['fat_up']) + ' grams')
+            print(" ")
+            print('Total Carb (grams): ')
+            print(c)
+            print('(Carbs intake range is ' + str(self.daily_nutrients['carb_low']) + ' grams - ' + str(self.daily_nutrients['carb_up']) + ' grams')
+            print(" ")
+            print('Total Calories (kcal): ')
+            print(cl)
+            print('(Calorie intake range is ' + str(self.daily_nutrients['cal_low']) + ' kcal - ' + str(self.daily_nutrients['cal_up']) + ' kcal')
+            print(" ")
+            print('Total Price (cents): ')
+            print(pr)
+            print(" ")
+            print('Total Time (in minutes): ')
+            print(t)
 
             return {'suggested_recipes' : suggested_recipes, 'total_nutrients_taken' : {'calories' : cl, 'protein' : p, 'carb' : c, 'fat' : f, 'price' : pr, 'time' : t }}
         else:
-            print "****Solution is NOT Optimal****"
+            print("****Solution is NOT Optimal****")
             return {'suggested_recipes' : [], 'total_nutrients_taken' : {'calories' : 0, 'protein' : 0, 'carb' : 0, 'fat' : 0, 'price' : 0, 'time' : 0 }}
 
 

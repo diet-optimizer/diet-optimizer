@@ -1,0 +1,56 @@
+{% extends "layout2.html" %}
+{% block content %}
+
+<main class="hero-section">
+<form action="/profile" method="get">
+    <div class="container-profile">
+     <h2> Hi {{ session['user_name'] }} ! Welcome to your profile page !
+     </h2>
+	 	 <br>	 <br>
+        <h3> First name : <h2>{{ session['first_name'] }}</h2></h3>
+        <br>
+        <h3> Last name : <h2> {{ session['last_name'] }}</h2></h3>
+        <br>
+		<h3> gender : <h2> {{ session['gender'] }}</h2></h3>
+        <br>
+        <h3> Birth date : <h2> {{ session['birth_date'] }} </h2></h3>
+        <br>
+        <h3> Email : <h2>{{ session['e_mail'] }}</h2></h3>
+        <br>
+		<h3> Activity level : <h2> {{ session['exercise_level'] }} </h2></h3>
+        <br>
+        <h3> Diet : <h2>{{ session['diet'] }}</h2></h3>
+        <br>
+        <h3> Intolerences : <h2>{{ session['intolerences'] }}</h2></h3>
+        <br>
+    </div>
+
+     <div id="user_nutrients_br">
+	    <br>
+	    <h3>User Nutrients:</h3>
+		    BMI: {{response.user_daily_nutrients.bmi}}
+	    <br>
+		    Calorie Range: {{response.user_daily_nutrients.cal_low}} - {{response.user_daily_nutrients.cal_up}} kcal
+	    <br>
+		    Carb Range: {{response.user_daily_nutrients.carb_low}} - {{response.user_daily_nutrients.carb_up}} g
+	    <br>
+		    Fat Range: {{response.user_daily_nutrients.fat_low}} - {{response.user_daily_nutrients.fat_up}} g
+	    <br>
+		    Protein Range: {{response.user_daily_nutrients.prot_low}} - {{response.user_daily_nutrients.prot_up}} g
+	    <br>
+	    <br>
+	</div>
+</form>
+
+	<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li class="selected">GENERAL INFORMATION</li>
+			<li ><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+	</aside>
+  </main>
+{% endblock %}
