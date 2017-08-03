@@ -21,6 +21,8 @@
 				{{ form.submit(class="btn-primary") }}
 
 			</form>
+			<p>Forgot your password? <a href="{{ url_for('password_reset_request') }}">Click here to reset it</a>.</p>
+      		<p>New user? <a href="{{ url_for('signup1') }}">Click here to register</a>.</p>
 		</div>
 	</main>
 {% endblock %}

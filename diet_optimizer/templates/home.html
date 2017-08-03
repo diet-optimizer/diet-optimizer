@@ -1,7 +1,42 @@
 {% extends "layout2.html" %}
 
 {% block content %}
+<style>
+    input[type=range]{
+    -webkit-appearance: none;
+}
 
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+input[type=text]{
+    width: 45px;
+    background-color: #f4f4f4;
+    border: none;
+}
+</style>
 <main class="hero-section">
 	<aside>
 	<div class="sidebar2" >
@@ -10,6 +45,7 @@
 			<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
 			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
 			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+            <li><a href="{{ url_for('account_settings') }}">ACCOUNT SETTINGS</a></li>
 		</ul>
 	</div>
 	</aside>
@@ -17,19 +53,17 @@
 <div class="container-home">
 
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-
- <script type="text/javascript" src="script.js"></script>
-     <h2> Hi {{ session['user_name'] }}, insert your information here to get your diet plan.
-     </h2> 
+    <script type="text/javascript" src="script.js"></script>
+    <h2> Hi {{ session['user_name'] }}, insert your information here to get your diet plan.</h2>
          <div id="user_form" class="wrapper">
-           <h2>User information</h2>
+             <h2>User information</h2>
              <form action="/results" method="get">
              <!-- <form action="/results" method="get"> -->
-               <dl>
-                 <dt> <br> Which cuisine(s) would you like to include?
-                 <dt>
+             <dl>
+             <dt> <br> Which cuisine(s) would you like to include?
+             <dt>
                   <!-- // <script type="text/javascript" src="{{ url_for('static', filename='js/disable.js') }}"></script> -->
-                 <script type="text/javascript">
+             <script type="text/javascript">
                   $(document).ready(function(){
                     disableCuisines();
                   });
@@ -49,8 +83,8 @@
                         }); 
                       }
                   };
-                 </script>
-                 <form4 name="cuisine" id="cuisine">
+             </script>
+             <form4 name="cuisine" id="cuisine">
                  <input type="checkbox" name="cuisine" id="checkAll" value='' checked onclick="disableCuisines()" >All</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="african">African</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="chinese">Chinese</input>
@@ -76,14 +110,14 @@
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="eastern+european">Eastern European</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="caribbean">Caribbean</input>
                  <input type="checkbox" name="cuisine" class="groupCuisine" value="latin+american">Latin American</input>
-                </form4>
+             </form4>
 
             <!-- <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font> -->
 
-                 <dt> <br> What kind of recipes do you want? (Up to 3)
-                 <dt>
-                 <form8 name="recipeTypes" id="recipeTypes" required="true">
-                   <input type="checkbox" name="recipeTypes" value="main+course">Main Course</ipnut>
+             <dt> <br> What kind of recipes do you want?
+             <dt>
+             <form8 name="recipeTypes" id="recipeTypes" required="true">
+                   <input type="checkbox" name="recipeTypes" value="main+course">Main Course</input>
                    <input type="checkbox" name="recipeTypes" value="side+dish">Side Dish</input>
                    <input type="checkbox" name="recipeTypes" value="dessert">Dessert</input>
                    <input type="checkbox" name="recipeTypes" value="appetizer">Appetizer</input>
@@ -94,10 +128,10 @@
                    <input type="checkbox" name="recipeTypes" value="beverage">Beverage</input>
                    <!-- <option value="sauce">Sauce</option> -->
                    <!-- <option value="drink">Drink</option> -->
-                 </form8>
-                  <dt> <br> What kind of raw foods do you want? (Up to 3)
-                 <dt>
-                 <form9 name="rawGroups" id="rawGroups" required="true">
+             </form8>
+             <dt> <br> What kind of group foods do you want?
+             <dt>
+             <form9 name="rawGroups" id="rawGroups" required="true">
 					<input type="checkbox" name="rawGroups" value="Dairy+and+Egg+Products">Dairy and Egg Products</input>
 					<input type="checkbox" name="rawGroups" value="Spices+and+Herbs">Spices and Herbs</input>
 					<input type="checkbox" name="rawGroups" value="Baby+Foods">Baby Foods</input>
@@ -123,9 +157,10 @@
 					<input type="checkbox" name="rawGroups" value="Meals,+Entrees,+and+Side+Dishes">Meals, Entrees, and Side Dishes</input>
 					<input type="checkbox" name="rawGroups" value="American+Indian%2FAlaskaNative+Foods">American Indian/AlaskaNative Foods</input>
 					<input type="checkbox" name="rawGroups" value="Restaurant+Foods">Restaurant Foods</input>
-				</form9>
-				<dt> <br> What would you like to focus on?
-				<dt><br>
+             </form9>
+
+                 <dt> <br> What would you like to focus on?
+                 <dt><br>
 				<form5 name="objNut" id="objNut">
 					<input type="radio" name="objNut" value="Calories" checked>Calories</input>
 					<input type="radio" name="objNut" value="Protein">Protein</input>
@@ -142,355 +177,116 @@
 					<input type="radio" name="obj" value="Max">Max</input>
 				</form6>
 
-                   <dt><br>Do you want to change calories ranges (Kcal)?
-                   <dt>
-                        <div id="cal-slider" se-min="1000" se-step="1" se-max="4000" class="slider">
-                            <div class="slider-touch-left">
-                                <span></span>
-                            </div>
-                            <div class="slider-touch-right">
-                                <span></span>
-                            </div>
-                            <div class="slider-line">
-                                <span></span>
-                            </div>
-                        </div>
+                <dt><br>Do you want to change calories ranges (Kcal)?
+                <dt>
+                 <div data-role="rangeslider">
+                    <p>Min : <input type="text" name="calLow" id="calLow" value={{response.cal_low}} >
+                        <input name="range-1a" id="range-1a" min="1000" max="2500" oninput="updateTextInput1a(this.value);" type="range" value={{response.cal_low}}/>
+                        <input name="range-1b" id="range-1b" min="2500" max="4000" oninput="updateTextInput1b(this.value);" type="range" value={{response.cal_up}}/>
+                        Max :
+                        <input type="text" name="calUp" id="calUp" value={{response.cal_up}}>
+                    </p>
+                 </div>
 
-                        <div id="cal-result">Min: 1000 Max: 4000</div>
 
-                   <dt><br>Do you want to change protein ranges (g) ?
-                   <dt>
-                        <div id="pro-slider" se-min="0" se-step="1" se-max="800" class="slider">
-                            <div class="slider-touch-left">
-                                <span></span>
-                            </div>
-                            <div class="slider-touch-right">
-                                <span></span>
-                            </div>
-                            <div class="slider-line">
-                                <span></span>
-                            </div>
-                        </div>
+                 <dt><br>Do you want to change protein ranges (g) ?
+                 <dt>
+                 <div data-role="rangeslider">
+                    <p>Min : <input type="text" name="protLow" id="protLow" value={{response.prot_low}}>
+                        <input name="range-2a" id="range-2a" min="0" max="400" oninput="updateTextInput2a(this.value);" type="range" value="{{response.prot_low}}"/>
+                        <input name="range-2b" id="range-2b" min="400" max="800" value="{{response.prot_up}}" oninput="updateTextInput2b(this.value);" type="range"/>
+                        Max :
+                        <input type="text" name="protUp" id="protUp" value={{response.prot_up}}>
+                    </p>
+                </div>
 
-                        <div id="pro-result">Min: 0 Max: 800</div>
+                 <dt><br>Do you want to change carb ranges (g) ?
+                 <dt>
+                 <div data-role="rangeslider">
+                    <p>Min : <input type="text" name="carbLow" id="carbLow" value={{response.carb_low}}>
+                        <input name="range-3a" id="range-3a" min="0" max="400" oninput="updateTextInput3a(this.value);" type="range" value="{{response.carb_low}}"/>
+                        <input name="range-3b" id="range-3b" min="400" max="800" value="{{response.carb_up}}" oninput="updateTextInput3b(this.value);" type="range"/>
+                        Max :
+                        <input type="text" name="carbUp" id="carbUp" value={{response.carb_up}}>
+                    </p>
+                 </div>
 
-                   <dt><br>Do you want to change carb ranges (g) ?
-                   <dt>
-                        <div id="carb-slider" se-min="0" se-step="1" se-max="800" class="slider">
-                            <div class="slider-touch-left">
-                                <span></span>
-                            </div>
-                            <div class="slider-touch-right">
-                                <span></span>
-                            </div>
-                            <div class="slider-line">
-                                <span></span>
-                            </div>
-                        </div>
 
-                        <div id="carb-result">Min: 0 Max: 800</div>
-
-                   <dt><br>Do you want to change fat ranges (g)?
-                   <dt>
-                        <div id="fat-slider" se-min="0" se-step="1" se-max="500" class="slider">
-                            <div class="slider-touch-left">
-                                <span></span>
-                            </div>
-                            <div class="slider-touch-right">
-                                <span></span>
-                            </div>
-                            <div class="slider-line">
-                                <span></span>
-                            </div>
-                        </div>
-
-                        <div id="fat-result">Min: 0 Max: 500</div>
+                 <dt><br>Do you want to change fat ranges (g)?
+                 <dt>
+                 <div data-role="rangeslider">
+                    <p> Min : <input type="text" name="fatLow" id="fatLow" value={{response.fat_low}}>
+                        <input name="range-4a" id="range-4a" min="0" max="250" oninput="updateTextInput4a(this.value,this.id);" type="range" value="{{response.fat_low}}"/>
+                        <input name="range-4b" id="range-4b" min="250" max="500" value="{{response.fat_up}}"  oninput="updateTextInput4b(this.value);" type="range"/>
+                        Max :
+                        <input type="text" name="fatUp" id="fatUp" value={{response.fat_up}}>
+                    </p>
+                </div>
 
                  <dt> <br> <!--input type=submit id="search" value=Submit-->
-                   <div id="formsubmitbutton">
-		  <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
-		  	</div>
-		  	<div id="buttonreplacement" style="margin-left:30px; display:none;">
-			<img src="static/img/loader.gif" alt="loading...">
-			</div>
+                 <div id="formsubmitbutton">
+                    <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
+                 </div>
+		  	    <div id="buttonreplacement" style="margin-left:30px; display:none;">
+			        <img src="static/img/loader.gif" alt="loading...">
+			    </div>
 			<!-- below js code is for loading gif on submit button -->
-			<script type="text/javascript">
-
-			function ButtonClicked()
-			{
-			   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
-			   document.getElementById("buttonreplacement").style.display = ""; // to display
-			   return true;
-			}
-			var FirstLoading = true;
-			function RestoreSubmitButton()
-			{
-			   if( FirstLoading )
-			   {
-			      FirstLoading = false;
-			      return;
-			   }
-			   document.getElementById("formsubmitbutton").style.display = ""; // to display
-			   document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
-			}
-			// To disable restoring submit button, disable or delete next line.
-			document.onfocus = RestoreSubmitButton;
-			</script>
-
-
-
-
-               </dl>
-               <dt>
-             </form>
-
-           </div>
+         </dl>
+         <dt>
+         </form>
 
     </div>
-    <script>// script for  THE RANGE SLIDER
-        var ZBRangeSlider = function(id) {
-        var self = this;
-        var startX = 0, x = 0;
 
-        // retrieve touch button
-        var slider     = document.getElementById(id)
-        var touchLeft  = slider.querySelector('.slider-touch-left');
-        var touchRight = slider.querySelector('.slider-touch-right');
-        var lineSpan   = slider.querySelector('.slider-line span');
-
-        // get some properties
-        var min   = parseFloat(slider.getAttribute('se-min'));
-        var max   = parseFloat(slider.getAttribute('se-max'));
-
-        var step  = 0.0;
-
-        if (slider.getAttribute('se-step'))
-        {
-            step  = Math.abs(parseFloat(slider.getAttribute('se-step')));
-        }
-
-        self.slider = slider;
-        self.reset = function() {
-            touchLeft.style.left = '0px';
-            touchRight.style.left = (slider.offsetWidth - touchLeft.offsetWidth) + 'px';
-            lineSpan.style.marginLeft = '0px';
-            lineSpan.style.width = (slider.offsetWidth - touchLeft.offsetWidth) + 'px';
-            startX = 0;
-            x = 0;
-            slider.setAttribute('se-min-value', min);
-            slider.setAttribute('se-max-value', max);
-        };
-
-        // initial reset
-        self.reset();
-
-        // usefull values, min, max, normalize fact is the width of both touch buttons
-        var normalizeFact = 26;
-        var maxX = slider.offsetWidth - touchRight.offsetWidth;
-        var selectedTouch = null;
-        var initialValue = (lineSpan.offsetWidth - normalizeFact);
-
-        // setup touch/click events
-        function onStart(event) {
-
-        // Prevent default dragging of selected content
-            event.preventDefault();
-            var eventTouch = event;
-
-            if (event.touches)
-            {
-                eventTouch = event.touches[0];
-            }
-
-            if(this === touchLeft)
-            {
-                x = touchLeft.offsetLeft;
-            }
-            else
-            {
-                x = touchRight.offsetLeft;
-            }
-
-            startX = eventTouch.pageX - x;
-            selectedTouch = this;
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onStop);
-            document.addEventListener('touchmove', onMove);
-            document.addEventListener('touchend', onStop);
+</div>
 
 
-            }
+    <script type="text/javascript">
+          function updateTextInput4a(val) {
+            document.getElementById('fatLow').value=val;
+          }
+          function updateTextInput4b(val) {
+                document.getElementById('fatUp').value=val; }
 
-            function onMove(event) {
-                var eventTouch = event;
+          function updateTextInput3a(val) {
+            document.getElementById('carbLow').value=val;
+          }
+          function updateTextInput3b(val) {
+                document.getElementById('carbUp').value=val; }
 
-                if (event.touches)
-                {
-                    eventTouch = event.touches[0];
-                }
+          function updateTextInput2a(val) {
+            document.getElementById('protLow').value=val;
+          }
+          function updateTextInput2b(val) {
+                document.getElementById('protUp').value=val; }
 
-                x = eventTouch.pageX - startX;
-
-    if (selectedTouch === touchLeft)
-    {
-      if(x > (touchRight.offsetLeft - selectedTouch.offsetWidth + 10))
-      {
-        x = (touchRight.offsetLeft - selectedTouch.offsetWidth + 10)
-      }
-      else if(x < 0)
-      {
-        x = 0;
-      }
-
-      selectedTouch.style.left = x + 'px';
-    }
-    else if (selectedTouch === touchRight)
-    {
-      if(x < (touchLeft.offsetLeft + touchLeft.offsetWidth - 10))
-      {
-        x = (touchLeft.offsetLeft + touchLeft.offsetWidth - 10)
-      }
-      else if(x > maxX)
-      {
-        x = maxX;
-      }
-      selectedTouch.style.left = x + 'px';
-    }
-
-    // update line span
-    lineSpan.style.marginLeft = touchLeft.offsetLeft + 'px';
-    lineSpan.style.width = (touchRight.offsetLeft - touchLeft.offsetLeft) + 'px';
-
-    // write new value
-    calculateValue();
-
-    // call on change
-    if(slider.getAttribute('on-change'))
-    {
-      var fn = new Function('min, max', slider.getAttribute('on-change'));
-      fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
-    }
-
-    if(self.onChange)
-    {
-      self.onChange(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
-    }
-
-  }
-
-  function onStop(event) {
-    document.removeEventListener('mousemove', onMove);
-    document.removeEventListener('mouseup', onStop);
-    document.removeEventListener('touchmove', onMove);
-    document.removeEventListener('touchend', onStop);
-
-    selectedTouch = null;
-
-    // write new value
-    calculateValue();
-
-    // call did changed
-    if(slider.getAttribute('did-changed'))
-    {
-      var fn = new Function('min, max', slider.getAttribute('did-changed'));
-      fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
-    }
-
-    if(self.didChanged)
-    {
-      self.didChanged(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'));
-    }
-  }
-
-        function calculateValue() {
-            var newValue = (lineSpan.offsetWidth - normalizeFact) / initialValue;
-            var minValue = lineSpan.offsetLeft / initialValue;
-            var maxValue = minValue + newValue;
-
-            var minValue = minValue * (max - min) + min;
-            var maxValue = maxValue * (max - min) + min;
-
-            console.log(step);
-            if (step !== 0.0)
-            {
-                var multi = Math.floor((minValue / step));
-                minValue = step * multi;
-
-                multi = Math.floor((maxValue / step));
-                maxValue = step * multi;
-            }
-
-            slider.setAttribute('se-min-value', minValue);
-            slider.setAttribute('se-max-value', maxValue);
-        }
-
-  // link events
-            touchLeft.addEventListener('mousedown', onStart);
-            touchRight.addEventListener('mousedown', onStart);
-            touchLeft.addEventListener('touchstart', onStart);
-            touchRight.addEventListener('touchstart', onStart);
-
-   };
-
-// -------------------
-// How to use?
-        var newRangeSlider = new ZBRangeSlider('cal-slider');
-
-        newRangeSlider.onChange = function(min, max)
-        {
-            console.log(min, max, this);
-            document.getElementById('cal-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
-        newRangeSlider.didChanged = function(min, max)
-        {
-            console.log(min,max, this);
-            document.getElementById('cal-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-//---------------------------
-var newRangeSlider = new ZBRangeSlider('pro-slider');
-
-        newRangeSlider.onChange = function(min, max)
-        {
-            console.log(min, max, this);
-            document.getElementById('pro-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
-        newRangeSlider.didChanged = function(min, max)
-        {
-            console.log(min,max, this);
-            document.getElementById('pro-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-//---------------------------
-var newRangeSlider = new ZBRangeSlider('carb-slider');
-
-        newRangeSlider.onChange = function(min, max)
-        {
-            console.log(min, max, this);
-            document.getElementById('carb-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
-        newRangeSlider.didChanged = function(min, max)
-        {
-            console.log(min,max, this);
-            document.getElementById('carb-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
-//---------------------------
-var newRangeSlider = new ZBRangeSlider('fat-slider');
-
-        newRangeSlider.onChange = function(min, max)
-        {
-            console.log(min, max, this);
-            document.getElementById('fat-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
-        newRangeSlider.didChanged = function(min, max)
-        {
-            console.log(min,max, this);
-            document.getElementById('fat-result').innerHTML = 'Min: ' + min + ' Max: ' + max;
-        }
-
+          function updateTextInput1a(val) {
+            document.getElementById('calLow').value=val;
+          }
+          function updateTextInput1b(val) {
+                document.getElementById('calUp').value=val; }
     </script>
+
+    <script type="text/javascript">
+        function ButtonClicked()
+        {
+           document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+           document.getElementById("buttonreplacement").style.display = ""; // to display
+           return true;
+        }
+        var FirstLoading = true;
+        function RestoreSubmitButton()
+        {
+           if( FirstLoading )
+           {
+              FirstLoading = false;
+              return;
+           }
+           document.getElementById("formsubmitbutton").style.display = ""; // to display
+           document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+        }
+        // To disable restoring submit button, disable or delete next line.
+        document.onfocus = RestoreSubmitButton;
+      </script>
+
 </main>
 {% endblock %}

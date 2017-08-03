@@ -1,9 +1,11 @@
 # from diet_optimizer import *
 from __init__ import *
 from models import *
+from email import send_email
 from settings import *
-from forms import SignupForm, LoginForm, PersonalDetailsForm, SettingsForm,FeedbackForm
-from sqlalchemy.sql import select
+from forms import SignupForm, LoginForm, PersonalDetailsForm, SettingsForm, AccountSettingsForm, PasswordResetRequestForm, PasswordResetForm
+from werkzeug import generate_password_hash
+
 
 @app.route('/', methods=['GET'])
 @cross_origin()
@@ -29,17 +31,17 @@ def signup1():
             return render_template('signup1.html', form=form)
         else:
             try:
-                newuser = UserDB("xxxx", "xxxx", request.form['nick_name'], request.form['email'],
+                    newuser = UserDB("xxxx", "xxxx", request.form['nick_name'], request.form['email'],
                                  request.form['password'], 0, 0, None, None, None, None)
-                db.session.add(newuser)
-                db.session.commit()
-                global email
-                global username
-                global password
-                email = newuser.email
-                username = newuser.nickname
-                password = newuser.pwdhash
-                return redirect(url_for('personal_details'))
+                    db.session.add(newuser)
+                    db.session.commit()
+                    global email
+                    global username
+                    global password
+                    email = newuser.email
+                    username = newuser.nickname
+                    password = newuser.pwdhash
+                    return redirect(url_for('personal_details'))
                 # url_for needs the function inside the route
             except:
                 db.session.rollback()
@@ -97,7 +99,6 @@ def personal_details():
 @app.route('/login', methods=['GET','POST'])
 @cross_origin()
 def login():
-    # if 'email' in session:
     if 'user_name' in session:
         return redirect(url_for('home'))
 
@@ -107,11 +108,9 @@ def login():
         if form.validate() == False:
             return render_template('login.html', form=form)
         else:
-            # email = form.email.data
             user_name = form.nick_name.data
             password = form.password.data
             username = form.nick_name.data
-            # user = UserDB.query.filter_by(email=email).first()
             user = UserDB.query.filter_by(nickname=user_name).first()
             if user is not None and user.check_password(password):
                 session['user_name'] = form.nick_name.data
@@ -123,6 +122,48 @@ def login():
     elif request.method == 'GET':
         return render_template('login.html', form=form)
 
+@app.route('/reset', methods=['GET', 'POST'])
+@cross_origin()
+def password_reset_request():
+    if 'user_name' in session:
+        return redirect(url_for('home'))
+    form = PasswordResetRequestForm(request.form)
+    print form
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('reset_password.html', form=form)
+        else:
+            print "--------"
+            print form
+            user = UserDB.query.filter_by(email=form.email.data).first()
+            if user:
+                token = user.generate_reset_token()
+                send_email(user.email, 'Reset Your Password',
+                       'reset_password_mail',
+                       user=user, token=token,
+                       next=request.args.get('next'))
+                flash('An email with instructions to reset your password has been sent to you.')
+                print "email envoye"
+                return redirect(url_for('login'))
+    elif request.method == 'GET' :
+        return render_template('reset_password.html', form=form)
+
+@app.route('/reset/<token>', methods=['GET', 'POST'])
+@cross_origin()
+def password_reset(token):
+    if 'user_name' in session:
+        return redirect(url_for('home'))
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        user = UserDB.query.filter_by(email=form.email.data).first()
+        if user is None:
+            return redirect(url_for('index'))
+        if user.reset_password(token, form.password.data):
+            flash('Your password has been updated.')
+            return redirect(url_for('login'))
+        else:
+            return redirect(url_for('index'))
+    return render_template('reset_password.html', form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @cross_origin()
@@ -133,7 +174,25 @@ def logout():
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
-    return render_template("home.html")
+    if 'user_name' in session:
+        user = UserDB.query.filter_by(nickname=session.get('user_name', None)).first()
+    elif username is not None:
+        user = UserDB.query.filter_by(nickname=username).first()
+    if user.birthdate > datetime.date.today().replace(year=user.birthdate.year):
+        age = datetime.date.today().year - user.birthdate.year - 1
+    else:
+        age = datetime.date.today().year - user.birthdate.year
+    current_user = User(age, user.weight, user.height, user.gender, user.activitylevel)
+    user_daily_nutrients = current_user.daily_nutrients
+    session['carb_low'] = user_daily_nutrients['carb_low']
+    session['carb_up'] = user_daily_nutrients['carb_up']
+    session['prot_low'] = user_daily_nutrients['prot_low']
+    session['prot_up'] = user_daily_nutrients['prot_up']
+    session['fat_low'] = user_daily_nutrients['fat_low']
+    session['fat_up'] = user_daily_nutrients['fat_up']
+    session['cal_low'] = user_daily_nutrients['cal_low']
+    session['cal_up'] = user_daily_nutrients['cal_up']
+    return render_template("home.html",response={'user_daily_nutrients': user_daily_nutrients})
 
 
 @app.route('/profile', methods=['GET'])
@@ -144,20 +203,16 @@ def profile():
     elif username is not None :
         user = UserDB.query.filter_by(nickname=username).first()
     intol = Intolerences.query.filter_by(uid=user.uid)
-
     if user.birthdate > datetime.date.today().replace(year=user.birthdate.year):
         age = datetime.date.today().year - user.birthdate.year - 1
     else:
         age = datetime.date.today().year - user.birthdate.year
 
     current_user = User(age, user.weight, user.height, user.gender, user.activitylevel)
-    print '**************'
-    print current_user.weight
-    print current_user.height
-    print '################################'
     obj = request.args.get('obj')
     obj_nut = request.args.get('objNut')
 
+    session['user_name']=user.nickname
     session['e_mail']=user.email
     session['first_name']=user.firstname
     session['last_name']=user.lastname
@@ -197,32 +252,32 @@ def history():
     elif username is not None:
         user = UserDB.query.filter_by(nickname=username).first()
     feed_back=Feedback.query.filter_by(uid=user.uid).all()
+    uid = user.uid
     print feed_back
-    form = FeedbackForm(request.form)
-    form.recipe.choices = [(Recipe.query.filter_by(rid=i.rid).first().name, Recipe.query.filter_by(rid=i.rid).first().name) for i in feed_back]
+    #form.recipe.choices = [(Recipe.query.filter_by(rid=i.rid).first().name, Recipe.query.filter_by(rid=i.rid).first().name) for i in feed_back]
     recipes_name=[Recipe.query.filter_by(rid=i.rid).first().name for i in feed_back]
     recipes_link=[Recipe.query.filter_by(rid=i.rid).first().link for i in feed_back]
     feedback = Feedback.query.filter_by(uid=user.uid)
+    feedbackrawfood = FeedbackRawFood.query.filter_by(uid=user.uid)
+    raw_food_id = [feedbackrawfood.filter_by(fid=i.fid).first().fid for i in feedbackrawfood]
+    raw_food_name = [USDAfoods.query.filter_by(NDB_No=key).first().Desc for key in raw_food_id]
+    print feedback
     marks = [key.mark for key in feedback]
-    print marks
+    recipes_id = [Recipe.query.filter_by(rid=i.rid).first().rid for i in feed_back]
     if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('history.html', form=form)
-        else:
-            try:
-                id = Recipe.query.filter_by(name=form.recipe.data).first().rid
-                rate = Feedback.query.filter_by(rid=id).first()
-                rate.mark=form.mark.data
-                db.session.commit()
-                return redirect(url_for('history'))
-            except:
-                db.session.rollback()
-                print("Unexpected error:", sys.exc_info()[0])
-                raise
-
+        for key in recipes_id:
+            mark_temp = request.form.get(str(key))
+            rate_temp = Feedback.query.filter_by(rid=key).first()
+            rate_temp.mark = mark_temp
+            db.session.commit()
+        for key in raw_food_id:
+            mark_temp = request.form.get(str(key))
+            rate_temp = FeedbackRawFood.query.filter_by(fid=key).first()
+            rate_temp.mark = mark_temp
+            db.session.commit()
+        return redirect(url_for('history'))
     elif request.method == 'GET':
-        #        return render_template('history.html',form=form)
-        return render_template('history.html', form=form, response={'recipes_name' : recipes_name, 'recipes_link' : recipes_link, 'marks' : marks})
+        return render_template('history.html', response={'recipes_name' : recipes_name, 'recipes_link' : recipes_link, 'marks' : marks, 'recipes_id' : recipes_id, 'feedback' : feedback, 'feedbackrawfood' : feedbackrawfood, 'rawfood_id' : raw_food_id, 'rawfood_name' : raw_food_name})
 
 
 @app.route('/settings', methods=['GET', 'POST'])
@@ -270,8 +325,6 @@ def settings():
                 db.session.commit()
                 intolerences = intolerences + ' ' + key
             print intolerences
-            #user.height = form.height.data
-            #user.weight = form.weight.data
             user.birthdate = form.birth_date.data
             user.activitylevel = form.activity_level.data
             user.diet = form.diet.data
@@ -284,6 +337,32 @@ def settings():
         return render_template('settings.html', form=form, response={'user_info': {'birthdate' : user.birthdate, 'weight': user.weight, 'height': user.height,
                           'gender': user.gender, 'activitylevel': user.activitylevel,
                           'diet': user.diet, 'intolerances': intolerences}})
+
+@app.route('/account_settings', methods=['GET', 'POST'])
+@cross_origin()
+def account_settings():
+    if 'user_name' in session :
+        user = UserDB.query.filter_by(nickname=session.get('user_name',None)).first()
+    elif username is not None :
+        user = UserDB.query.filter_by(nickname=username).first()
+    form = AccountSettingsForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('account_settings.html', form=form)
+        else:
+            #new_user=UserDB(user.firstname, user.lastname, user.nickname, user.email, request.form['new_password'], user.height, user.weight, user.birthdate, user.activitylevel, user.diet, user.gender)
+            user.pwdhash = generate_password_hash(request.form['new_password'])
+            #print request.form['new_password']
+            #db.session.add(new_user)
+            #user.pwdhash = form.new_password.data
+            db.session.commit()
+            print user.pwdhash
+            return redirect(url_for('profile'))
+
+    elif request.method == 'GET':
+        form = AccountSettingsForm()
+        return render_template('account_settings.html', form=form)
 
 
 
@@ -339,18 +418,15 @@ def get_usr_input_basic():
 @app.route('/results', methods=['GET'])
 @cross_origin()
 def get_usr_input():
-    print '*****************'
     raw_groups = request.args.getlist('rawGroups')
     raw_list = [s.replace("+", " ") for s in raw_groups]
     raw_list = [s.replace("%2F", "/") for s in raw_list]
     print raw_list, 'RAW'
-    print '*************'
     data = []
     for i in range(2):
         # data.append(random.choice(USDAfoods.query.all()))
         data.append(random.choice(USDAfoods.query.filter(USDAfoods.Group_Name.in_(raw_list)).all()))
     print type(data)
-    print '****************'
     raw_foods_temp = {'raw': [d.__dict__ for d in data]}
     # print [type(d) for d in data]
 
@@ -368,6 +444,8 @@ def get_usr_input():
         }
         raw_foods.append(dct)
 
+    current_user = UserDB.query.filter_by(email=session.get('e_mail', None)).first()
+
     total_raw_calories = sum(item['Cal'] for item in raw_foods_temp['raw'])
     total_raw_carbs = sum(item['Carb'] for item in raw_foods_temp['raw'])
     total_raw_protein = sum(item['Prot'] for item in raw_foods_temp['raw'])
@@ -375,7 +453,6 @@ def get_usr_input():
     # print total_raw_fat
     # print total_raw_protein
     # print total_raw_carbs
-    print raw_foods, "SECOND"
 
     # raw1 = random.choice(USDAfoods.query.all())
     # raw2 = random.choice(USDAfoods.query.all())
@@ -388,7 +465,21 @@ def get_usr_input():
     # raw_foods = [raw1,raw2]
 ##########################################
 
-    current_user = UserDB.query.filter_by(email=session.get('e_mail', None)).first()
+    for d in data :
+        if FeedbackRawFood.query.filter_by(fid=d.NDB_No).first():
+            print "recipe already in feedback"
+            if FeedbackRawFood.query.filter_by(uid=current_user.uid).first():
+                print "user already tried this recipe"
+            else :
+                temp_feedback = FeedbackRawFood(d.NDB_No, current_user.uid, None)
+                db.session.add(temp_feedback)
+                db.session.commit()
+        else:
+            temp_feedback = FeedbackRawFood(d.NDB_No, current_user.uid, None)
+            db.session.add(temp_feedback)
+            db.session.commit()
+
+
     intol = Intolerences.query.filter_by(uid=current_user.uid).first()
 
     if current_user.birthdate > datetime.date.today().replace(year=current_user.birthdate.year):
@@ -442,6 +533,32 @@ def get_usr_input():
     print "user daily nutrients"
     print user_daily_nutrients
 
+    carb_low = request.args.get('carbLow')
+    carb_up = request.args.get('carbUp')
+    prot_low = request.args.get('protLow')
+    prot_up = request.args.get('protUp')
+    fat_low = request.args.get('fatLow')
+    fat_up = request.args.get('fatUp')
+    cal_low = request.args.get('calLow')
+    cal_up = request.args.get('calUp')
+
+    if carb_low != '':
+        user.daily_nutrients['carb_low'] = float(carb_low)
+    if carb_up != '':
+        user.daily_nutrients['carb_up'] = float(carb_up)
+    if prot_low != '':
+        user.daily_nutrients['prot_low'] = float(prot_low)
+    if prot_up != '':
+        user.daily_nutrients['prot_up'] = float(prot_up)
+    if fat_low != '':
+        user.daily_nutrients['fat_low'] = float(fat_low)
+    if fat_up != '':
+        user.daily_nutrients['fat_up'] = float(fat_up)
+    if cal_low != '':
+        user.daily_nutrients['cal_low'] = float(cal_low)
+    if cal_up != '':
+        user.daily_nutrients['cal_up'] = float(cal_up)
+
     user_daily_nutrients['cal_up'] = user_daily_nutrients['cal_up'] - total_raw_calories
     user_daily_nutrients['carb_up'] = user_daily_nutrients['carb_up'] - total_raw_carbs
     user_daily_nutrients['fat_up'] = user_daily_nutrients['fat_up'] - total_raw_fat
@@ -449,6 +566,9 @@ def get_usr_input():
 
     print "user daily nutrients after raw foods"
     print user_daily_nutrients
+
+    print"#################"
+    print user.daily_nutrients['cal_up']
 
     # session['carb_low'] = user_daily_nutrients['carb_low'] - total_raw_carbs
     # session['carb_up'] = user_daily_nutrients['carb_up'] - total_raw_carbs
@@ -478,20 +598,20 @@ def get_usr_input():
     # print raw1.Desc
     # print raw2.Desc
 
-    print current_user.weight
-    print current_user.height
-    print current_user.gender
-    print current_user.activitylevel
-    print cuisine
-    print diet
-    print obj
-    print obj_nut
-    print recipe_types
-    print raw_groups
-    print user_daily_nutrients
-    print diet_recipes
-    print total_nutrients_taken
-    print raw_foods
+    # print current_user.weight
+    # print current_user.height
+    # print current_user.gender
+    # print current_user.activitylevel
+    # print cuisine
+    # print diet
+    # print obj
+    # print obj_nut
+    # print recipe_types
+    # print raw_groups
+    # print user_daily_nutrients
+    # print diet_recipes
+    # print total_nutrients_taken
+    # print raw_foods
 
     for key in diet_recipes :
         if Recipe.query.filter_by(ridapi=key["id"]).first():

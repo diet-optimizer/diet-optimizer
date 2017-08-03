@@ -4,9 +4,12 @@ from pulp import *
 import settings
 import random
 import datetime
+from flask import current_app
+from smtplib import SMTP
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, foreign
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -51,6 +54,22 @@ class UserDB(db.Model):
     def check_password(self, password):
         return check_password_hash(self.pwdhash, password)
 
+    def generate_reset_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.uid})
+
+    def reset_password(self, token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('reset') != self.uid:
+            return False
+        self.password = new_password
+        db.session.add(self)
+        return True
+
 class Recipe(db.Model):
     __tablename__ = 'recipes'
     rid = db.Column(db.Integer, primary_key = True)
@@ -67,7 +86,7 @@ class Feedback(db.Model):
     __tablename__ = 'feedback'
     rid = db.Column(db.ForeignKey('recipes.rid'))
     uid = db.Column(db.ForeignKey('users.uid'))
-    mark = db.Column(db.String(10))
+    mark = db.Column(db.Integer)
 
     recipe = relationship('Recipe')
     user = relationship('UserDB')
@@ -80,6 +99,26 @@ class Feedback(db.Model):
 
     def __init__(self,rid, uid, mark):
         self.rid = rid
+        self.uid = uid
+        self.mark = mark
+
+class FeedbackRawFood(db.Model):
+    __tablename__ = 'feedbackrawfood'
+    fid = db.Column(db.ForeignKey('usda.NDB_No'))
+    uid = db.Column(db.ForeignKey('users.uid'))
+    mark = db.Column(db.Integer)
+
+    rawfood = relationship('USDAfoods')
+    user = relationship('UserDB')
+
+    __table_args__ = (
+        db.PrimaryKeyConstraint('fid','uid'),
+    )
+
+# if a primary key is composed of two elements or more self become an object here : self.rif & self.uid
+
+    def __init__(self,fid, uid, mark):
+        self.fid = fid
         self.uid = uid
         self.mark = mark
 

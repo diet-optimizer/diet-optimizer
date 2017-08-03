@@ -2,10 +2,23 @@
 
 {% block content %}
 <main class="hero-section">
+    <aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			<li ><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li class="selected" ><a href="{{ url_for('settings') }}">PERSONAL SETTINGS</a></li>
+            <li><a href="{{ url_for('account_settings') }}">ACCOUNT SETTINGS</a></li>
+
+		</ul>
+	</div>
+	</aside>
+
     <div class="container-settings">
 	<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
- <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 	<form method="POST" action='/settings'>
     <form method="GET" action='/settings'>
     <div id="user_info">
@@ -46,10 +59,9 @@
         {% endfor %}
         {% endif %}
         {{ form.height(value=response.user_info.height) }}
-		
     </div>
-         <input type="radio" name="heightunit" value="cm" checked="true"> cm</input>
-        <input type="radio" name="heightunit" value="in"> in</input><br>
+         <input type="radio" id="centimeter" name="heightunit" value="cm" checked="true" onclick="document.getElementById('kilograms').checked = true"> cm</input>
+        <input type="radio" id="inch" name="heightunit" value="in" onclick="document.getElementById('pound').checked = true;document.form['height'].value =12345" > in</input><br>
     <br>
         <div class='form-group'>
             {{ form.weight.label }}
@@ -61,8 +73,8 @@
             {% endif %}
             {{ form.weight(value=response.user_info.weight) }}
         </div>
-        <input type="radio" name="weightunit" value="kg" checked="true"> kg</input>
-        <input type="radio" name="weightunit" value="lbs"> lbs</input><br>
+        <input type="radio" id="kilograms" name="weightunit" value="kg" checked="true"> kg</input>
+        <input type="radio" id="pound" name="weightunit" value="lbs"> lbs</input><br>
     <br>
         <div class='form-group'>
             {{ form.activity_level.label }}
@@ -110,16 +122,7 @@
     </div>
 
     <br>
-	<aside>
-	<div class="sidebar2" >
-		<ul>
-			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
-			<li ><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
-			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
-			<li class="selected"><a href="{{ url_for('settings') }}">SETTINGS</a></li>
-		</ul>
-	</div>
-	</aside>
+
   </main>
 
 

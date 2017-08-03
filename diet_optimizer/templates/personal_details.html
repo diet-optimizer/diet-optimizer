@@ -5,9 +5,38 @@
         body{
             background:url(static/img/food_world.jpg) no-repeat center;
         }
+        .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+img{
+	display: inline-block;
+}
     </style>
     
 <main>
+
 <form  id="msform" method="POST" action='/personal_details'>
 				{{ form.hidden_tag() }}
   <!-- progressbar -->
@@ -75,8 +104,8 @@
 
 		{{ form.height }}
 	</div>
-    <input type="radio" name="heightunit" value="cm" checked="true" style="position: relative; margin: 0px -125px 0px -122px;">cm</input>
-    <input type="radio" name="heightunit" value="in" style="position: relative; margin: 0px -125px 0px -122px;">in</input>
+    <input type="radio" id="centimeter" name="heightunit" value="cm" checked="true" onclick="document.getElementById('kilograms').checked = true" style="position: relative; margin: 0px -125px 0px -122px;">cm</input>
+    <input type="radio" id="inch" name="heightunit" value="in" onclick="document.getElementById('pound').checked = true" style="position: relative; margin: 0px -125px 0px -122px;">in</input>
     <br><br>
 
 	<div class='form-group'>
@@ -89,8 +118,8 @@
 
 		{{ form.weight }}
 	</div>
-    <input type="radio" name="weightunit" value="kg" checked="true" style="position: relative; margin: 0px -125px 0px -122px;">kg</input>
-    <input type="radio" name="weightunit" value="lbs" style="position: relative; margin: 0px -125px 0px -122px;">lbs</input>
+    <input type="radio" id="kilograms" name="weightunit" value="kg" checked="true" style="position: relative; margin: 0px -125px 0px -122px;">kg</input>
+    <input type="radio" id="pound" name="weightunit" value="lbs" style="position: relative; margin: 0px -125px 0px -122px;">lbs</input>
     <br><br>
 	
     <div class='form-group'>
@@ -106,7 +135,6 @@
 
 	<div class='form-group'>
 		{{ form.intolerences.label }}
-
 			{% if form.intolerences.errors %}
 				{% for error in form.intolerences.errors %}
 					<p class='error-message'>{{ error }}</p>
@@ -116,10 +144,14 @@
 	</div>
 
 	<div class='form-group'>
-		{{ form.activity_level.label }}
-			<div class="help-tip">
+		<!--p><em>{{ form.activity_level.label }}</em></p-->
+
+		<p>{{ form.activity_level.label }}<div class="tooltip"> <img src="/static/img/question-mark-icon.png" height="20" width="20"/>
+			<span class="tooltiptext"> This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</span>
+		</div></p>
+			<!--div class="help-tip">
     			<p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
-			</div>
+			</div--><br>
 			{% if form.activity_level.errors %}
 				{% for error in form.activity_level.errors %}
 					<p class='error-message'>{{ error }}</p>

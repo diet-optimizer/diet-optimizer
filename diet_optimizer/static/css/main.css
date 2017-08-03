@@ -666,22 +666,22 @@ input#search{
  */
 .container-history{
     position: absolute;
-    left:200px; top:300px; right:0; bottom:0;
+    left:200px; top:100px; right:0; bottom:0;
 }
 .pull-left-history {
 
   position: absolute;
-  left:200px; top:350px; right:0; bottom:0;
+  left:200px; top:200px; right:0; bottom:0;
 }
 
 .pull-right-history {
   position: absolute;
-  left:1200px;top:350px; right:0; bottom:0;
+  left:1000px;top:200px; right:0; bottom:0;
 }
 
 .pull-center-history {
   position: absolute;
-  left:700px;top:350; right:0; bottom:0;
+  left:700px;top:200; right:0; bottom:0;
 }
 
     /*star rating*/
@@ -828,10 +828,10 @@ body .signup1 {
     text-align: center;
     background-color: #BCDBEA;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    line-height: 26px;
+    width: 15px;
+    height: 15px;
+    font-size: 13px;
+    line-height: 17px;
     cursor: default;
 }
 
@@ -857,9 +857,10 @@ body .signup1 {
     padding: 20px;
     width: 300px;
     position: absolute;
+    right: -8px;
+    top: 21px;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -4px;
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
