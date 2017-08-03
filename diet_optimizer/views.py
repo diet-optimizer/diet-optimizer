@@ -6,6 +6,7 @@ from settings import *
 from forms import SignupForm, LoginForm, PersonalDetailsForm, SettingsForm, AccountSettingsForm, PasswordResetRequestForm, PasswordResetForm
 from werkzeug import generate_password_hash
 
+#TESTTEST
 
 @app.route('/', methods=['GET'])
 @cross_origin()
