@@ -1,7 +1,7 @@
 # from diet_optimizer import *
 from __init__ import *
 from models import *
-from email import send_email
+#from email import send_email
 from settings import *
 from forms import SignupForm, LoginForm, PersonalDetailsForm, SettingsForm, AccountSettingsForm, PasswordResetRequestForm, PasswordResetForm
 from werkzeug import generate_password_hash
@@ -122,48 +122,48 @@ def login():
     elif request.method == 'GET':
         return render_template('login.html', form=form)
 
-@app.route('/reset', methods=['GET', 'POST'])
-@cross_origin()
-def password_reset_request():
-    if 'user_name' in session:
-        return redirect(url_for('home'))
-    form = PasswordResetRequestForm(request.form)
-    print form
-    if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('reset_password.html', form=form)
-        else:
-            print "--------"
-            print form
-            user = UserDB.query.filter_by(email=form.email.data).first()
-            if user:
-                token = user.generate_reset_token()
-                send_email(user.email, 'Reset Your Password',
-                       'reset_password_mail',
-                       user=user, token=token,
-                       next=request.args.get('next'))
-                flash('An email with instructions to reset your password has been sent to you.')
-                print "email envoye"
-                return redirect(url_for('login'))
-    elif request.method == 'GET' :
-        return render_template('reset_password.html', form=form)
-
-@app.route('/reset/<token>', methods=['GET', 'POST'])
-@cross_origin()
-def password_reset(token):
-    if 'user_name' in session:
-        return redirect(url_for('home'))
-    form = PasswordResetForm()
-    if form.validate_on_submit():
-        user = UserDB.query.filter_by(email=form.email.data).first()
-        if user is None:
-            return redirect(url_for('index'))
-        if user.reset_password(token, form.password.data):
-            flash('Your password has been updated.')
-            return redirect(url_for('login'))
-        else:
-            return redirect(url_for('index'))
-    return render_template('reset_password.html', form=form)
+# @app.route('/reset', methods=['GET', 'POST'])
+# @cross_origin()
+# def password_reset_request():
+#     if 'user_name' in session:
+#         return redirect(url_for('home'))
+#     form = PasswordResetRequestForm(request.form)
+#     print form
+#     if request.method == 'POST':
+#         if form.validate() == False:
+#             return render_template('reset_password.html', form=form)
+#         else:
+#             print "--------"
+#             print form
+#             user = UserDB.query.filter_by(email=form.email.data).first()
+#             if user:
+#                 token = user.generate_reset_token()
+#                 send_email(user.email, 'Reset Your Password',
+#                        'reset_password_mail',
+#                        user=user, token=token,
+#                        next=request.args.get('next'))
+#                 flash('An email with instructions to reset your password has been sent to you.')
+#                 print "email envoye"
+#                 return redirect(url_for('login'))
+#     elif request.method == 'GET' :
+#         return render_template('reset_password.html', form=form)
+#
+# @app.route('/reset/<token>', methods=['GET', 'POST'])
+# @cross_origin()
+# def password_reset(token):
+#     if 'user_name' in session:
+#         return redirect(url_for('home'))
+#     form = PasswordResetForm()
+#     if form.validate_on_submit():
+#         user = UserDB.query.filter_by(email=form.email.data).first()
+#         if user is None:
+#             return redirect(url_for('index'))
+#         if user.reset_password(token, form.password.data):
+#             flash('Your password has been updated.')
+#             return redirect(url_for('login'))
+#         else:
+#             return redirect(url_for('index'))
+#     return render_template('reset_password.html', form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @cross_origin()

@@ -4,7 +4,7 @@ from pulp import *
 import settings
 import random
 import datetime
-from flask import current_app
+#from flask import current_app
 from smtplib import SMTP
 
 from flask_sqlalchemy import SQLAlchemy
@@ -54,21 +54,21 @@ class UserDB(db.Model):
     def check_password(self, password):
         return check_password_hash(self.pwdhash, password)
 
-    def generate_reset_token(self, expiration=3600):
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'reset': self.uid})
+    # def generate_reset_token(self, expiration=3600):
+    #     s = Serializer(current_app.config['SECRET_KEY'], expiration)
+    #     return s.dumps({'reset': self.uid})
 
-    def reset_password(self, token, new_password):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except:
-            return False
-        if data.get('reset') != self.uid:
-            return False
-        self.password = new_password
-        db.session.add(self)
-        return True
+    # def reset_password(self, token, new_password):
+    #     s = Serializer(current_app.config['SECRET_KEY'])
+    #     try:
+    #         data = s.loads(token)
+    #     except:
+    #         return False
+    #     if data.get('reset') != self.uid:
+    #         return False
+    #     self.password = new_password
+    #     db.session.add(self)
+    #     return True
 
 class Recipe(db.Model):
     __tablename__ = 'recipes'
