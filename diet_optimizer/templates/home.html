@@ -3,135 +3,136 @@
 {% block content %}
 <style>
     input[type=range]{
-    -webkit-appearance: none;
-}
+        -webkit-appearance: none;
+    }
 
-input[type=range]::-webkit-slider-runnable-track {
-    width: 300px;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
-}
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 300px;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 3px;
+    }
 
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-    margin-top: -4px;
-}
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: goldenrod;
+        margin-top: -4px;
+    }
 
-input[type=range]:focus {
-    outline: none;
-}
+    input[type=range]:focus {
+        outline: none;
+    }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-}
-input[type=text]{
-    width: 45px;
-    background-color: #f4f4f4;
-    border: none;
-}
+    input[type=range]:focus::-webkit-slider-runnable-track {
+        background: #ccc;
+    }
+
+    input[type=text]{
+        width: 45px;
+        background-color: #f4f4f4;
+        border: none;
+    }
 </style>
+
 <main class="hero-section">
 	<aside>
-	<div class="sidebar2" >
-		<ul>
-			<li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
-			<li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
-			<li ><a href="{{ url_for('history') }}">HISTORY</a></li>
-			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
-            <li><a href="{{ url_for('account_settings') }}">ACCOUNT SETTINGS</a></li>
-		</ul>
-	</div>
+	    <div class="sidebar2" >
+		    <ul>
+			    <li ><a href="{{ url_for('profile') }}">GENERAL INFORMATION</a></li>
+			    <li class="selected"><a href="{{ url_for('home') }}">GET A RECIPE</a></li>
+			    <li ><a href="{{ url_for('history') }}">HISTORY</a></li>
+			    <li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+                <li><a href="{{ url_for('account_settings') }}">ACCOUNT SETTINGS</a></li>
+		    </ul>
+	    </div>
 	</aside>
 	
-<div class="container-home">
-
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script type="text/javascript" src="script.js"></script>
-    <h2> Hi {{ session['user_name'] }}, insert your information here to get your diet plan.</h2>
-         <div id="user_form" class="wrapper">
-             <h2>User information</h2>
-             <form action="/results" method="get">
+    <div class="container-home">
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+        <script type="text/javascript" src="script.js"></script>
+        <h2> Hi {{ session['user_name'] }}, insert your information here to get your diet plan.</h2>
+            <div id="user_form" class="wrapper">
+                <h2>User information</h2>
+                <form action="/results" method="get">
              <!-- <form action="/results" method="get"> -->
-             <dl>
-             <dt> <br> Which cuisine(s) would you like to include?
-             <dt>
+                <dl>
+                <dt> <br> Which cuisine(s) would you like to include?
+                <dt>
                   <!-- // <script type="text/javascript" src="{{ url_for('static', filename='js/disable.js') }}"></script> -->
-             <script type="text/javascript">
-                  $(document).ready(function(){
-                    disableCuisines();
-                  });
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        disableCuisines();
+                    });
                     function disableCuisines() {
-                    if ( document.getElementById('checkAll').checked ) 
-                      { 
-                        $('.groupCuisine').each(function(){
-						  $(this).attr("checked",true);
-                          $(this).attr("disabled",true);
-                        }); 
-                      } 
-                    else 
-                      {
-                        $('.groupCuisine').each(function(){
-						  $(this).attr("checked",false);
-                          $(this).attr("disabled",false);
-                        }); 
-                      }
-                  };
-             </script>
-             <form4 name="cuisine" id="cuisine">
-                 <input type="checkbox" name="cuisine" id="checkAll" value='' checked onclick="disableCuisines()" >All</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="african">African</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="chinese">Chinese</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="japanese">Japanese</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="korean">Korean</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="vietnamese">Vietnamese</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="thai">Thai</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="indian">iIndian</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="british">British</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="irish">Irish</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="french">French</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="italian">Italian</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="mexican">Mexican</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="spanish">Spanish</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="middle+eastern">Middle Eastern</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="jewish">Jewish</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="american">American</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="cajun">Cajun</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="southern">Southern</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="greek">Greek</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="german">German</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="nordic">Nordic</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="eastern+european">Eastern European</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="caribbean">Caribbean</input>
-                 <input type="checkbox" name="cuisine" class="groupCuisine" value="latin+american">Latin American</input>
-             </form4>
+                        if ( document.getElementById('checkAll').checked )
+                        {
+                            $('.groupCuisine').each(function(){
+						        $(this).attr("checked",true);
+                                $(this).attr("disabled",true);
+                            });
+                        }
+                        else
+                        {
+                            $('.groupCuisine').each(function(){
+						        $(this).attr("checked",false);
+                                $(this).attr("disabled",false);
+                            });
+                        }
+                    };
+                </script>
+                <form4 name="cuisine" id="cuisine">
+                    <input type="checkbox" name="cuisine" id="checkAll" value='' checked onclick="disableCuisines()" >All</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="african">African</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="chinese">Chinese</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="japanese">Japanese</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="korean">Korean</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="vietnamese">Vietnamese</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="thai">Thai</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="indian">iIndian</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="british">British</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="irish">Irish</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="french">French</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="italian">Italian</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="mexican">Mexican</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="spanish">Spanish</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="middle+eastern">Middle Eastern</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="jewish">Jewish</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="american">American</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="cajun">Cajun</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="southern">Southern</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="greek">Greek</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="german">German</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="nordic">Nordic</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="eastern+european">Eastern European</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="caribbean">Caribbean</input>
+                    <input type="checkbox" name="cuisine" class="groupCuisine" value="latin+american">Latin American</input>
+                 </form4>
 
             <!-- <font size="3" color="grey">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</font> -->
 
-             <dt> <br> What kind of recipes do you want?
-             <dt>
-             <form8 name="recipeTypes" id="recipeTypes" required="true">
-                   <input type="checkbox" name="recipeTypes" value="main+course">Main Course</input>
-                   <input type="checkbox" name="recipeTypes" value="side+dish">Side Dish</input>
-                   <input type="checkbox" name="recipeTypes" value="dessert">Dessert</input>
-                   <input type="checkbox" name="recipeTypes" value="appetizer">Appetizer</input>
-                   <input type="checkbox" name="recipeTypes" value="salad">Salad</input>
-                   <input type="checkbox" name="recipeTypes" value="bread">Bread</input>
-                   <input type="checkbox" name="recipeTypes" value="breakfast">Breakfast</input>
-                   <input type="checkbox" name="recipeTypes" value="soup">Soup</input>
-                   <input type="checkbox" name="recipeTypes" value="beverage">Beverage</input>
+                <dt> <br> What kind of recipes do you want?
+                <dt>
+                <form8 name="recipeTypes" id="recipeTypes" required="true">
+                    <input type="checkbox" name="recipeTypes" value="main+course">Main Course</input>
+                    <input type="checkbox" name="recipeTypes" value="side+dish">Side Dish</input>
+                    <input type="checkbox" name="recipeTypes" value="dessert">Dessert</input>
+                    <input type="checkbox" name="recipeTypes" value="appetizer">Appetizer</input>
+                    <input type="checkbox" name="recipeTypes" value="salad">Salad</input>
+                    <input type="checkbox" name="recipeTypes" value="bread">Bread</input>
+                    <input type="checkbox" name="recipeTypes" value="breakfast">Breakfast</input>
+                    <input type="checkbox" name="recipeTypes" value="soup">Soup</input>
+                    <input type="checkbox" name="recipeTypes" value="beverage">Beverage</input>
                    <!-- <option value="sauce">Sauce</option> -->
                    <!-- <option value="drink">Drink</option> -->
-             </form8>
-             <dt> <br> What kind of group foods do you want?
-             <dt>
-             <form9 name="rawGroups" id="rawGroups" required="true">
+                </form8>
+                <dt> <br> What kind of group foods do you want?
+                <dt>
+                <form9 name="rawGroups" id="rawGroups" required="true">
 					<input type="checkbox" name="rawGroups" value="Dairy+and+Egg+Products">Dairy and Egg Products</input>
 					<input type="checkbox" name="rawGroups" value="Spices+and+Herbs">Spices and Herbs</input>
 					<input type="checkbox" name="rawGroups" value="Baby+Foods">Baby Foods</input>
@@ -157,10 +158,9 @@ input[type=text]{
 					<input type="checkbox" name="rawGroups" value="Meals,+Entrees,+and+Side+Dishes">Meals, Entrees, and Side Dishes</input>
 					<input type="checkbox" name="rawGroups" value="American+Indian%2FAlaskaNative+Foods">American Indian/AlaskaNative Foods</input>
 					<input type="checkbox" name="rawGroups" value="Restaurant+Foods">Restaurant Foods</input>
-             </form9>
-
-                 <dt> <br> What would you like to focus on?
-                 <dt><br>
+                </form9>
+                <dt> <br> What would you like to focus on?
+                <dt><br>
 				<form5 name="objNut" id="objNut">
 					<input type="radio" name="objNut" value="Calories" checked>Calories</input>
 					<input type="radio" name="objNut" value="Protein">Protein</input>
@@ -179,14 +179,14 @@ input[type=text]{
 
                 <dt><br>Do you want to change calories ranges (Kcal)?
                 <dt>
-                 <div data-role="rangeslider">
+                <div data-role="rangeslider">
                     <p>Min : <input type="text" name="calLow" id="calLow" value={{response.cal_low}} >
                         <input name="range-1a" id="range-1a" min="1000" max="2500" oninput="updateTextInput1a(this.value);" type="range" value={{response.cal_low}}/>
                         <input name="range-1b" id="range-1b" min="2500" max="4000" oninput="updateTextInput1b(this.value);" type="range" value={{response.cal_up}}/>
                         Max :
                         <input type="text" name="calUp" id="calUp" value={{response.cal_up}}>
                     </p>
-                 </div>
+                </div>
 
 
                  <dt><br>Do you want to change protein ranges (g) ?
@@ -227,17 +227,18 @@ input[type=text]{
                  <div id="formsubmitbutton">
                     <input type=submit id="search" value="Show me recipes" onclick="ButtonClicked()">
                  </div>
-		  	    <div id="buttonreplacement" style="margin-left:30px; display:none;">
+
+                 <div id="buttonreplacement" style="margin-left:30px; display:none;">
 			        <img src="static/img/loader.gif" alt="loading...">
-			    </div>
+                 </div>
 			<!-- below js code is for loading gif on submit button -->
-         </dl>
-         <dt>
-         </form>
+                </dl>
+                <dt>
+            </form>
+
+        </div>
 
     </div>
-
-</div>
 
 
     <script type="text/javascript">
@@ -286,7 +287,7 @@ input[type=text]{
         }
         // To disable restoring submit button, disable or delete next line.
         document.onfocus = RestoreSubmitButton;
-      </script>
+    </script>
 
 </main>
 {% endblock %}
