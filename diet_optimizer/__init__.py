@@ -3,14 +3,23 @@ from flask import *
 from flask_restful import *
 from flask_cors import CORS, cross_origin
 from flask_bootstrap import Bootstrap
-#from flask_mail import Mail
+from flask_mail import Mail
 
 #import diet_optimizer.settings
 from settings import *
 from models import *
 
 app = Flask(__name__)
-#mail = Mail()
+app.config.update(dict(
+MAIL_SERVER = 'smtp.googlemail.com',
+MAIL_PORT = 587,
+MAIL_USE_TLS = True,
+#MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+MAIL_USERNAME = 'diet.optimizer@gmail.com',
+MAIL_PASSWORD = 'DietOptimizerTeam',
+))
+mail = Mail(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/foods'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
