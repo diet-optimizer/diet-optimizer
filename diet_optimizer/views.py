@@ -151,19 +151,18 @@ def password_reset_request():
 @app.route('/reset/<token>', methods=['GET', 'POST'])
 @cross_origin()
 def password_reset(token):
-    if 'user_name' in session:
-        return redirect(url_for('home'))
     form = PasswordResetForm()
     if form.validate_on_submit():
         user = UserDB.query.filter_by(email=form.email.data).first()
         if user is None:
             return redirect(url_for('index'))
-        if user.reset_password(token, form.password.data):
+        else :
+            user.pwdhash = generate_password_hash(request.form['password'])
+            db.session.commit()
             flash('Your password has been updated.')
             return redirect(url_for('login'))
-        else:
-            return redirect(url_for('index'))
-    return render_template('reset_password.html', form=form)
+
+    return render_template('password_reset.html', form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @cross_origin()
@@ -351,11 +350,7 @@ def account_settings():
         if form.validate() == False:
             return render_template('account_settings.html', form=form)
         else:
-            #new_user=UserDB(user.firstname, user.lastname, user.nickname, user.email, request.form['new_password'], user.height, user.weight, user.birthdate, user.activitylevel, user.diet, user.gender)
             user.pwdhash = generate_password_hash(request.form['new_password'])
-            #print request.form['new_password']
-            #db.session.add(new_user)
-            #user.pwdhash = form.new_password.data
             db.session.commit()
             print user.pwdhash
             return redirect(url_for('profile'))
