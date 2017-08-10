@@ -32,7 +32,6 @@
                                 <p class='error-message'>{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        {% do form.gender.process_data(response.user_info.gender) %}
                         {{ form.gender }}
                     </div>
 
@@ -84,7 +83,6 @@
                                 <p class='error-message'>{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        {% do form.activity_level.process_data(response.user_info.activitylevel) %}
                         {{ form.activity_level }}
                     </div><br>
 
@@ -96,8 +94,6 @@
                                 <p class='error-message'>{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        {% do form.diet.process_data(response.user_info.diet) %}
-
                         {{ form.diet }}
                     </div><br>
 
@@ -109,9 +105,9 @@
                                 <p class='error-message'>{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        {% for key in response.user_info.intolerences %}
+<!--                        {% for key in response.user_info.intolerences %}
                             {% do form.intolerances.process_data(response.user_info.intolerences) %}
-                        {% endfor %}
+                        {% endfor %}-->
                         {{ form.intolerences }}
                     </div>
 
