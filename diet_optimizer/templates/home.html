@@ -133,31 +133,53 @@
                 <dt> <br> What kind of group foods do you want?
                 <dt>
                 <form9 name="rawGroups" id="rawGroups" required="true">
-					<input type="checkbox" name="rawGroups" value="Dairy+and+Egg+Products">Dairy and Egg Products</input>
-					<input type="checkbox" name="rawGroups" value="Spices+and+Herbs">Spices and Herbs</input>
-					<input type="checkbox" name="rawGroups" value="Baby+Foods">Baby Foods</input>
-					<input type="checkbox" name="rawGroups" value="Fats+and+Oils">Fats and Oils</input>
-					<input type="checkbox" name="rawGroups" value="Poultry+Products">Poultry Products</input>
-					<input type="checkbox" name="rawGroups" value="Soups,+Sauces,+and+Gravies">Soups, Sauces, and Gravies</input>
-					<input type="checkbox" name="rawGroups" value="Sausages+and+Luncheon+Meats">Sausages and Luncheon Meats</input>
-					<input type="checkbox" name="rawGroups" value="Breakfast+Cereals">Breakfast Cereals</input>
-					<input type="checkbox" name="rawGroups" value="Snacks">Snacks</input>
-					<input type="checkbox" name="rawGroups" value="Fruits+and+Fruit+Juices">Fruits and Fruit Juices</input>
-					<input type="checkbox" name="rawGroups" value="Pork+Products">Pork Products</input>
-					<input type="checkbox" name="rawGroups" value="Vegetables+and+Vegetable+Products">Vegetables and Vegetable Products</input>
-					<input type="checkbox" name="rawGroups" value="Nut+and+Seed+Products">Nut and Seed Products</input>
-					<input type="checkbox" name="rawGroups" value="Beef+Products">Beef Products</input>
-					<input type="checkbox" name="rawGroups" value="Beverages">Beverages</input>
-					<input type="checkbox" name="rawGroups" value="Finfish+and+Shellfish+Products">Finfish and Shellfish Products</input>
-					<input type="checkbox" name="rawGroups" value="Legumes+and+Legume+Products">Legumes and Legume Products</input>
-					<input type="checkbox" name="rawGroups" value="Lamb,+Veal,+and+Game+Products">Lamb, Veal, and Game Products</input>
-					<input type="checkbox" name="rawGroups" value="Baked+Products">Baked Products</input>
-					<input type="checkbox" name="rawGroups" value="Sweets">Sweets</input>
-					<input type="checkbox" name="rawGroups" value="Cereal+Grainsand+Pasta">Cereal Grainsand Pasta</input>
-					<input type="checkbox" name="rawGroups" value="Fast+Foods">Fast Foods</input>
-					<input type="checkbox" name="rawGroups" value="Meals,+Entrees,+and+Side+Dishes">Meals, Entrees, and Side Dishes</input>
-					<input type="checkbox" name="rawGroups" value="American+Indian%2FAlaskaNative+Foods">American Indian/AlaskaNative Foods</input>
-					<input type="checkbox" name="rawGroups" value="Restaurant+Foods">Restaurant Foods</input>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        disableRawGroups();
+                    });
+                    function disableRawGroups() {
+                        if ( document.getElementById('checkAll2').checked )
+                        {
+                            $('.groupRaw').each(function(){
+						        $(this).attr("checked",true);
+                                $(this).attr("disabled",true);
+                            });
+                        }
+                        else
+                        {
+                            $('.groupRaw').each(function(){
+						        $(this).attr("checked",false);
+                                $(this).attr("disabled",false);
+                            });
+                        }
+                    };
+                </script>
+                    <input type="checkbox" name="rawGroups" id="checkAll2" value='' checked onclick="disableRawGroups()" >All</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Dairy+and+Egg+Products">Dairy and Egg Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Spices+and+Herbs">Spices and Herbs</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Baby+Foods">Baby Foods</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Fats+and+Oils">Fats and Oils</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Poultry+Products">Poultry Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Soups,+Sauces,+and+Gravies">Soups, Sauces, and Gravies</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Sausages+and+Luncheon+Meats">Sausages and Luncheon Meats</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Breakfast+Cereals">Breakfast Cereals</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Snacks">Snacks</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Fruits+and+Fruit+Juices">Fruits and Fruit Juices</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Pork+Products">Pork Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Vegetables+and+Vegetable+Products">Vegetables and Vegetable Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Nut+and+Seed+Products">Nut and Seed Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Beef+Products">Beef Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Beverages">Beverages</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Finfish+and+Shellfish+Products">Finfish and Shellfish Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Legumes+and+Legume+Products">Legumes and Legume Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Lamb,+Veal,+and+Game+Products">Lamb, Veal, and Game Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Baked+Products">Baked Products</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Sweets">Sweets</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Cereal+Grainsand+Pasta">Cereal Grainsand Pasta</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Fast+Foods">Fast Foods</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Meals,+Entrees,+and+Side+Dishes">Meals, Entrees, and Side Dishes</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="American+Indian%2FAlaskaNative+Foods">American Indian/Alaska Native Foods</input>
+					<input type="checkbox" name="rawGroups" class="groupRaw" value="Restaurant+Foods">Restaurant Foods</input>
                 </form9>
                 <dt> <br> What would you like to focus on?
                 <dt><br>
