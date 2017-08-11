@@ -15,17 +15,15 @@ app.config.update(dict(
 MAIL_SERVER = 'smtp.googlemail.com',
 MAIL_PORT = 587,
 MAIL_USE_TLS = True,
-#MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
-#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
-MAIL_USERNAME = 'diet.optimizer@gmail.com',
-MAIL_PASSWORD = 'DietOptimizerTeam2',
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
 ))
 mail = Mail(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/foods'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bae74984c70df0:6280cc0c@us-cdbr-iron-east-04.cleardb.net/heroku_194b00fe5baed38'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:diet@localhost/foods'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ.get('DB_USER')  + ':' + os.environ.get('DB_PASSWORD') + '@' + os.environ.get('DB_HOST') + '/' + os.environ.get('DB_NAME')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:diet@localhost/foods'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ.get('DB_USER')  + ':' + os.environ.get('DB_PASSWORD') + '@' + os.environ.get('DB_HOST') + '/' + os.environ.get('DB_NAME')
 db.init_app(app)
 #mail.init_app(app)
 Bootstrap(app)
