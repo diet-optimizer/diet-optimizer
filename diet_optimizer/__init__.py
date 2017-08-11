@@ -18,6 +18,7 @@ MAIL_USE_TLS = True,
 MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
 ))
+
 mail = Mail(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/foods'
