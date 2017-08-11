@@ -32,7 +32,6 @@
             <br>
             <br>
             <br>
-            <br><br><br>
             <h2><b>Raw food</b></h2>
             {% for key in  response.rawfood_name %}
                 <br>
@@ -76,16 +75,16 @@
             {% for key in response.rawfood_id %}
             {% if response.feedbackrawfood.filter_by(fid=key).first().mark == 1 %}
         <form>
-            <input type="radio" name={{key}} value="1" checked /><img src="/static/img/thumbs-up.png" height="20" width="20" />
-            <input type="radio" name={{key}} value="2" /><img src="/static/img/thumbs-down.png" height="20" width="20" />
+            <input type="radio" name={{key}} value="1" checked /><img src="/static/img/thumbs-up.png" height="17" width="17" />
+            <input type="radio" name={{key}} value="2" /><img src="/static/img/thumbs-down.png" height="17" width="17" />
             <input type="radio" name={{key}} value="3" />Unmarked<br><br>
             {% elif  response.feedbackrawfood.filter_by(fid=key).first().mark == 2 %}
-            <input type="radio" name={{key}} value="1" /><img src="/static/img/thumbs-up.png" height="20" width="20" />
-            <input type="radio" name={{key}} value="2" checked /><img src="/static/img/thumbs-down.png" height="20" width="20" />
+            <input type="radio" name={{key}} value="1" /><img src="/static/img/thumbs-up.png" height="17" width="17" />
+            <input type="radio" name={{key}} value="2" checked /><img src="/static/img/thumbs-down.png" height="17" width="17" />
             <input type="radio" name={{key}} value="3" />Unmarked<br><br>
             {% else %}
-            <input type="radio" name={{key}} value="1" /><img src="/static/img/thumbs-up.png" height="20" width="20" />
-            <input type="radio" name={{key}} value="2" /><img src="/static/img/thumbs-down.png" height="20" width="20" />
+            <input type="radio" name={{key}} value="1" /><img src="/static/img/thumbs-up.png" height="17" width="17" />
+            <input type="radio" name={{key}} value="2" /><img src="/static/img/thumbs-down.png" height="17" width="17" />
             <input type="radio" name={{key}} value="3" checked/>Unmarked<br><br>
             {% endif %}
         {% endfor %}
